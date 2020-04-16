@@ -8,33 +8,34 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
 public class LoginController {
-	@FXML TextField UsernameTF;
-	@FXML Button loginBtn;
-	
+	@FXML TextField TF_Username;
+	@FXML TextField TF_Password;
+	@FXML Button BN_Login;
+
 	@FXML
 	public void initialize() {
-		UsernameTF.setText("");
+		TF_Username.setText("");
 	}
-	
+
 	/**
 	 * Actions taken when user click "Login" button
 	 * @param e ActionEvent
 	 */
 	public void onLoginClick(ActionEvent e) {
 		Alert prompt = new Alert(AlertType.ERROR);
-		
-		if(UsernameTF.getText().length() == 0) {
+
+		if(TF_Username.getText().length() == 0) {
 			prompt.setContentText("Please enter username!");
 		}
-		else if(UsernameTF.getText().equals("admin")) {
+		else if(TF_Username.getText().equals("admin")) {
 			// Display admin scene
 			prompt.setHeaderText("Admin user requested!");
 		}
-		else if(UsernameTF.getText().equals("professor")) {
+		else if(TF_Username.getText().equals("professor")) {
 			// Display professor scene
 			prompt.setHeaderText("Professor user requested!");
 		}
-		else if(UsernameTF.getText().equals("student")) {
+		else if(TF_Username.getText().equals("student")) {
 			// Display student scene
 			prompt.setHeaderText("Student user requested!");
 		}
@@ -42,16 +43,16 @@ public class LoginController {
 			// Incorrect username
 			prompt.setHeaderText("Invalid username, please try again!");
 		}
-		
+
 		prompt.showAndWait();
 	}
-	
+
 	/**
 	 * Action taken when "Enter" keyboard button is pressed
 	 * @param e ActionEvent
 	 */
 	@FXML
 	public void onEnterPressed(ActionEvent e){
-	   onLoginClick(e);
+		onLoginClick(e);
 	}
 }
