@@ -27,21 +27,21 @@ public class Course {
 		}
 	}
 	
-	public void publishAssignment(String name, String details, LocalDateTime submissionDate) {
-		assignments.add(new Assignment(name, details, submissionDate));
+	public void publishAssignment(String title, String description, LocalDateTime submissionDate) {
+		assignments.add(new Assignment(title, description, submissionDate));
 	}
 	
-	public void publishAnnouncement(String name, String details) {
-		announcements.add(new Announcement(name, details));
+	public void publishAnnouncement(String name, String description) {
+		announcements.add(new Announcement(name, description));
 	}
 
-	private class Announcement {
-		public String name, details;
+	public class Announcement {
+		public String name, description;
 		public LocalDateTime publishDate;
 		
-		public Announcement(String name, String details) {
+		public Announcement(String name, String description) {
 			this.name = name;
-			this.details = details;
+			this.description = description;
 			publishDate = LocalDateTime.now();
 		}
 	}

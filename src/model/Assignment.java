@@ -4,13 +4,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Assignment {
-	public String name, details;
+	public String title, description;
 	public LocalDateTime publishDate, submissionDate;
 	public ArrayList<Submission> studentSubmissions;
 	
-	public Assignment(String name, String details, LocalDateTime submissionDate) {
-		this.name = name;
-		this.details = details;
+	public Assignment(String title, String description, LocalDateTime submissionDate) {
+		this.title = title;
+		this.description = description;
 		publishDate = LocalDateTime.now();
 		this.submissionDate = submissionDate;
 		studentSubmissions = new ArrayList<Submission>();
