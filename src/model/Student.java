@@ -6,7 +6,7 @@ public class Student {
 	public String name, username;
 	private String password;
 	public ArrayList<Course> coursesRegistered;
-	public int gpa;
+	public float gpa;
 	
 	public Student(String username, String name) {
 		this.username = username;
