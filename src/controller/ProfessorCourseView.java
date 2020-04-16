@@ -21,6 +21,12 @@ public class ProfessorCourseView {
     ObservableList<Student> Students;
 
     /*************************
+     ***** Shared Widgets ****
+     *************************/
+    @FXML Label LL_Title;
+    @FXML Label LL_Subtitle;
+
+    /*************************
      ** Assignments Widgets **
      *************************/
 
@@ -85,6 +91,15 @@ public class ProfessorCourseView {
     /***********************************************
      ****** Widget Methods & Events Listeners ******
      ***********************************************/
+
+    @FXML
+    public void initialize() {
+        /**
+         * TODO:
+         *  - Fill @LV_Title, @LL_Subtitle
+         *  - Focus on Assignments Tab
+         */
+    }
 
     /*************************
      ** Assignments Actions **
