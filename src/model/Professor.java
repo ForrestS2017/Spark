@@ -2,24 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
-public class Professor {
-	public String name, username;
-	private String password;
-	public ArrayList<Course> coursesTeaching;
+public class Professor extends User{
 	
-	public Professor(String name, String username) {
-		this.name = name;
-		this.username = username;
-		password = "password";
-		coursesTeaching = new ArrayList<Course>();
-	}
-	
-	public void addCourse(Course course) {
-		if(!coursesTeaching.contains(course)) {
-			coursesTeaching.add(course);
-		}
-		else {
-			// cannot add duplicate course
-		}
+	public Professor(String firstName, String lastName, String username, String password) {
+		super(firstName, lastName, username, password);
 	}
 }
