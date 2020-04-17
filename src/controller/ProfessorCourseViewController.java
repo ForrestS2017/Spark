@@ -7,7 +7,7 @@ import model.Assignment;
 import model.Course;
 import model.Student;
 
-public class ProfessorCourseView {
+public class ProfessorCourseViewController extends BasicWindow {
 
     /***********************************************
      ************** Widget References **************

@@ -1,16 +1,21 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 import model.Course;
 
-public class ProfessorDashboardController {
+public class ProfessorDashboardController extends BasicWindow {
 
     /***********************************************
      ************** Widget References **************
      ***********************************************/
+
+    private Stage mainStage;
+    private FXMLLoader loader;
 
     /*******************************
      **** Non-Responsive Widgets ***
@@ -37,6 +42,15 @@ public class ProfessorDashboardController {
          *  - Toggle visibility of @LL_NoCourses, @LV_CourseList, @BN_EnterCourses
          *  - Fill @LL_Subtitle, @LV_CourseList
          */
+    }
+
+    public void start() {
+        System.out.println("Yay!");
+    }
+
+    public void start(Stage mainStage, FXMLLoader loader) {
+        this.mainStage = mainStage;
+        this.loader = loader;
     }
 
     /**
