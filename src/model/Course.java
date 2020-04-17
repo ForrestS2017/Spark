@@ -4,8 +4,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class Course {
+public class Course implements Comparable<Course>{
 	private String title;
 	private ArrayList<Student> registeredStudents;
 	private Professor professor;
@@ -57,7 +58,37 @@ public class Course {
 		return announcements;
 	}
 
-	public class Announcement {
+	/**
+	 * Compares courses based off title
+	 * @param object Course to compare to
+	 * @return true if the title is equal
+	 */
+	public boolean equals(Object object) {
+		if (object != null && object instanceof Course) {
+			Course otherCourse = (Course)object;
+			return this.getTitle().equals(otherCourse.getTitle());
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Compares courses based off title
+	 * @param otherCourse
+	 * @return
+	 */
+	public int compareTo(Course otherCourse) {
+		return this.getTitle().compareTo(otherCourse.getTitle());
+	}
+
+	public static Comparator<Announcement> BY_ANNOUNCEMENT_PUBLISH_DATE = new Comparator<Announcement>() {
+		@Override
+		public int compare(Announcement o1, Announcement o2) {
+			return o1.getPublishDate().compareTo(o2.getPublishDate());
+		}
+	};
+
+	public class Announcement implements Comparable<Announcement>{
 		private String title, description;
 		private long publishDate;
 		
@@ -81,6 +112,29 @@ public class Course {
 
 		public LocalDateTime getPublishDate() {
 			return LocalDateTime.ofInstant(Instant.ofEpochSecond(publishDate),ZoneId.systemDefault());
+		}
+
+		/**
+		 * Compares announcements based off title
+		 * @param object Announcement to compare to
+		 * @return true if the title is equal
+		 */
+		public boolean equals(Object object) {
+			if (object != null && object instanceof Announcement) {
+				Announcement otherAnnouncement = (Announcement)object;
+				return this.getTitle().equals(otherAnnouncement.getTitle());
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Compares announcements based off title
+		 * @param otherAnnouncement
+		 * @return
+		 */
+		public int compareTo(Announcement otherAnnouncement) {
+			return this.getTitle().compareTo(otherAnnouncement.getTitle());
 		}
 	}
 }
