@@ -11,6 +11,7 @@ public class LoginController {
 	@FXML TextField TF_Username;
 	@FXML TextField TF_Password;
 	@FXML Button BN_Login;
+	@FXML Button BN_AddUser;
 
 	@FXML
 	public void initialize() {
@@ -47,12 +48,23 @@ public class LoginController {
 		prompt.showAndWait();
 	}
 
+
+	/**
+	 * Add user if the account doesn't exist. Prompt box for if it is a Student, Professor, Admin
+	 */
+	@FXML
+	public void AddUser() {
+
+	}
+
 	/**
 	 * Action taken when "Enter" keyboard button is pressed
 	 * @param e ActionEvent
 	 */
 	@FXML
 	public void onEnterPressed(ActionEvent e){
+		// If the account exists
 		onLoginClick(e);
+		// Else AddUser()
 	}
 }
