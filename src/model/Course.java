@@ -1,18 +1,19 @@
 package model;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class Course {
-	public String name;
-	public ArrayList<Student> registeredStudents;
-	public Professor professor;
-	public ArrayList<Assignment> assignments;
-	public ArrayList<Announcement> announcements;
+	private String title;
+	private ArrayList<Student> registeredStudents;
+	private Professor professor;
+	private ArrayList<Assignment> assignments;
+	private ArrayList<Announcement> announcements;
 	
-	public Course(String name, Professor professor) {
-		this.name = name;
+	public Course(String title, Professor professor) {
+		this.title = title;
 		this.professor = professor;
 		registeredStudents = new ArrayList<Student>();
 		assignments = new ArrayList<Assignment>();
@@ -36,14 +37,50 @@ public class Course {
 		announcements.add(new Announcement(name, description));
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public Professor getProfessor() {
+		return professor;
+	}
+
+	public ArrayList<Student> getStudents() {
+		return registeredStudents;
+	}
+
+	public ArrayList<Assignment> getAssignments() {
+		return assignments;
+	}
+
+	public ArrayList<Announcement> getAnnouncements() {
+		return announcements;
+	}
+
 	public class Announcement {
-		public String name, description;
-		public long publishDate;
+		private String title, description;
+		private long publishDate;
 		
-		public Announcement(String name, String description) {
-			this.name = name;
+		public Announcement(String title, String description) {
+			this.title = title;
 			this.description = description;
 			publishDate = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
+		}
+
+		public String getTitle() {
+			return title;
+		}
+
+		public void setTitle(String title) {
+			this.title = title;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public LocalDateTime getPublishDate() {
+			return LocalDateTime.ofInstant(Instant.ofEpochSecond(publishDate),ZoneId.systemDefault());
 		}
 	}
 }
