@@ -1,6 +1,8 @@
 package util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import model.Course;
 import model.User;
@@ -12,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class DataController {
-    private static String PATH_COURSES = "data/Courses.JSON";
-    private static String PATH_USERS = "data/Users.JSON";
+    private static String PATH_COURSES = "src/data/Courses.JSON";
+    private static String PATH_USERS = "src/data/Users.JSON";
 
     /**
      * Update all save data with new data from session
@@ -32,7 +34,7 @@ public class DataController {
             courses = new ArrayList<Course>();
         }
         int courseIndex = courses.indexOf(newCourse);
-        if (courseIndex < 0) {
+        if (courseIndex > -1) {
             added =  courses.set(courseIndex,newCourse) != null;
             Collections.sort(courses);
         }
@@ -43,7 +45,7 @@ public class DataController {
         }
         boolean saved = false;
         try {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonString = gson.toJson(courses);
             FileWriter fw = new FileWriter(PATH_COURSES);
             fw.write(jsonString);
@@ -72,7 +74,7 @@ public class DataController {
         Collections.sort(users);
         boolean saved = false;
         try {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonString = gson.toJson(users);
             FileWriter fw = new FileWriter(PATH_USERS);
             fw.write(jsonString);
@@ -100,7 +102,7 @@ public class DataController {
         Collections.sort(users);
         boolean saved = false;
         try {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonString = gson.toJson(users);
             FileWriter fw = new FileWriter(PATH_USERS);
             fw.write(jsonString);
@@ -123,9 +125,9 @@ public class DataController {
         ArrayList<User> users = new ArrayList<User>();
         try
         {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonReader reader = new JsonReader(new FileReader(PATH_USERS));
-            users = gson.fromJson(reader, User.class);
+            users = gson.fromJson(reader, new TypeToken<ArrayList<User>>(){}.getType());
 
         }
         catch (Exception e)
@@ -143,9 +145,9 @@ public class DataController {
         ArrayList<Course> courses = new ArrayList<Course>();
         try
         {
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonReader reader = new JsonReader(new FileReader(PATH_COURSES));
-            courses = gson.fromJson(reader, Course.class);
+            courses = gson.fromJson(reader, new TypeToken<ArrayList<Course>>(){}.getType());
 
         }
         catch (Exception e)

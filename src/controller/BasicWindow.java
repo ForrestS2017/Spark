@@ -93,7 +93,6 @@ public class BasicWindow {
      * @return Main Stage
      */
     public Stage getMainStage() {
-        //return (Stage) Stage.getWindows().stream().filter(Window::isShowing).findFirst().get();
-    	return null;
+        return (Stage) Stage.getWindows().stream().filter(Window::isShowing).findFirst().get();
     }
 }

@@ -1,0 +1,28 @@
+[
+  {
+    "title": "Test Class 01",
+    "registeredStudents": [],
+    "professor": {
+      "firstName": "Forrest",
+      "lastName": "Smith",
+      "username": "fcs34",
+      "courses": [],
+      "password": "password"
+    },
+    "assignments": [],
+    "announcements": []
+  },
+  {
+    "title": "Test Class 02",
+    "registeredStudents": [],
+    "professor": {
+      "firstName": "Forrest",
+      "lastName": "Smith",
+      "username": "fcs34",
+      "courses": [],
+      "password": "password"
+    },
+    "assignments": [],
+    "announcements": []
+  }
+]
