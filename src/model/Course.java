@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class Course {
@@ -37,12 +38,12 @@ public class Course {
 
 	public class Announcement {
 		public String name, description;
-		public LocalDateTime publishDate;
+		public long publishDate;
 		
 		public Announcement(String name, String description) {
 			this.name = name;
 			this.description = description;
-			publishDate = LocalDateTime.now();
+			publishDate = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
 		}
 	}
 }

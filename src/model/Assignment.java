@@ -1,18 +1,21 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 
 public class Assignment {
 	public String title, description;
-	public LocalDateTime publishDate, submissionDate;
+	public long publishDate, submissionDate;
 	public ArrayList<Submission> studentSubmissions;
 	
 	public Assignment(String title, String description, LocalDateTime submissionDate) {
 		this.title = title;
 		this.description = description;
-		publishDate = LocalDateTime.now();
-		this.submissionDate = submissionDate;
+		publishDate = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
+		this.submissionDate = submissionDate.atZone(ZoneId.systemDefault()).toEpochSecond();
 		studentSubmissions = new ArrayList<Submission>();
 	}
 	
