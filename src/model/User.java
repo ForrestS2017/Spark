@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -50,7 +51,7 @@ public class User implements Comparable<User>{
      * @return true if password is correct
      */
     public boolean verifyPassword(String inputPassword) {
-        return inputPassword.isBlank() ? false : password.equals(inputPassword);
+        return inputPassword.length()==0 ? false : password.equals(inputPassword);
     }
 
 
