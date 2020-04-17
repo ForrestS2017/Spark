@@ -1,29 +1,32 @@
 package model;
 
+import util.DataController;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class Course implements Comparable<Course>{
 	private String title;
-	private ArrayList<Student> registeredStudents;
-	private Professor professor;
+	private ArrayList<String> registeredStudents;
+	private String professor;
 	private ArrayList<Assignment> assignments;
 	private ArrayList<Announcement> announcements;
 	
 	public Course(String title, Professor professor) {
 		this.title = title;
-		this.professor = professor;
-		registeredStudents = new ArrayList<Student>();
+		this.professor = professor.getUsername();
+		registeredStudents = (ArrayList<String>) new ArrayList<Student>().stream().map(User::getUsername).collect(Collectors.toList());
 		assignments = new ArrayList<Assignment>();
 		announcements = new ArrayList<Announcement>();
 	}
 	
 	public void addStudent(Student student) {
-		if(!registeredStudents.contains(student)) {
-			registeredStudents.add(student);
+		if(!registeredStudents.contains(student.getUsername())) {
+			registeredStudents.add(student.getUsername());
 		}
 		else {
 			// duplicate student cannot be added
@@ -43,11 +46,16 @@ public class Course implements Comparable<Course>{
 	}
 
 	public Professor getProfessor() {
-		return professor;
+		return (Professor) DataController.readUsers().stream().filter(prof -> prof.getUsername().equals(professor)).findFirst().orElse(null);
 	}
 
 	public ArrayList<Student> getStudents() {
-		return registeredStudents;
+		ArrayList<User> allUsers = DataController.readUsers();
+		ArrayList<Student> courseStudents = new ArrayList<Student>();
+		registeredStudents.forEach(userName -> courseStudents.add(
+				(Student) allUsers.get(
+						allUsers.indexOf(new Student("", "",userName, "")))));
+		return courseStudents;
 	}
 
 	public ArrayList<Assignment> getAssignments() {

@@ -1,19 +1,21 @@
 package model;
 
+import util.DataController;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class User implements Comparable<User>{
     private String firstName, lastName, username;
-    private ArrayList<Course> courses;
+    private ArrayList<String> courses;
     private String password;
 
     public User(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
-        this.courses = new ArrayList<Course>();
+        this.courses = new ArrayList<String>();
         this.password = "password";                 //TODO: Implement passwords and then replace this!!!
     }
 
@@ -30,7 +32,12 @@ public class User implements Comparable<User>{
     }
 
     public ArrayList<Course> getCourses() {
-        return courses;
+        ArrayList<Course> allCourses = DataController.readCourses();
+        ArrayList<Course> studentCourses = new ArrayList<Course>();
+        courses.forEach(courseTitle -> studentCourses.add(
+                (Course) allCourses.get(
+                        allCourses.indexOf(new Course(courseTitle, null)))));
+        return studentCourses;
     }
 
     /**
@@ -39,9 +46,9 @@ public class User implements Comparable<User>{
      * @return true if we successfully added a new course
      */
     public boolean addCourse(Course course) {
-        if (course != null && courses.contains(course) == false)
+        if (course != null && courses.contains(course.getTitle()) == false)
         {
-            return courses.add(course);
+            return courses.add(course.getTitle());
         }
         return false;
     }

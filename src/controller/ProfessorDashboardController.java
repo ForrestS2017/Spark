@@ -8,6 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import model.Course;
 import model.Professor;
+import model.Student;
 import util.DataController;
 
 public class ProfessorDashboardController extends BasicWindow {
@@ -39,8 +40,10 @@ public class ProfessorDashboardController extends BasicWindow {
 
     @FXML
     public void initialize() {
+        /* TEST DATA
         Course tempCourse01 = new Course("Test Class 01", new Professor("Forrest", "Smith", "fcs34", "Sonic"));
-        DataController.saveCourse(tempCourse01);
+        tempCourse01.addStudent(new Student("Jake", "O'reilley", "jo99", ""));
+        DataController.saveCourse(tempCourse01);*/
         /**
          * TODO:
          *  - Toggle visibility of @LL_NoCourses, @LV_CourseList, @BN_EnterCourses
@@ -49,8 +52,9 @@ public class ProfessorDashboardController extends BasicWindow {
     }
 
     public void start() {
+        /* TEST DATA
         Course tempCourse02 = new Course("Test Class 02", new Professor("Forrest", "Smith", "fcs34", "Sonic"));
-        DataController.saveCourse(tempCourse02);
+        DataController.saveCourse(tempCourse02);*/
         System.out.println("Yay!");
     }
 
