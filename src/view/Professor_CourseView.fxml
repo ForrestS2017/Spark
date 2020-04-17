@@ -223,5 +223,7 @@
             </Tab>
         </tabs>
       </TabPane>
+      <Button fx:id="BT_Back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#GoBack" text="Back" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+      <Button fx:id="BT_Logout" layoutX="15.0" layoutY="52.0" mnemonicParsing="false" onAction="#Logout" text="Logout" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="55.0" />
    </children>
 </AnchorPane>

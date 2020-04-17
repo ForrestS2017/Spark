@@ -19,10 +19,10 @@ public class BasicWindow {
     */
 
 
+    public final String LAYOUT_PATH_LOGIN_SCREEN = "/View/LoginView.fxml";
     public final String LAYOUT_PROFESSOR_COURSE_VIEW = "/view/Professor_CourseView.fxml";
     public final String LAYOUT_PROFESSOR_DASHBOARD_VIEW = "/view/Professor_DashboardView.fxml";
     public final String LAYOUT_STUDENT_DASHBOARD_VIEW = "/view/Student_DashboardView.fxml";
-    public final String LAYOUT_PATH_LOGIN_SCREEN = "/View/LoginView.fxml";
 
     /**
      * Return to login screen
@@ -44,19 +44,6 @@ public class BasicWindow {
     public void Quit()
     {
         Platform.exit();
-    }
-
-    /**
-     * NOT IMPLEMENTED YET
-     * @return loader to be used for easy access
-     */
-    @FXML
-    public FXMLLoader Back()
-    {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(LAYOUT_PATH_LOGIN_SCREEN));
-        LoadNewScene(loader);
-        return loader;
     }
 
     /**

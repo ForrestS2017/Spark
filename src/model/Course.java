@@ -49,6 +49,10 @@ public class Course implements Comparable<Course>{
 		return (Professor) DataController.readUsers().stream().filter(prof -> prof.getUsername().equals(professor)).findFirst().orElse(null);
 	}
 
+	public String getProfessorUsername() {
+		return professor;
+	}
+
 	public ArrayList<Student> getStudents() {
 		ArrayList<User> allUsers = DataController.readUsers();
 		ArrayList<Student> courseStudents = new ArrayList<Student>();

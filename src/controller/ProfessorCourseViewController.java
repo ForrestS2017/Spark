@@ -2,10 +2,14 @@ package controller;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import model.Assignment;
 import model.Course;
 import model.Student;
+import util.DataController;
+
+import java.util.ArrayList;
 
 public class ProfessorCourseViewController extends BasicWindow {
 
@@ -25,6 +29,8 @@ public class ProfessorCourseViewController extends BasicWindow {
      *************************/
     @FXML Label LL_Title;
     @FXML Label LL_Subtitle;
+    @FXML TabPane TP_TabPane;
+    @FXML Button BT_Back;
 
     /*************************
      ** Assignments Widgets **
@@ -92,13 +98,20 @@ public class ProfessorCourseViewController extends BasicWindow {
      ****** Widget Methods & Events Listeners ******
      ***********************************************/
 
-    @FXML
-    public void initialize() {
-        /**
-         * TODO:
-         *  - Fill @LV_Title, @LL_Subtitle
-         *  - Focus on Assignments Tab
-         */
+    public void start(String inputCourseName) {
+        ArrayList<Course> allCourses = DataController.readCourses();
+        for (Course c : allCourses ) {
+            if (c.getTitle().equals(inputCourseName)) {
+                course = c;
+                break;
+            }
+        }
+        if (course == null) {
+            System.out.println("WARN: FAILED TO LOAD CLASS: " + inputCourseName);   //TODO: CHANGE TO PROMPT
+            return;
+        }
+        LL_Title.setText(course.getTitle());
+        LL_Subtitle.setText(TP_TabPane.getSelectionModel().getSelectedItem().getText());
     }
 
     /*************************
@@ -160,5 +173,14 @@ public class ProfessorCourseViewController extends BasicWindow {
     /****************
      * Util Methods *
      ****************/
+
+    @FXML
+    public void GoBack() {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(this.getClass().getResource(LAYOUT_PROFESSOR_DASHBOARD_VIEW));
+        LoadNewScene(loader);
+        ProfessorDashboardController controller = (ProfessorDashboardController) loader.getController();
+        controller.start(course.getProfessorUsername());
+    }
 
 }
