@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable {
     private String firstName, lastName, username;
     private ArrayList<Course> courses;
     private String password;
@@ -49,6 +50,6 @@ public class User {
      * @return true if password is correct
      */
     public boolean verifyPassword(String inputPassword) {
-        return inputPassword.isBlank() ? false : password.equals(inputPassword);
+        return inputPassword.length()==0 ? false : password.equals(inputPassword);
     }
 }
