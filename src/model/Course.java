@@ -105,14 +105,6 @@ public class Course implements Comparable<Course>{
 	public ArrayList<Announcement> getAnnouncements() {
 		return announcements;
 	}
-	
-	/**
-	 * Used to display Courses on ListView
-	 */
-	@Override
-	public String toString(){
-	    return (this.title + " \t\t| \tProfessor: " + this.professor);
-	}
 
 	/**
 	 * Compares courses based off title
@@ -152,7 +144,7 @@ public class Course implements Comparable<Course>{
 	};
 
 	public String toString() {
-		return id + " - " + title;
+		return id + ": " + title;
 	}
 
 	public class Announcement implements Comparable<Announcement>{

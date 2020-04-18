@@ -23,6 +23,7 @@ public class BasicWindow {
     public final String LAYOUT_PROFESSOR_COURSE_VIEW = "/view/Professor_CourseView.fxml";
     public final String LAYOUT_PROFESSOR_DASHBOARD_VIEW = "/view/Professor_DashboardView.fxml";
     public final String LAYOUT_STUDENT_DASHBOARD_VIEW = "/view/Student_DashboardView.fxml";
+    public final String LAYOUT_STUDENT_COURSE_VIEW = "/view/Student_CourseView.fxml";
 
     /**
      * Return to login screen

@@ -47,6 +47,11 @@
     "firstName": "Ben",
     "lastName": "Ja",
     "username": "benja",
-    "password": "password"
+    "courses": [
+      "TT101",
+      "TT102"
+    ],
+    "password": "password",
+    "type": "STUDENT"
   }
 ]
