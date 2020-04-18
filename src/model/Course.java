@@ -35,6 +35,10 @@ public class Course implements Comparable<Course>{
 		}
 	}
 	
+	public ArrayList<String> getRegisteredStudents() {
+		return this.registeredStudents;
+	}
+	
 	public void publishAssignment(String title, String description, LocalDateTime submissionDate) {
 		assignments.add(new Assignment(title, description, submissionDate));
 	}
@@ -62,14 +66,37 @@ public class Course implements Comparable<Course>{
 	public ArrayList<Student> getStudents() {
 		ArrayList<User> allUsers = DataController.readUsers();
 		ArrayList<Student> courseStudents = new ArrayList<Student>();
-		registeredStudents.forEach(userName -> courseStudents.add(
-				(Student) allUsers.get(
-						allUsers.indexOf(new Student("", "",userName, "")))));
+		
+		for(String username : registeredStudents) {
+			for(User u : allUsers) {
+				if(u.getUsername().equals(username)) {
+					courseStudents.add((Student)u);
+					break;
+				}
+			}
+		}
+		
 		return courseStudents;
 	}
 
 	public ArrayList<Assignment> getAssignments() {
 		return assignments;
+	}
+
+	public boolean addAssignment(Assignment newAss) {
+		if( assignments.contains(newAss) == true) {
+			return false;
+		}
+		boolean added = assignments.add(newAss);
+		DataController.saveCourse(this);
+		return added;
+	}
+
+	public boolean removeAssignment(Assignment oldAss) {
+		if( assignments.contains(oldAss) == true) {
+			return assignments.remove(oldAss);
+		}
+		return false;
 	}
 
 	public ArrayList<Announcement> getAnnouncements() {
@@ -114,7 +141,7 @@ public class Course implements Comparable<Course>{
 	};
 
 	public String toString() {
-		return id + " - " + title;
+		return id + ": " + title;
 	}
 
 	public class Announcement implements Comparable<Announcement>{

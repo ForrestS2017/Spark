@@ -19,6 +19,7 @@ import java.util.List;
 public class DataController {
     private static String PATH_COURSES = "src/data/Courses.JSON";
     private static String PATH_USERS = "src/data/Users.JSON";
+    private static String PATH_STUDENTS = "src/data/Students.JSON";
 
     /**
      * Update course in save data
@@ -41,7 +42,7 @@ public class DataController {
         }
         boolean saved = false;
         try {
-            Gson gson = getTypedGson();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(courses);
             FileWriter fw = new FileWriter(PATH_COURSES);
             fw.write(jsonString);
@@ -75,7 +76,7 @@ public class DataController {
         }
         boolean saved = false;
         try {
-            Gson gson = getTypedGson();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(users);
             FileWriter fw = new FileWriter(PATH_USERS);
             fw.write(jsonString);
@@ -109,7 +110,7 @@ public class DataController {
         }
         boolean saved = false;
         try {
-            Gson gson = getTypedGson();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(users);
             FileWriter fw = new FileWriter(PATH_USERS);
             fw.write(jsonString);
@@ -136,7 +137,7 @@ public class DataController {
         Collections.sort(users);
         boolean saved = false;
         try {
-            Gson gson = getTypedGson();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(users);
             FileWriter fw = new FileWriter(PATH_USERS);
             fw.write(jsonString);
@@ -155,11 +156,11 @@ public class DataController {
     /**
      * Load User saved data
      */
-    public static ArrayList<User>  readUsers() {
+    public static ArrayList<User> readUsers() {
         ArrayList<User> users = new ArrayList<User>();
         try
         {
-            Gson gson = getTypedGson();
+            Gson gson = getUserTypedGson();
             JsonReader reader = new JsonReader(new FileReader(PATH_USERS));
             users = gson.fromJson(reader, new TypeToken<ArrayList<User>>(){}.getType());
             if(users != null){
@@ -178,6 +179,25 @@ public class DataController {
             return null;
         }
         return users;
+    }
+    
+    /**
+     * Load Student saved data
+     */
+    public static ArrayList<Student> readStudents() {
+        ArrayList<Student> students = new ArrayList<Student>();
+        try
+        {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonReader reader = new JsonReader(new FileReader(PATH_STUDENTS));
+            students = gson.fromJson(reader, new TypeToken<ArrayList<Student>>(){}.getType());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+        return students;
     }
 
     /**
@@ -202,7 +222,7 @@ public class DataController {
     /**
      * Helper Function
      */
-    private static Gson getTypedGson() {
+    private static Gson getUserTypedGson() {
         RuntimeTypeAdapterFactory<User> adapter = RuntimeTypeAdapterFactory
                 .of(User.class, "type")
                 .registerSubtype(Student.class, User.TYPE_STUDENT)
@@ -213,4 +233,5 @@ public class DataController {
                 .registerTypeAdapterFactory(adapter)
                 .create();
     }
+
 }

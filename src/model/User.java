@@ -47,9 +47,16 @@ public class User implements Comparable<User>{
     public ArrayList<Course> getCourses() {
         ArrayList<Course> allCourses = DataController.readCourses();
         ArrayList<Course> studentCourses = new ArrayList<Course>();
-        courses.forEach(courseId -> studentCourses.add(
+        /*courses.forEach(courseTitle -> studentCourses.add(
                 (Course) allCourses.get(
-                        allCourses.indexOf(new Course("", courseId, null)))));
+                        allCourses.indexOf(new Course(courseTitle, null))))); */
+        
+        for(Course c : allCourses) {
+        	if(c.getRegisteredStudents().contains(this.username)) {
+        		studentCourses.add(c);
+        	}
+        }
+        
         return studentCourses;
     }
 

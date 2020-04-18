@@ -83,23 +83,15 @@ public class LoginController extends BasicWindow{
 			} else if (TF_Username.getText().equals("student")) {
 				// Display student scene
 				warning = "Student user requested!";
-				//TODO: Adjust Student scene change to match Professor scene change
-				try {
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Student_Dashboard.fxml"));
-					Parent parent = loader.load();
-					
-					StudentDashboardController controller = (StudentDashboardController) loader.getController();
-					controller.loginPageToStudentDashboard(org, TF_Username.getText().trim());		// pass data current controller to new controller
-					
-					Stage stage = (Stage)BN_Login.getScene().getWindow(); 
-					Scene scene = new Scene(parent);
-					stage.setScene(scene);
-					stage.setTitle("Student Dashboard");
-					scene.getWindow().setOnCloseRequest(null); //Remove the handler
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
 				
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(this.getClass().getResource(LAYOUT_STUDENT_DASHBOARD_VIEW));
+				Stage stage = (Stage)BN_Login.getScene().getWindow();
+		        stage.setTitle("Student Course Overview Dashboard");
+				LoadNewScene(loader, stage);
+				
+				StudentDashboardController controller = (StudentDashboardController) loader.getController();
+				controller.start(TF_Username.getText().trim());		// pass data current controller to new controller				
 			} else {
 				// Incorrect username
 				warning = "Invalid username, please try again!";

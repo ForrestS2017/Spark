@@ -3,6 +3,7 @@ package model;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -10,6 +11,8 @@ public class Assignment implements Comparable<Assignment> {
 	private String title, description;
 	private long publishDate, dueDate;
 	private ArrayList<Submission> studentSubmissions;
+
+	public static DateTimeFormatter DTFORMATTER_LONG = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a");
 	
 	public Assignment(String title, String description, LocalDateTime dueDate) {
 		this.title = title;
@@ -27,7 +30,7 @@ public class Assignment implements Comparable<Assignment> {
 	public void gradeSubmission(String studentUsername, int grade) {
 		// Search for student submission
 		for(Submission s : studentSubmissions) {
-			if(s.userName.contentEquals(studentUsername)) {
+			if(s.username.contentEquals(studentUsername)) {
 				s.assignGrade(grade);
 				return;
 			}
@@ -85,7 +88,7 @@ public class Assignment implements Comparable<Assignment> {
 		}
 	};
 
-	public Comparator<Submission> BY_SUBMISSION_GRADE = new Comparator<Submission>() {
+	public static Comparator<Submission> BY_SUBMISSION_GRADE = new Comparator<Submission>() {
 		@Override
 		public int compare(Submission o1, Submission o2) {
 			long l = o1.getGrade();
@@ -94,7 +97,7 @@ public class Assignment implements Comparable<Assignment> {
 		}
 	};
 
-	public Comparator<Submission> BY_SUBMISSION_DATE = new Comparator<Submission>() {
+	public static Comparator<Submission> BY_SUBMISSION_DATE = new Comparator<Submission>() {
 		@Override
 		public int compare(Submission o1, Submission o2) {
 			long l = o1.getSubmissionDate().atZone(ZoneId.systemDefault()).toEpochSecond();
@@ -113,19 +116,19 @@ public class Assignment implements Comparable<Assignment> {
 	 ********************/
 
 	public class Submission implements Comparable<Submission>{
-		private String userName, submissionText;
+		private String username, submissionText, feedbackText;
 		private long submissionDate;
 		private long grade;
 		
-		public Submission(String userName, String submissionText) {
-			this.userName = userName;
+		public Submission(String username, String submissionText) {
+			this.username = username;
 			this.submissionText = submissionText;
 			this.submissionDate = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
 			grade = -1;
 		}
 
-		public String getUserName() {
-			return userName;
+		public String getUsername() {
+			return username;
 		}
 
 		public long getGrade() {
@@ -140,11 +143,17 @@ public class Assignment implements Comparable<Assignment> {
 			return LocalDateTime.ofInstant(Instant.ofEpochSecond(submissionDate),ZoneId.systemDefault());
 		}
 
-		public void assignGrade(int grade) {
+		public void assignGrade(long grade) {
 			this.grade = grade;
 		}
 
+		public void assignFeedback(String feedback) {
+			this.feedbackText = feedback;
+		}
 
+		public String getFeedbackText() {
+			return feedbackText;
+		}
 
 		/**
 		 * Compares submission based off user
@@ -154,7 +163,7 @@ public class Assignment implements Comparable<Assignment> {
 		public boolean equals(Object object) {
 			if (object != null && object instanceof Submission) {
 				Submission otherSubmission = (Submission)object;
-				return this.getUserName().equals(otherSubmission.getUserName());
+				return this.getUsername().equals(otherSubmission.getUsername());
 			} else {
 				return false;
 			}
@@ -166,12 +175,18 @@ public class Assignment implements Comparable<Assignment> {
 		 * @return
 		 */
 		public int compareTo(Submission otherSubmission) {
-			return this.getUserName().compareTo(otherSubmission.getUserName());
+			return this.getUsername().compareTo(otherSubmission.getUsername());
 		}
 
 		@Override
 		public String toString() {
-			return userName + " Submission";
+			return new StringBuilder()
+					.append(getUsername())
+					.append("\t\t|\t")
+					.append(getSubmissionDate().format(DTFORMATTER_LONG))
+					.append("\t|\t")
+					.append(getGrade() > -1.0 ? getGrade() : "Not Graded")
+					.toString();
 		}
 	}
 }
