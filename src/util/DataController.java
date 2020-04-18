@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import model.Course;
+import model.Student;
 import model.User;
 
 import java.io.FileReader;
@@ -16,6 +17,7 @@ import java.util.Collections;
 public class DataController {
     private static String PATH_COURSES = "src/data/Courses.JSON";
     private static String PATH_USERS = "src/data/Users.JSON";
+    private static String PATH_STUDENTS = "src/data/Students.JSON";
 
     /**
      * Update all save data with new data from session
@@ -121,14 +123,13 @@ public class DataController {
     /**
      * Load User saved data
      */
-    public static ArrayList<User>  readUsers() {
+    public static ArrayList<User> readUsers() {
         ArrayList<User> users = new ArrayList<User>();
         try
         {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonReader reader = new JsonReader(new FileReader(PATH_USERS));
             users = gson.fromJson(reader, new TypeToken<ArrayList<User>>(){}.getType());
-
         }
         catch (Exception e)
         {
@@ -136,6 +137,25 @@ public class DataController {
             return null;
         }
         return users;
+    }
+    
+    /**
+     * Load Student saved data
+     */
+    public static ArrayList<Student> readStudents() {
+        ArrayList<Student> students = new ArrayList<Student>();
+        try
+        {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonReader reader = new JsonReader(new FileReader(PATH_STUDENTS));
+            students = gson.fromJson(reader, new TypeToken<ArrayList<Student>>(){}.getType());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+        return students;
     }
 
     /**

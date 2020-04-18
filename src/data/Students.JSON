@@ -3,6 +3,7 @@
     "firstName": "Ben",
     "lastName": "Ja",
     "username": "benja",
-    "password": "password"
+    "password": "password",
+    "gpa": 3.0
   }
 ]

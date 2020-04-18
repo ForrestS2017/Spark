@@ -33,6 +33,10 @@ public class Course implements Comparable<Course>{
 		}
 	}
 	
+	public ArrayList<String> getRegisteredStudents() {
+		return this.registeredStudents;
+	}
+	
 	public void publishAssignment(String title, String description, LocalDateTime submissionDate) {
 		assignments.add(new Assignment(title, description, submissionDate));
 	}
@@ -56,9 +60,19 @@ public class Course implements Comparable<Course>{
 	public ArrayList<Student> getStudents() {
 		ArrayList<User> allUsers = DataController.readUsers();
 		ArrayList<Student> courseStudents = new ArrayList<Student>();
-		registeredStudents.forEach(userName -> courseStudents.add(
+		/*registeredStudents.forEach(userName -> courseStudents.add(
 				(Student) allUsers.get(
-						allUsers.indexOf(new Student("", "",userName, "")))));
+						allUsers.indexOf(new Student("", "",userName, "")))));*/
+		
+		for(String username : registeredStudents) {
+			for(User u : allUsers) {
+				if(u.getUsername().equals(username)) {
+					courseStudents.add((Student)u);
+					break;
+				}
+			}
+		}
+		
 		return courseStudents;
 	}
 
@@ -68,6 +82,14 @@ public class Course implements Comparable<Course>{
 
 	public ArrayList<Announcement> getAnnouncements() {
 		return announcements;
+	}
+	
+	/**
+	 * Used to display Courses on ListView
+	 */
+	@Override
+	public String toString(){
+	    return (this.title + " \t\t| \tProfessor: " + this.professor);
 	}
 
 	/**
