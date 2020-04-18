@@ -1,14 +1,17 @@
 [
   {
+    "id": "TT101",
     "title": "Test Class 01",
     "registeredStudents": [
-      "jj01"
+      "jj01",
+      "mi15"
     ],
     "professor": "fcs34",
     "assignments": [],
     "announcements": []
   },
   {
+    "id": "TT102",
     "title": "Test Class 02",
     "registeredStudents": [],
     "professor": "fcs34",

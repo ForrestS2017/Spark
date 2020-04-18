@@ -62,13 +62,14 @@ public class ProfessorDashboardController extends BasicWindow {
         courseList.forEach(course -> {
             if (course.getProfessorUsername().equals(username)) obsList.add(course); });
         if (obsList == null || obsList.size() < 1) { ShowWarningNoCourses("Prof has no Courses!"); return;}
+        // Init listview
         LV_CourseList.setItems(obsList);
         LV_CourseList.setCellFactory(list -> {
             return new ListCell<Course>() {
                 protected void updateItem(Course item, boolean empty) {
                     super.updateItem(item, empty);
                     if (item != null && !empty) {
-                        this.setText(item.getTitle());
+                        this.setText(item.toString());
                     } else {
                         this.setText((String) null);
                     }

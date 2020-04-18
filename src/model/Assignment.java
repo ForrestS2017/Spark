@@ -103,7 +103,16 @@ public class Assignment implements Comparable<Assignment> {
 		}
 	};
 
-	private class Submission implements Comparable<Submission>{
+	@Override
+	public String toString() {
+		return title;
+	}
+
+	/********************
+	 * SUBMISSION CLASS *
+	 ********************/
+
+	public class Submission implements Comparable<Submission>{
 		private String userName, submissionText;
 		private long submissionDate;
 		private long grade;
@@ -158,6 +167,11 @@ public class Assignment implements Comparable<Assignment> {
 		 */
 		public int compareTo(Submission otherSubmission) {
 			return this.getUserName().compareTo(otherSubmission.getUserName());
+		}
+
+		@Override
+		public String toString() {
+			return userName + " Submission";
 		}
 	}
 }

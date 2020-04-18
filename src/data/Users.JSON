@@ -4,20 +4,43 @@
     "lastName": "Smith",
     "username": "fcs34",
     "courses": [
-        "Test Class 01"
+        "TT101"
     ],
     "password": "password",
-    "type": "professor"
+    "type": "PROFESSOR"
   },
   {
-    "gpa": 0.0,
+    "gpa": -1.0,
     "firstName": "Jonathan",
     "lastName": "Joestar",
     "username": "jj01",
     "courses": [
-        "Test Class 01"
+        "TT101"
     ],
     "password": "password",
-    "type": "student"
+    "type": "STUDENT"
+  },
+  {
+    "gpa": -1.0,
+    "firstName": "Lara",
+    "lastName": "Croft",
+    "username": "lc96",
+    "courses": [
+      "TT101"
+    ],
+    "password": "password",
+    "type": "STUDENT"
+  },
+  {
+    "gpa": -1.0,
+    "firstName": "Mizuku",
+    "lastName": "Idoriya",
+    "username": "mi15",
+    "courses": [
+      "TT101",
+      "TT102"
+    ],
+    "password": "password",
+    "type": "STUDENT"
   }
 ]

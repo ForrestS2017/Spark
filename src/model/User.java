@@ -15,9 +15,9 @@ public class User implements Comparable<User>{
     /**
      * Constants for serialization
      */
-    public static String TYPE_PROFESSOR = "professor";
-    public static String TYPE_STUDENT = "student";
-    public static String TYPE_ADMINISTRATOR = "administrator";
+    public static String TYPE_PROFESSOR = "PROFESSOR";
+    public static String TYPE_STUDENT = "STUDENT";
+    public static String TYPE_ADMINISTRATOR = "ADMINISTRATOR";
 
     public User(String firstName, String lastName, String username, String password, String type) {
         this.firstName = firstName;
@@ -47,9 +47,9 @@ public class User implements Comparable<User>{
     public ArrayList<Course> getCourses() {
         ArrayList<Course> allCourses = DataController.readCourses();
         ArrayList<Course> studentCourses = new ArrayList<Course>();
-        courses.forEach(courseTitle -> studentCourses.add(
+        courses.forEach(courseId -> studentCourses.add(
                 (Course) allCourses.get(
-                        allCourses.indexOf(new Course(courseTitle, null)))));
+                        allCourses.indexOf(new Course("", courseId, null)))));
         return studentCourses;
     }
 
@@ -120,4 +120,13 @@ public class User implements Comparable<User>{
             return result == 0 ? result : o1.getLastName().compareToIgnoreCase(o2.getLastName());
         }
     };
+
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(username+" - ")
+                .append(firstName)
+                .append(" ")
+                .append(lastName).toString();
+    }
 }

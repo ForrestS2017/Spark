@@ -62,7 +62,7 @@
                         <ListView fx:id="LV_AssignmentListSubmissions" prefHeight="575.0" prefWidth="450.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="60.0" />
                         <Accordion fx:id="AN_AssignmentSubmissions" layoutX="473.0" layoutY="15.0" prefHeight="575.0" prefWidth="450.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="495.0" AnchorPane.topAnchor="60.0">
                           <panes>
-                            <TitledPane animated="false" text="untitled 1">
+                            <TitledPane animated="false" disable="true" text="untitled 1">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                               </content>
@@ -99,6 +99,11 @@
                         <TextField fx:id="TF_FeedbackGrade" layoutX="969.0" layoutY="336.0" prefHeight="25.0" prefWidth="180.0" promptText="Submission Grade" AnchorPane.leftAnchor="975.0" />
                         <Label fx:id="LL_FeedbackResponse" layoutX="969.0" layoutY="303.0" text="Detailed Response" AnchorPane.leftAnchor="975.0" />
                         <Label fx:id="LL_FeedbackGrade" layoutX="969.0" layoutY="361.0" text="Grade" AnchorPane.leftAnchor="975.0" />
+                        <Label fx:id="LL_NoSubmissionsSubmissions" layoutX="665.0" layoutY="33.0" prefHeight="186.0" prefWidth="110.0" text="No Submissions" textFill="RED" AnchorPane.bottomAnchor="420.0" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="660.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="System Italic" size="16.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
             </content>
@@ -215,6 +220,11 @@
                         <Label fx:id="LL_AdjustedGradeSubtitle" layoutX="975.0" layoutY="267.0" prefHeight="17.0" prefWidth="195.0" text="Leave blank to use calculated grade" textFill="#9a9a9a" AnchorPane.leftAnchor="975.0">
                            <font>
                               <Font name="System Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="LL_NoSubmissionsStudents" prefHeight="186.0" prefWidth="110.0" text="No Submissions" textFill="RED" AnchorPane.bottomAnchor="420.0" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="660.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="System Italic" size="16.0" />
                            </font>
                         </Label>
                      </children>

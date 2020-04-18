@@ -10,14 +10,16 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class Course implements Comparable<Course>{
+	private String id;
 	private String title;
 	private ArrayList<String> registeredStudents;
 	private String professor;
 	private ArrayList<Assignment> assignments;
 	private ArrayList<Announcement> announcements;
 	
-	public Course(String title, Professor professor) {
+	public Course(String title, String id, Professor professor) {
 		this.title = title;
+		this.id = id;
 		this.professor = professor.getUsername();
 		registeredStudents = (ArrayList<String>) new ArrayList<Student>().stream().map(User::getUsername).collect(Collectors.toList());
 		assignments = new ArrayList<Assignment>();
@@ -43,6 +45,10 @@ public class Course implements Comparable<Course>{
 
 	public String getTitle() {
 		return title;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public Professor getProfessor() {
@@ -78,7 +84,7 @@ public class Course implements Comparable<Course>{
 	public boolean equals(Object object) {
 		if (object != null && object instanceof Course) {
 			Course otherCourse = (Course)object;
-			return this.getTitle().equals(otherCourse.getTitle());
+			return this.getId().equals(otherCourse.getId());
 		} else {
 			return false;
 		}
@@ -90,8 +96,15 @@ public class Course implements Comparable<Course>{
 	 * @return
 	 */
 	public int compareTo(Course otherCourse) {
-		return this.getTitle().compareTo(otherCourse.getTitle());
+		return this.getId().compareTo(otherCourse.getId());
 	}
+
+	public static Comparator<Course> BY_COURSE_TITLE = new Comparator<Course>() {
+		@Override
+		public int compare(Course o1, Course o2) {
+			return o1.getTitle().compareTo(o2.getTitle());
+		}
+	};
 
 	public static Comparator<Announcement> BY_ANNOUNCEMENT_PUBLISH_DATE = new Comparator<Announcement>() {
 		@Override
@@ -99,6 +112,10 @@ public class Course implements Comparable<Course>{
 			return o1.getPublishDate().compareTo(o2.getPublishDate());
 		}
 	};
+
+	public String toString() {
+		return id + " - " + title;
+	}
 
 	public class Announcement implements Comparable<Announcement>{
 		private String title, description;
@@ -147,6 +164,11 @@ public class Course implements Comparable<Course>{
 		 */
 		public int compareTo(Announcement otherAnnouncement) {
 			return this.getTitle().compareTo(otherAnnouncement.getTitle());
+		}
+
+		@Override
+		public String toString() {
+			return title;
 		}
 	}
 }
