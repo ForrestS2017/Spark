@@ -6,7 +6,7 @@ public class Student extends User{
 	private float gpa;
 	
 	public Student(String firstName, String lastName, String username, String password) {
-		super(firstName, lastName, username, password);
+		super(firstName, lastName, username, password, TYPE_PROFESSOR);
 		gpa = 0.0f;
 	}
 

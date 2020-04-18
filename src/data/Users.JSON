@@ -1,0 +1,23 @@
+[
+  {
+    "firstName": "Forrest",
+    "lastName": "Smith",
+    "username": "fcs34",
+    "courses": [
+        "Test Class 01"
+    ],
+    "password": "password",
+    "type": "professor"
+  },
+  {
+    "gpa": 0.0,
+    "firstName": "Jonathan",
+    "lastName": "Joestar",
+    "username": "jj01",
+    "courses": [
+        "Test Class 01"
+    ],
+    "password": "password",
+    "type": "student"
+  }
+]

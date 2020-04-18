@@ -10,13 +10,22 @@ public class User implements Comparable<User>{
     private String firstName, lastName, username;
     private ArrayList<String> courses;
     private String password;
+    protected String type;
 
-    public User(String firstName, String lastName, String username, String password) {
+    /**
+     * Constants for serialization
+     */
+    public static String TYPE_PROFESSOR = "professor";
+    public static String TYPE_STUDENT = "student";
+    public static String TYPE_ADMINISTRATOR = "administrator";
+
+    public User(String firstName, String lastName, String username, String password, String type) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.courses = new ArrayList<String>();
         this.password = "password";                 //TODO: Implement passwords and then replace this!!!
+        this.type = type;
     }
 
     public String getFirstName() {
@@ -29,6 +38,10 @@ public class User implements Comparable<User>{
 
     public String getUsername() {
         return username;
+    }
+
+    public void setType(String newType) {
+        this.type = newType;
     }
 
     public ArrayList<Course> getCourses() {
