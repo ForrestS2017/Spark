@@ -5,19 +5,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import model.Assignment;
 import model.Course;
 import model.Student;
 import util.DataController;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class ProfessorCourseViewController extends BasicWindow {
@@ -56,6 +49,7 @@ public class ProfessorCourseViewController extends BasicWindow {
     @FXML Button BN_NewAssignment;
     @FXML Button BN_AssignmentPublish;
     @FXML Button BN_AssignmentEditPublish;
+    @FXML Button BN_AssignmentDelete;
 
     /*************************
      ** Submissions Widgets **
@@ -84,6 +78,7 @@ public class ProfessorCourseViewController extends BasicWindow {
     @FXML Button BN_NewAnnouncement;
     @FXML Button BN_AnnouncementPublish;
     @FXML Button BN_AnnouncementEditPublish;
+    @FXML Button BN_AnnouncementDelete;
 
     /*************************
      **** Students Widgets ***
@@ -150,26 +145,25 @@ public class ProfessorCourseViewController extends BasicWindow {
         // Init Assignment List
         assignmentList.clear();
         if (course.getAssignments() == null || course.getAssignments().size() < 1) return;
-        course.getAssignments().forEach(a -> assignmentList.add(a));
+        assignmentList = FXCollections.observableArrayList(course.getAssignments());
 
         LV_AssignmentListAssignments.setItems(assignmentList);
-        LV_AssignmentListAssignments.setCellFactory(list -> {
-            return new ListCell<Assignment>() {
-                protected void updateItem(Assignment item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item != null && !empty) {
-                        this.setText(item.toString());
-                    } else {
-                        this.setText((String) null);
-                    }
-                }
-            };
+
+        // Init listview onSelect
+        LV_AssignmentListAssignments.getSelectionModel().selectedItemProperty().addListener((observableValue, assignment, t1) -> {
+            //System.out.println("ass: " + assignment.getTitle());
+            if (t1 != null) {
+                System.out.println("T1: " + t1.getTitle());
+                TA_AssignmentDescription.setText(t1.getDescription());
+                TF_AssignmentTitle.setText(t1.getTitle());
+                DP_AssignmentDueDate.setValue(t1.getDueDate().toLocalDate());
+            }
         });
-        LV_StudentList.getSelectionModel().select(0);
 
         //TODO: Refactor below into a method to call for the selection model!
 
         // Display selected assignment
+        LV_AssignmentListAssignments.getSelectionModel().selectFirst();
         Assignment currAss = LV_AssignmentListAssignments.getSelectionModel().getSelectedItem();
         TA_AssignmentDescription.setText(currAss.getDescription());
         TF_AssignmentTitle.setText(currAss.getTitle());
@@ -179,17 +173,38 @@ public class ProfessorCourseViewController extends BasicWindow {
 
     @FXML
     public void AddNewAssignment() {
-        // Clear input fields
+        // Clear input fields & selection
+        LV_AssignmentListAssignments.getSelectionModel().clearSelection();
         TA_AssignmentDescription.clear();
         TF_AssignmentTitle.clear();
         DP_AssignmentDueDate.setValue(null);
     }
 
     @FXML
-    public void PublishAssignment() {}
+    public void PublishAssignment() {
+        if (TF_AssignmentTitle.getText().isBlank()
+                || TA_AssignmentDescription.getText().isBlank()
+                || DP_AssignmentDueDate.getValue() == null) return;
+
+        Assignment newAssignment = new Assignment(
+                TF_AssignmentTitle.getText(),
+                TA_AssignmentDescription.getText(),
+                DP_AssignmentDueDate.getValue().atTime(11,55)
+                );
+        if(course.addAssignment(newAssignment) == false) {
+            System.out.println("Failed to publish");
+            return;
+        }
+        assignmentList = FXCollections.observableArrayList(course.getAssignments());
+        LV_AssignmentListAssignments.setItems(assignmentList);
+        System.out.println("Published: " + TF_AssignmentTitle.getText());
+    }
 
     @FXML
     public void EditPublishAssignment() {}
+
+    @FXML
+    public void DeleteAssignment() {}
 
 
     /*************************
@@ -206,27 +221,24 @@ public class ProfessorCourseViewController extends BasicWindow {
             LL_NoSubmissionsSubmissions.setVisible(true);
             return;
         }
-        course.getAssignments().forEach(a -> assignmentList.add(a));
 
-        LV_AssignmentListAssignments.setItems(assignmentList);
-        LV_AssignmentListAssignments.setCellFactory(list -> {
-            return new ListCell<Assignment>() {
-                protected void updateItem(Assignment item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item != null && !empty) {
-                        this.setText(item.toString());
-                    } else {
-                        this.setText((String) null);
-                    }
-                }
-            };
+        assignmentList = FXCollections.observableArrayList(course.getAssignments());
+        LV_AssignmentListSubmissions.setItems(assignmentList);
+
+        // Init listview onSelect
+        LV_AssignmentListSubmissions.getSelectionModel().selectedItemProperty().addListener((observableValue, assignment, t1) -> {
+            //System.out.println("ass: " + assignment.getTitle());
+            if (t1 != null) {
+                System.out.println("T1: " + t1.getTitle());
+                // Load submissions into accordian
+            }
         });
-        LV_StudentList.getSelectionModel().select(0);
+        LV_AssignmentListSubmissions.getSelectionModel().selectFirst();
 
         //TODO: Refactor below into a method to call for the selection model!
 
         // Display selected assignment
-        Assignment currAss = LV_AssignmentListAssignments.getSelectionModel().getSelectedItem();
+        Assignment currAss = LV_AssignmentListSubmissions.getSelectionModel().getSelectedItem();
         ArrayList<Assignment.Submission> studentSubs = currAss.getStudentSubmissions();
 
         if (studentSubs.isEmpty()) {
@@ -290,6 +302,9 @@ public class ProfessorCourseViewController extends BasicWindow {
 
     @FXML
     public void EditPublishAnnouncement() {}
+
+    @FXML
+    public void DeleteAnnouncement() {}
 
 
     /*************************

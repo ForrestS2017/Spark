@@ -41,7 +41,7 @@ public class DataController {
         }
         boolean saved = false;
         try {
-            Gson gson = getTypedGson();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(courses);
             FileWriter fw = new FileWriter(PATH_COURSES);
             fw.write(jsonString);
@@ -75,7 +75,7 @@ public class DataController {
         }
         boolean saved = false;
         try {
-            Gson gson = getTypedGson();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(users);
             FileWriter fw = new FileWriter(PATH_USERS);
             fw.write(jsonString);
@@ -109,7 +109,7 @@ public class DataController {
         }
         boolean saved = false;
         try {
-            Gson gson = getTypedGson();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(users);
             FileWriter fw = new FileWriter(PATH_USERS);
             fw.write(jsonString);
@@ -136,7 +136,7 @@ public class DataController {
         Collections.sort(users);
         boolean saved = false;
         try {
-            Gson gson = getTypedGson();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(users);
             FileWriter fw = new FileWriter(PATH_USERS);
             fw.write(jsonString);
@@ -159,7 +159,7 @@ public class DataController {
         ArrayList<User> users = new ArrayList<User>();
         try
         {
-            Gson gson = getTypedGson();
+            Gson gson = getUserTypedGson();
             JsonReader reader = new JsonReader(new FileReader(PATH_USERS));
             users = gson.fromJson(reader, new TypeToken<ArrayList<User>>(){}.getType());
             if(users != null){
@@ -202,7 +202,7 @@ public class DataController {
     /**
      * Helper Function
      */
-    private static Gson getTypedGson() {
+    private static Gson getUserTypedGson() {
         RuntimeTypeAdapterFactory<User> adapter = RuntimeTypeAdapterFactory
                 .of(User.class, "type")
                 .registerSubtype(Student.class, User.TYPE_STUDENT)
@@ -213,4 +213,5 @@ public class DataController {
                 .registerTypeAdapterFactory(adapter)
                 .create();
     }
+
 }

@@ -51,6 +51,7 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
+                        <Button fx:id="BN_AssignmentDelete" layoutX="413.0" layoutY="544.0" mnemonicParsing="false" onAction="#DeleteAssignment" text="Delete" />
                      </children>
                   </AnchorPane>
             </content>
@@ -130,6 +131,7 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
+                        <Button fx:id="BN_AnnouncementDelete" layoutX="413.0" layoutY="544.0" mnemonicParsing="false" onAction="#DeleteAnnouncement" text="Delete" />
                      </children>
                   </AnchorPane>
                </content>

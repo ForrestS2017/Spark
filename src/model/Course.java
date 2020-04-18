@@ -72,6 +72,22 @@ public class Course implements Comparable<Course>{
 		return assignments;
 	}
 
+	public boolean addAssignment(Assignment newAss) {
+		if( assignments.contains(newAss) == true) {
+			return false;
+		}
+		boolean added = assignments.add(newAss);
+		DataController.saveCourse(this);
+		return added;
+	}
+
+	public boolean removeAssignment(Assignment oldAss) {
+		if( assignments.contains(oldAss) == true) {
+			return assignments.remove(oldAss);
+		}
+		return false;
+	}
+
 	public ArrayList<Announcement> getAnnouncements() {
 		return announcements;
 	}
