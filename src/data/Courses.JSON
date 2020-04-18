@@ -15,14 +15,58 @@
         "description": "Sonic Desc",
         "publishDate": 1587233838,
         "dueDate": 1587398100,
-        "studentSubmissions": []
+        "studentSubmissions": [
+          {
+            "useName": "lc96",
+            "submissionText": "I prefer Shadow - he\u0027s a sharpshooter like myself.",
+            "feedbackText": "Edgy, but I\u0027ll accept it.",
+            "submissionDate": 1587245438,
+            "grade": 88
+          },
+          {
+            "useName": "mi15",
+            "submissionText": "I will work diligently, just like Sonic!",
+            "feedbackText": "Cool, glad to hear.",
+            "submissionDate": 1587233438,
+            "grade": 95
+          },
+          {
+            "useName": "bk69",
+            "submissionText": "I don\u0027t care!! I HATE THIS CLASS",
+            "feedbackText": "Bro shutup you smell",
+            "submissionDate": 1587533438,
+            "grade": 2
+          }
+        ]
       },
       {
         "title": "Tails Test",
         "description": "Tails Desc",
         "publishDate": 1587237279,
         "dueDate": 1587570900,
-        "studentSubmissions": []
+        "studentSubmissions": [
+          {
+            "useName": "lc96",
+            "submissionText": "I love Tails - he\u0027s a sharpshooter like myself.",
+            "feedbackText": "Lol you\u0027re right!",
+            "submissionDate": 1587247279,
+            "grade": 99
+          },
+          {
+            "useName": "bk69",
+            "submissionText": "Tails\u0027 has cool fur color",
+            "feedbackText": "Thanks for actually doing hw",
+            "submissionDate": 1587540900,
+            "grade": 33
+          },
+          {
+            "useName": "mi15",
+            "submissionText": "I will work diligently, just like Tails!",
+            "feedbackText": "Yes you will :).",
+            "submissionDate": 1587237779,
+            "grade": 95
+          }
+        ]
       }
     ],
     "announcements": []

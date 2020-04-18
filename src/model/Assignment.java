@@ -3,6 +3,7 @@ package model;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -10,6 +11,8 @@ public class Assignment implements Comparable<Assignment> {
 	private String title, description;
 	private long publishDate, dueDate;
 	private ArrayList<Submission> studentSubmissions;
+
+	public static DateTimeFormatter DTFORMATTER_LONG = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a");
 	
 	public Assignment(String title, String description, LocalDateTime dueDate) {
 		this.title = title;
@@ -140,7 +143,7 @@ public class Assignment implements Comparable<Assignment> {
 			return LocalDateTime.ofInstant(Instant.ofEpochSecond(submissionDate),ZoneId.systemDefault());
 		}
 
-		public void assignGrade(int grade) {
+		public void assignGrade(long grade) {
 			this.grade = grade;
 		}
 
@@ -177,7 +180,13 @@ public class Assignment implements Comparable<Assignment> {
 
 		@Override
 		public String toString() {
-			return userName + " Submission";
+			return new StringBuilder()
+					.append(getUserName())
+					.append("\t\t|\t")
+					.append(getSubmissionDate().format(DTFORMATTER_LONG))
+					.append("\t|\t")
+					.append(getGrade() > -1.0 ? getGrade() : "Not Graded")
+					.toString();
 		}
 	}
 }

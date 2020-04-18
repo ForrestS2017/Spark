@@ -53,5 +53,16 @@
     ],
     "password": "password",
     "type": "STUDENT"
+  },
+  {
+    "gpa": -1.0,
+    "firstName": "Bakguo",
+    "lastName": "Katsuki",
+    "username": "bk69",
+    "courses": [
+      "TT101"
+    ],
+    "password": "password",
+    "type": "STUDENT"
   }
 ]
