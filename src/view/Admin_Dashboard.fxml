@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminDashboardController">
+   <children>
+      <Rectangle fx:id="decorBox" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="212.0" layoutX="276.0" layoutY="209.0" strokeType="INSIDE" width="272.0">
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#0d3154" />
+                  <Stop color="#0d3154" offset="0.007633587786259542" />
+                  <Stop color="#b8c2e2" offset="0.11603576283593005" />
+                  <Stop color="#b6c1de00" offset="0.17446930879431086" />
+                  <Stop color="#b6c1de00" offset="0.8202290076335876" />
+                  <Stop color="#b8c1e0" offset="0.8943480079472967" />
+                  <Stop color="#0d3257" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
+      </Rectangle>
+      <Label fx:id="LL_Title" alignment="CENTER" layoutX="600.0" layoutY="52.0" text="Dashboard" textAlignment="CENTER" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="LL_Subtitle" alignment="CENTER" layoutX="631.0" layoutY="119.0" text="Admin Dashboard" textAlignment="CENTER" textFill="#9a9a9a" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="LL_NoCourses" alignment="CENTER" layoutX="600.0" layoutY="395.0" text="No Assigned Courses" textAlignment="CENTER" textFill="RED" visible="false" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Label>
+      <ListView fx:id="LV_ProfessorList" layoutX="42.0" layoutY="463.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="658.0" />
+      <Button fx:id="BN_ViewProfessor" layoutX="292.0" layoutY="672.0" mnemonicParsing="false" onAction="#ViewProfessor" text="View Professor" AnchorPane.leftAnchor="292.0" AnchorPane.rightAnchor="908.0" />
+      <Button fx:id="BT_Logout" mnemonicParsing="false" onAction="#Logout" text="Logout" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
+      <Button fx:id="BN_CreateCourse" layoutX="292.0" layoutY="225.0" mnemonicParsing="false" onAction="#CreateCourse" prefHeight="26.0" prefWidth="240.0" text="New Course" />
+      <Label fx:id="LL_ProfessorDeatilsTitle" layoutX="1085.0" layoutY="169.0" text="Professor Overall Details">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="LL_CoursesTitle" layoutX="949.0" layoutY="228.0" text="Courses Taught">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="LL_StudentsTitle" layoutX="946.0" layoutY="443.0" text="Students Taught">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="LL_AverageGradeTitle" layoutX="944.0" layoutY="645.0" text="Average Grade of Student">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="LL_AverageGradeSubtitle" layoutX="964.0" layoutY="672.0" prefHeight="17.0" prefWidth="128.0" text="&lt;Overall Average&gt;" />
+      <ListView fx:id="LV_CoursesTaught" layoutX="944.0" layoutY="251.0" prefHeight="154.0" prefWidth="466.0" />
+      <ListView fx:id="LV_StudentsTaught" layoutX="944.0" layoutY="467.0" prefHeight="154.0" prefWidth="466.0" />
+      <Label fx:id="LL_AdminOptions" layoutX="355.0" layoutY="169.0" text="Admin Options">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="BN_CreateUser" layoutX="292.0" layoutY="260.0" mnemonicParsing="false" onAction="#CreateUser" prefHeight="26.0" prefWidth="240.0" text="New User" />
+      <Button fx:id="BN_ConfigureUI" layoutX="292.0" layoutY="294.0" mnemonicParsing="false" onAction="#ConfigureUI" prefHeight="26.0" prefWidth="240.0" text="Configure UI" />
+      <TextField fx:id="TF_StudentName" layoutX="292.0" layoutY="344.0" onAction="#StudentNameID" prefHeight="26.0" prefWidth="240.0" promptText="Student name/ ID" />
+      <Button fx:id="BN_SearchStudent" layoutX="292.0" layoutY="378.0" mnemonicParsing="false" onAction="#SearchStudent" prefHeight="26.0" prefWidth="240.0" text="Search Student" />
+      <Label fx:id="LL_ProfessorsTitle" layoutX="42.0" layoutY="430.0" text="Professors">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
