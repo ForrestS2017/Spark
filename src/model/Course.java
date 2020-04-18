@@ -103,6 +103,14 @@ public class Course implements Comparable<Course>{
 		return announcements;
 	}
 
+	public boolean addAnnouncement(String title, String description) {
+		return announcements.add(new Announcement(title, description));
+	}
+
+	public boolean addAnnouncement(Announcement announcement) {
+		return announcements.add(announcement);
+	}
+
 	/**
 	 * Compares courses based off title
 	 * @param object Course to compare to
@@ -144,7 +152,7 @@ public class Course implements Comparable<Course>{
 		return id + ": " + title;
 	}
 
-	public class Announcement implements Comparable<Announcement>{
+	public static class Announcement implements Comparable<Announcement>{
 		private String title, description;
 		private long publishDate;
 		

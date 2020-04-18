@@ -115,7 +115,7 @@ public class Assignment implements Comparable<Assignment> {
 	 * SUBMISSION CLASS *
 	 ********************/
 
-	public class Submission implements Comparable<Submission>{
+	public static class Submission implements Comparable<Submission>{
 		private String username, submissionText, feedbackText;
 		private long submissionDate;
 		private long grade;

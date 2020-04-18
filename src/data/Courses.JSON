@@ -69,7 +69,18 @@
         ]
       }
     ],
-    "announcements": []
+    "announcements": [
+      {
+        "title": "Welcome!",
+        "description": "Hey thanks for signing up :D",
+        "publishDate": 1587250154
+      },
+      {
+        "title": "Assignment 1 Released",
+        "description": "Assignment 1 has been released \"Sonic Test\"",
+        "publishDate": 1587250417
+      }
+    ]
   },
   {
     "id": "TT102",

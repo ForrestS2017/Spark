@@ -237,6 +237,7 @@ public class ProfessorCourseViewController extends BasicWindow {
         assignmentList = FXCollections.observableArrayList(course.getAssignments());
         LV_AssignmentListAssignments.setItems(assignmentList);
         System.out.println("Published: " + TF_AssignmentTitle.getText());
+        DataController.saveCourse(course);
     }
 
     @FXML
@@ -333,33 +334,26 @@ public class ProfessorCourseViewController extends BasicWindow {
 
     @FXML
     public void initAnnouncements() {
-        // Init Announcement List
+        if (course == null) return;
+
+        // Init Assignment List
         announcementList.clear();
         if (course.getAnnouncements() == null || course.getAnnouncements().size() < 1) return;
-        course.getAnnouncements().forEach(a -> announcementList.add(a));
-
+        announcementList = FXCollections.observableArrayList(course.getAnnouncements());
         LV_AnnouncementList.setItems(announcementList);
-        LV_AnnouncementList.setCellFactory(list -> {
-            return new ListCell<Course.Announcement>() {
-                protected void updateItem(Course.Announcement item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item != null && !empty) {
-                        this.setText(item.toString());
-                    } else {
-                        this.setText((String) null);
-                    }
-                }
-            };
+
+        // Init list view onSelect
+        LV_AnnouncementList.getSelectionModel().selectedItemProperty().addListener((observableValue, announcement, t1) -> {
+            //System.out.println("ass: " + assignment.getTitle());
+            if (t1 != null) {
+                System.out.println("T1: " + t1.getTitle());
+                TA_AnnouncementDescription.setText(t1.getDescription());
+                TF_AnnouncementTitle.setText(t1.getTitle());
+            }
         });
-        LV_StudentList.getSelectionModel().select(0);
 
-        //TODO: Refactor below into a method to call for the selection model!
-
-        // Display selected announcement
-        Course.Announcement currAnn = LV_AnnouncementList.getSelectionModel().getSelectedItem();
-        TA_AnnouncementDescription.setText(currAnn.getDescription());
-        TF_AnnouncementTitle.setText(currAnn.getTitle());
-
+        // Display selected assignment
+        LV_AnnouncementList.getSelectionModel().selectFirst();
     }
 
     @FXML
@@ -371,6 +365,21 @@ public class ProfessorCourseViewController extends BasicWindow {
 
     @FXML
     public void PublishAnnouncement() {
+        if (TF_AnnouncementTitle.getText().isBlank() || TA_AnnouncementDescription.getText().isBlank()) return;
+
+        Course.Announcement newAnnouncement = new Course.Announcement(
+                TF_AnnouncementTitle.getText(),
+                TA_AnnouncementDescription.getText()
+        );
+
+        if (course.addAnnouncement(newAnnouncement) == false) {
+            System.out.println("Failed to publish");
+            return;
+        }
+        announcementList = FXCollections.observableArrayList(course.getAnnouncements());
+        LV_AnnouncementList.setItems(announcementList);
+        System.out.println("Published: " + TF_AssignmentTitle.getText());
+        DataController.saveCourse(course);
     }
 
     @FXML
@@ -379,6 +388,7 @@ public class ProfessorCourseViewController extends BasicWindow {
 
     @FXML
     public void DeleteAnnouncement() {
+
     }
 
 
