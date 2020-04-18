@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,8 +22,9 @@ public class ProfessorCourseViewController extends BasicWindow {
      * Shared Data *
      ***************/
     Course course;
-    ObservableList<Assignment> Assignments;
-    ObservableList<Student> Students;
+    ObservableList<Assignment> assignmentList = FXCollections.observableArrayList();
+    ObservableList<Course.Announcement> announcementList = FXCollections.observableArrayList();
+    ObservableList<Student> studentList = FXCollections.observableArrayList();
 
     /*************************
      ***** Shared Widgets ****
@@ -110,8 +112,15 @@ public class ProfessorCourseViewController extends BasicWindow {
             System.out.println("WARN: FAILED TO LOAD CLASS: " + inputCourseName);   //TODO: CHANGE TO PROMPT
             return;
         }
+
+        // Init Titles
         LL_Title.setText(course.getTitle());
         LL_Subtitle.setText(TP_TabPane.getSelectionModel().getSelectedItem().getText());
+
+        // Init Lists
+        course.getAssignments().forEach(a -> assignmentList.add(a));
+        course.getAnnouncements().forEach(a -> announcementList.add(a));
+        course.getStudents().forEach(a -> studentList.add(a));
     }
 
     /*************************
@@ -119,7 +128,9 @@ public class ProfessorCourseViewController extends BasicWindow {
      *************************/
 
     @FXML
-    public void initAssignments() {}
+    public void initAssignments() {
+        System.out.println("initAssignments");
+    }
 
     @FXML
     public void AddNewAssignment() {}
@@ -136,7 +147,9 @@ public class ProfessorCourseViewController extends BasicWindow {
      *************************/
 
     @FXML
-    public void initSubmissions() {}
+    public void initSubmissions() {
+        System.out.println("initSubmissions");
+    }
 
     @FXML
     public void SubmitFeedback() {}
