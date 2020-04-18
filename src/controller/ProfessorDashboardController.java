@@ -59,18 +59,17 @@ public class ProfessorDashboardController extends BasicWindow {
         obsList = FXCollections.observableArrayList();
         courseList = DataController.readCourses();
         if (courseList == null || courseList.size() < 1) { ShowWarningNoCourses("No Courses in System!"); return;}
-        //courseList.stream().filter(course -> course.getProfessorUsername().contentEquals(username)).forEach(course -> obsList.add(course));
         courseList.forEach(course -> {
-            System.out.println("Course: " + course.getTitle() + "\nProf: " + course.getProfessorUsername());
             if (course.getProfessorUsername().equals(username)) obsList.add(course); });
         if (obsList == null || obsList.size() < 1) { ShowWarningNoCourses("Prof has no Courses!"); return;}
+        // Init listview
         LV_CourseList.setItems(obsList);
         LV_CourseList.setCellFactory(list -> {
             return new ListCell<Course>() {
                 protected void updateItem(Course item, boolean empty) {
                     super.updateItem(item, empty);
                     if (item != null && !empty) {
-                        this.setText(item.getTitle());
+                        this.setText(item.toString());
                     } else {
                         this.setText((String) null);
                     }

@@ -85,7 +85,7 @@ public class Assignment implements Comparable<Assignment> {
 		}
 	};
 
-	public Comparator<Submission> BY_SUBMISSION_GRADE = new Comparator<Submission>() {
+	public static Comparator<Submission> BY_SUBMISSION_GRADE = new Comparator<Submission>() {
 		@Override
 		public int compare(Submission o1, Submission o2) {
 			long l = o1.getGrade();
@@ -94,7 +94,7 @@ public class Assignment implements Comparable<Assignment> {
 		}
 	};
 
-	public Comparator<Submission> BY_SUBMISSION_DATE = new Comparator<Submission>() {
+	public static Comparator<Submission> BY_SUBMISSION_DATE = new Comparator<Submission>() {
 		@Override
 		public int compare(Submission o1, Submission o2) {
 			long l = o1.getSubmissionDate().atZone(ZoneId.systemDefault()).toEpochSecond();
@@ -103,8 +103,17 @@ public class Assignment implements Comparable<Assignment> {
 		}
 	};
 
-	private class Submission implements Comparable<Submission>{
-		private String userName, submissionText;
+	@Override
+	public String toString() {
+		return title;
+	}
+
+	/********************
+	 * SUBMISSION CLASS *
+	 ********************/
+
+	public class Submission implements Comparable<Submission>{
+		private String userName, submissionText, feedbackText;
 		private long submissionDate;
 		private long grade;
 		
@@ -135,7 +144,13 @@ public class Assignment implements Comparable<Assignment> {
 			this.grade = grade;
 		}
 
+		public void assignFeedback(String feedback) {
+			this.feedbackText = feedback;
+		}
 
+		public String getFeedbackText() {
+			return feedbackText;
+		}
 
 		/**
 		 * Compares submission based off user
@@ -158,6 +173,11 @@ public class Assignment implements Comparable<Assignment> {
 		 */
 		public int compareTo(Submission otherSubmission) {
 			return this.getUserName().compareTo(otherSubmission.getUserName());
+		}
+
+		@Override
+		public String toString() {
+			return userName + " Submission";
 		}
 	}
 }

@@ -4,27 +4,22 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import model.Course;
+import model.Professor;
 import model.Student;
 import model.User;
 
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class DataController {
     private static String PATH_COURSES = "src/data/Courses.JSON";
     private static String PATH_USERS = "src/data/Users.JSON";
     private static String PATH_STUDENTS = "src/data/Students.JSON";
-
-    /**
-     * Update all save data with new data from session
-     */
-    public static boolean saveAll() {
-        return false;
-    }
 
     /**
      * Update course in save data
@@ -47,7 +42,7 @@ public class DataController {
         }
         boolean saved = false;
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(courses);
             FileWriter fw = new FileWriter(PATH_COURSES);
             fw.write(jsonString);
@@ -64,19 +59,24 @@ public class DataController {
     }
 
     /**
-     * Update user in save data
+     * Save Student data
      */
-    public static boolean saveUser(User newUser) {
+    public static boolean saveUser(Student newUser) {
         boolean added = false;
-        ArrayList<User> users = readUsers();
-        if (users == null){
+        List<User> users = readUsers();
+        // Null check list
+        if (users == null || users.size() == 0){
             users = new ArrayList<User>();
         }
-        added = users.add(newUser);
-        Collections.sort(users);
+        // Duplicate check
+        if (users.contains(newUser)){
+            users.set(users.indexOf(newUser), newUser);
+        } else{
+            added = users.add(newUser);
+        }
         boolean saved = false;
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(users);
             FileWriter fw = new FileWriter(PATH_USERS);
             fw.write(jsonString);
@@ -93,7 +93,40 @@ public class DataController {
     }
 
     /**
-     * Update user in save data
+     * Save Professor data
+     */
+    public static boolean saveUser(Professor newUser) {
+        boolean added = false;
+        List<User> users = readUsers();
+        // Null check list
+        if (users == null || users.size() == 0){
+            users = new ArrayList<User>();
+        }
+        // Duplicate check
+        if (users.contains(newUser)){
+            users.set(users.indexOf(newUser), newUser);
+        } else{
+            added = users.add(newUser);
+        }
+        boolean saved = false;
+        try {
+            Gson gson = getUserTypedGson();
+            String jsonString = gson.toJson(users);
+            FileWriter fw = new FileWriter(PATH_USERS);
+            fw.write(jsonString);
+            fw.close();
+            saved = true;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            saved = false;
+        }
+        return added && saved;
+    }
+
+    /**
+     * TODO: Update for Duplicates and Polymorphism, if we ever use this
      */
     public static boolean saveUsers(ArrayList<User> newUsers) {
         ArrayList<User> users = readUsers();
@@ -104,7 +137,7 @@ public class DataController {
         Collections.sort(users);
         boolean saved = false;
         try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = getUserTypedGson();
             String jsonString = gson.toJson(users);
             FileWriter fw = new FileWriter(PATH_USERS);
             fw.write(jsonString);
@@ -127,9 +160,18 @@ public class DataController {
         ArrayList<User> users = new ArrayList<User>();
         try
         {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Gson gson = getUserTypedGson();
             JsonReader reader = new JsonReader(new FileReader(PATH_USERS));
             users = gson.fromJson(reader, new TypeToken<ArrayList<User>>(){}.getType());
+            if(users != null){
+                for(int i = 0; i < users.size(); i++) {
+                    if(users.get(i).getClass().equals(Student.class)) {
+                        users.get(i).setType("student");
+                    } else {
+                        users.get(i).setType("professor");
+                    }
+                }
+            }
         }
         catch (Exception e)
         {
@@ -168,7 +210,6 @@ public class DataController {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonReader reader = new JsonReader(new FileReader(PATH_COURSES));
             courses = gson.fromJson(reader, new TypeToken<ArrayList<Course>>(){}.getType());
-
         }
         catch (Exception e)
         {
@@ -178,5 +219,19 @@ public class DataController {
         return courses;
     }
 
+    /**
+     * Helper Function
+     */
+    private static Gson getUserTypedGson() {
+        RuntimeTypeAdapterFactory<User> adapter = RuntimeTypeAdapterFactory
+                .of(User.class, "type")
+                .registerSubtype(Student.class, User.TYPE_STUDENT)
+                .registerSubtype(Professor.class, User.TYPE_PROFESSOR);
+        return new GsonBuilder()
+                .enableComplexMapKeySerialization()
+                .setPrettyPrinting()
+                .registerTypeAdapterFactory(adapter)
+                .create();
+    }
 
 }

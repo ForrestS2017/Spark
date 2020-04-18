@@ -1,16 +1,34 @@
 [
   {
+    "id": "TT101",
     "title": "Test Class 01",
     "registeredStudents": [
-      "jo99"
       "jo99",
-      "benja"
+      "benja",
+      "jj01",
+      "mi15"
     ],
     "professor": "fcs34",
-    "assignments": [],
+    "assignments": [
+      {
+        "title": "Sonic Test",
+        "description": "Sonic Desc",
+        "publishDate": 1587233838,
+        "dueDate": 1587398100,
+        "studentSubmissions": []
+      },
+      {
+        "title": "Tails Test",
+        "description": "Tails Desc",
+        "publishDate": 1587237279,
+        "dueDate": 1587570900,
+        "studentSubmissions": []
+      }
+    ],
     "announcements": []
   },
   {
+    "id": "TT102",
     "title": "Test Class 02",
     "registeredStudents": [],
     "professor": "fcs34",

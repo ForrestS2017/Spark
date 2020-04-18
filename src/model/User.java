@@ -10,13 +10,22 @@ public class User implements Comparable<User>{
     private String firstName, lastName, username;
     private ArrayList<String> courses;
     private String password;
+    protected String type;
 
-    public User(String firstName, String lastName, String username, String password) {
+    /**
+     * Constants for serialization
+     */
+    public static String TYPE_PROFESSOR = "PROFESSOR";
+    public static String TYPE_STUDENT = "STUDENT";
+    public static String TYPE_ADMINISTRATOR = "ADMINISTRATOR";
+
+    public User(String firstName, String lastName, String username, String password, String type) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.courses = new ArrayList<String>();
         this.password = "password";                 //TODO: Implement passwords and then replace this!!!
+        this.type = type;
     }
 
     public String getFirstName() {
@@ -29,6 +38,10 @@ public class User implements Comparable<User>{
 
     public String getUsername() {
         return username;
+    }
+
+    public void setType(String newType) {
+        this.type = newType;
     }
 
     public ArrayList<Course> getCourses() {
@@ -114,4 +127,13 @@ public class User implements Comparable<User>{
             return result == 0 ? result : o1.getLastName().compareToIgnoreCase(o2.getLastName());
         }
     };
+
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append(username+" - ")
+                .append(firstName)
+                .append(" ")
+                .append(lastName).toString();
+    }
 }
