@@ -39,7 +39,6 @@ public class StudentDashboardController extends BasicWindow {
      ****** Widget Methods & Events Listeners ******
      ***********************************************/
     
-    private Organization org;
     private String username;
     private Student studentObj;
     private ArrayList<Course> courseList;
@@ -48,7 +47,7 @@ public class StudentDashboardController extends BasicWindow {
     @FXML
     public void initialize() {
     	// Only run once Organization object is initialized
-		if(org == null)
+		if(username == null)
 			return;
 		
         /**
@@ -57,7 +56,7 @@ public class StudentDashboardController extends BasicWindow {
          *  - Fill @LL_Subtitle, @LV_CourseList
          */
 		
-		LL_Header.setText(org.getOrganizationName());
+		//LL_Header.setText(org.getOrganizationName());
     	LL_Subtitle.setText(username + "'s Dashboard");
     	
     	username = "benja";		// TEMP
@@ -88,7 +87,7 @@ public class StudentDashboardController extends BasicWindow {
     private void EnterCourse() { 
     	// Read selected index from ListView
     	ObservableList<Integer> selectedIndex = LV_CourseList.getSelectionModel().getSelectedIndices();
-
+    	
         if(selectedIndex.size() > 1) {
         	// TODO: Display pop up warning
         	System.out.println("TESTING: Please select only one course!");
@@ -112,13 +111,7 @@ public class StudentDashboardController extends BasicWindow {
     /**
      * Used to pass necessary information from login controller to current controller
      * @param username
-     */
-    public void loginPageToStudentDashboard(Organization org, String username) {
-    	this.org = org;
-    	this.username = username;
-    	initialize();
-    }
-    
+     */    
     public void start(String username) {
     	this.username = username;
     	initialize();

@@ -36,18 +36,22 @@ public class StudentCourseViewController extends BasicWindow {
     @FXML Button BT_Back;
 
     /*************************
-     ** Home Widgets **
+     ** Home Page Widgets **
      *************************/
-
-    /////// Text-Based ///////
     @FXML ListView<Assignment> LV_UpcomingAssignments;
     @FXML ListView<Announcement> LV_AnnouncementList, LV_AnnouncementDetail;
     @FXML ListView<Student> LV_Classmates;
     @FXML Accordion ACC_Announcements;
-
-    ////// Action-Based //////
     @FXML Button BN_ViewAssignmentDetails;
 
+    
+    /*************************
+     ** Assignment Page Widgets **
+     *************************/
+    @FXML ListView<Assignment> LV_AssignmentsList;
+    @FXML Label LL_AssignmentTitle, LL_AssignmentDateDue, LL_AssignmentStatus, LL_AssignmentInstructions;
+    @FXML TextArea TA_AssignmentSubmission;
+    @FXML Button BN_AssignmentPublish;
 
     public void start(Course course, Student student) {
         this.course = course;
@@ -121,8 +125,10 @@ public class StudentCourseViewController extends BasicWindow {
     public void GoBack() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource(LAYOUT_STUDENT_DASHBOARD_VIEW));
-        LoadNewScene(loader, (Stage)LL_Title.getScene().getWindow());
-        ProfessorDashboardController controller = (ProfessorDashboardController) loader.getController();
+        Stage stage = (Stage)LL_Title.getScene().getWindow();
+        stage.setTitle("Student Course Overview Dashboard");
+        LoadNewScene(loader, stage);
+        StudentDashboardController controller = (StudentDashboardController) loader.getController();
         controller.start(student.getUsername());
     }
 

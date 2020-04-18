@@ -55,7 +55,7 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Accordion fx:id="ACC_Announcements" layoutX="59.0" layoutY="44.0" prefHeight="192.0" prefWidth="576.0" />
+                        <Accordion fx:id="ACC_Announcements" layoutX="59.0" layoutY="44.0" prefHeight="192.0" prefWidth="576.0" style="-fx-border-color: #d3d3d3;" />
                      </children>
                   </AnchorPane>
                </content>
