@@ -66,9 +66,6 @@ public class Course implements Comparable<Course>{
 	public ArrayList<Student> getStudents() {
 		ArrayList<User> allUsers = DataController.readUsers();
 		ArrayList<Student> courseStudents = new ArrayList<Student>();
-		/*registeredStudents.forEach(userName -> courseStudents.add(
-				(Student) allUsers.get(
-						allUsers.indexOf(new Student("", "",userName, "")))));*/
 		
 		for(String username : registeredStudents) {
 			for(User u : allUsers) {

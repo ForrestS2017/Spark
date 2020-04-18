@@ -30,7 +30,7 @@ public class Assignment implements Comparable<Assignment> {
 	public void gradeSubmission(String studentUsername, int grade) {
 		// Search for student submission
 		for(Submission s : studentSubmissions) {
-			if(s.userName.contentEquals(studentUsername)) {
+			if(s.username.contentEquals(studentUsername)) {
 				s.assignGrade(grade);
 				return;
 			}
@@ -116,19 +116,19 @@ public class Assignment implements Comparable<Assignment> {
 	 ********************/
 
 	public class Submission implements Comparable<Submission>{
-		private String userName, submissionText, feedbackText;
+		private String username, submissionText, feedbackText;
 		private long submissionDate;
 		private long grade;
 		
-		public Submission(String userName, String submissionText) {
-			this.userName = userName;
+		public Submission(String username, String submissionText) {
+			this.username = username;
 			this.submissionText = submissionText;
 			this.submissionDate = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
 			grade = -1;
 		}
 
-		public String getUserName() {
-			return userName;
+		public String getUsername() {
+			return username;
 		}
 
 		public long getGrade() {
@@ -163,7 +163,7 @@ public class Assignment implements Comparable<Assignment> {
 		public boolean equals(Object object) {
 			if (object != null && object instanceof Submission) {
 				Submission otherSubmission = (Submission)object;
-				return this.getUserName().equals(otherSubmission.getUserName());
+				return this.getUsername().equals(otherSubmission.getUsername());
 			} else {
 				return false;
 			}
@@ -175,13 +175,13 @@ public class Assignment implements Comparable<Assignment> {
 		 * @return
 		 */
 		public int compareTo(Submission otherSubmission) {
-			return this.getUserName().compareTo(otherSubmission.getUserName());
+			return this.getUsername().compareTo(otherSubmission.getUsername());
 		}
 
 		@Override
 		public String toString() {
 			return new StringBuilder()
-					.append(getUserName())
+					.append(getUsername())
 					.append("\t\t|\t")
 					.append(getSubmissionDate().format(DTFORMATTER_LONG))
 					.append("\t|\t")

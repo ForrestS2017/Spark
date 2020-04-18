@@ -415,7 +415,7 @@ public class ProfessorCourseViewController extends BasicWindow {
         ArrayList<Assignment.Submission> studentSubs = new ArrayList<Assignment.Submission>();
         for (Assignment a : assignmentList) {
             for (Assignment.Submission s : a.getStudentSubmissions()) {
-                if (s.getUserName().equals(currStudent.getUsername())) {
+                if (s.getUsername().equals(currStudent.getUsername())) {
                     studentSubs.add(s);
                 }
             }
@@ -436,11 +436,9 @@ public class ProfessorCourseViewController extends BasicWindow {
             LL_AssignmentsCompletedBody.setTextFill(Color.RED);
             LL_CalculatedGradeBody.setText("0.0");
             LL_CalculatedGradeBody.setTextFill(Color.RED);
-
         }
 
         // Calculate & Init Stats
-
     }
 
     @FXML
