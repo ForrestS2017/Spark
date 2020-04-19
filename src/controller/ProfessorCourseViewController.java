@@ -415,7 +415,7 @@ public class ProfessorCourseViewController extends BasicWindow {
         /**
          * List listener
          */
-        LV_StudentList.getSelectionModel().selectedItemProperty().addListener(((observableValue, student, t1) ->  {
+        LV_StudentList.getSelectionModel().selectedItemProperty().addListener(((observableValue, student, t1) -> {
             if (t1 == null) return;
             AN_StudentSubmissions.getPanes().clear();
             LL_FullNameBody.setText(t1.getFullName());
@@ -436,8 +436,9 @@ public class ProfessorCourseViewController extends BasicWindow {
                 LL_AssignmentsCompletedBody.setTextFill(Color.BLACK);
                 LL_CalculatedGradeBody.setTextFill(Color.BLACK);
                 LL_AssignmentsCompletedBody.setText(compAss + "/" + totalAss);
-                LL_CalculatedGradeBody.setText(String.format("%.2f",GPA/totalAss));
+                LL_CalculatedGradeBody.setText(String.format("%.2f", GPA / totalAss));
             } else {
+                LL_FullNameBody.setTextFill(Color.RED);
                 AN_StudentSubmissions.getPanes().clear();
                 AN_StudentSubmissions.setVisible(false);
                 LL_NoSubmissionsStudents.setVisible(true);
@@ -466,8 +467,11 @@ public class ProfessorCourseViewController extends BasicWindow {
             finalGPA = Float.parseFloat(LL_CalculatedGradeBody.getText());
         }
         Student student = LV_StudentList.getSelectionModel().getSelectedItem();
-        student.setGPA(finalGPA);
-        DataController.saveUser(student);
+        course.addGrade(student.getUsername(), finalGPA);
+        LL_AnalyticsAverageBody.setText(Float.toString(course.getClassAverage()));
+        LL_AnalyticsMedianBody.setText(Float.toString(course.getClassMedian()));
+        LL_AnalyticsRangeBody.setText(String.format("{%.2f,%.2f}", course.getClassMinGrade(), course.getClassMaxGrade()));
+        DataController.saveCourse(course);
         LV_StudentList.refresh();
     }
 
@@ -485,17 +489,6 @@ public class ProfessorCourseViewController extends BasicWindow {
         controller.start(course.getProfessorUsername());
     }
 
-    private class SubmissionPane extends TitledPane {
-        Assignment.Submission submission;
-        public SubmissionPane(Assignment.Submission submission, Node node) {
-            super(submission.toString(), node);
-            this.submission = submission;
-        }
-        public Assignment.Submission getSubmission() {
-            return submission;
-        }
-    }
-
     private ArrayList<Assignment.Submission> getStudentSubmissions(Student student) {
         ArrayList<Assignment.Submission> studentSubs = new ArrayList<>();
         for (Assignment ass : course.getAssignments()) {
@@ -506,6 +499,19 @@ public class ProfessorCourseViewController extends BasicWindow {
             }
         }
         return studentSubs;
+    }
+
+    private class SubmissionPane extends TitledPane {
+        Assignment.Submission submission;
+
+        public SubmissionPane(Assignment.Submission submission, Node node) {
+            super(submission.toString(), node);
+            this.submission = submission;
+        }
+
+        public Assignment.Submission getSubmission() {
+            return submission;
+        }
     }
 
 }
