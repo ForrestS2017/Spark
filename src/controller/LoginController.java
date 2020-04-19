@@ -40,18 +40,6 @@ public class LoginController extends BasicWindow{
 		String organizationName = promptForOrganization();
 
 		TF_Username.setText("");
-
-		try {
-			org = (Organization)model.UserIO.readUserData(organizationName);
-		} catch(EOFException e) {
-			//System.out.println("Testing");
-			org = new Organization(organizationName);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
-
-		System.out.println("Num students in organization = " + org.students.size());
 	}
 
 
@@ -77,7 +65,7 @@ public class LoginController extends BasicWindow{
 				warning = "Professor user requested!";
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(this.getClass().getResource(LAYOUT_PROFESSOR_DASHBOARD_VIEW));
-				LoadNewScene(loader);
+				LoadNewScene(loader, (Stage)BN_Login.getScene().getWindow());
 				ProfessorDashboardController controller = (ProfessorDashboardController) loader.getController();
 				controller.start(TF_Username.getText());
 			} else if (TF_Username.getText().equals("student")) {

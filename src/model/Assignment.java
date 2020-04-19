@@ -57,6 +57,14 @@ public class Assignment implements Comparable<Assignment> {
 	public ArrayList<Submission> getStudentSubmissions() {
 		return studentSubmissions;
 	}
+	
+	public Submission searchStudentSubmission(String username) {
+		for(Submission s : studentSubmissions) {
+			if(s.getUsername().equals(username))
+				return s;
+		}
+		return null;
+	}
 
 	/**
 	 * Compares assignments based off title

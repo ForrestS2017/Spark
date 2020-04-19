@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import model.Course;
 import model.Organization;
 import model.Student;
+import model.User;
 import util.DataController;
 
 public class StudentDashboardController extends BasicWindow {
@@ -32,7 +33,7 @@ public class StudentDashboardController extends BasicWindow {
      ****** Responsive Widgets *****
      *******************************/
     @FXML ListView<Course> LV_CourseList;
-    @FXML Button BN_EnterCourse;
+    @FXML Button BN_EnterCourse, BT_Logout;
 
 
     /***********************************************
@@ -46,25 +47,20 @@ public class StudentDashboardController extends BasicWindow {
     
     @FXML
     public void initialize() {
-    	// Only run once Organization object is initialized
+    	// Only run once user name is initialized
 		if(username == null)
 			return;
 		
-        /**
-         * TODO:
-         *  - Toggle visibility of @LL_NoCourses, @LV_CourseList, @BN_EnterCourses
-         *  - Fill @LL_Subtitle, @LV_CourseList
-         */
+		username = "lc96";		// TEMP
 		
 		//LL_Header.setText(org.getOrganizationName());
     	LL_Subtitle.setText(username + "'s Dashboard");
     	
-    	username = "benja";		// TEMP
     	// 1. Retrieve Student object
-    	ArrayList<Student> allStudents = DataController.readStudents();
-    	for(Student s : allStudents) {
+    	ArrayList<User> allStudents = DataController.readUsers();
+    	for(User s : allStudents) {
     		if(s.getUsername().equals(username)) {
-    			studentObj = s;
+    			studentObj = (Student)s;
     			break;
     		}
     	}
@@ -115,5 +111,11 @@ public class StudentDashboardController extends BasicWindow {
     public void start(String username) {
     	this.username = username;
     	initialize();
+    }
+    
+    @FXML
+    public void LogoutHelper() {
+    	Stage stage = (Stage)LL_Header.getScene().getWindow();
+    	Logout(stage);
     }
 }

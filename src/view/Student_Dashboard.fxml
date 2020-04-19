@@ -25,5 +25,6 @@
             <Font name="System Bold" size="40.0" />
          </font>
       </Label>
+      <Button fx:id="BT_Logout" layoutX="23.0" layoutY="19.0" mnemonicParsing="false" onAction="#LogoutHelper" text="Logout" />
    </children>
 </AnchorPane>

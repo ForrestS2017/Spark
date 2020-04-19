@@ -92,7 +92,7 @@ public class ProfessorDashboardController extends BasicWindow {
         if (selection == null) return;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource(LAYOUT_PROFESSOR_COURSE_VIEW));
-        LoadNewScene(loader);
+        LoadNewScene(loader, (Stage)BN_EnterCourse.getScene().getWindow());
         ProfessorCourseViewController controller = (ProfessorCourseViewController) loader.getController();
         controller.start(selection.getTitle());
     }

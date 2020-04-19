@@ -37,6 +37,14 @@ public class BasicWindow {
         LoginController controller = loader.<LoginController>getController();
         controller.start(stage, loader);
     }
+    
+    public void Logout(Stage s) {
+    	FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(LAYOUT_PATH_LOGIN_SCREEN));
+        Stage stage = LoadNewScene(loader, s);
+        LoginController controller = loader.<LoginController>getController();
+        controller.start(stage, loader);
+    }
 
     /**
      * Exit application completely
