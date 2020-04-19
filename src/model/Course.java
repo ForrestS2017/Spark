@@ -16,7 +16,8 @@ public class Course implements Comparable<Course> {
     private String title;
     private ArrayList<String> registeredStudents;
     private String professor;
-    private Map<String, Float> gradeBook;
+	private Map<String, Float> gradeBookAutomatic;
+    private Map<String, Float> gradeBookFinal;
     private ArrayList<Assignment> assignments;
     private ArrayList<Announcement> announcements;
 	public static Comparator<Course> BY_COURSE_TITLE = new Comparator<Course>() {
@@ -39,7 +40,8 @@ public class Course implements Comparable<Course> {
         registeredStudents = (ArrayList<String>) new ArrayList<Student>().stream().map(User::getUsername).collect(Collectors.toList());
         assignments = new ArrayList<Assignment>();
         announcements = new ArrayList<Announcement>();
-        gradeBook = new HashMap<>();
+        gradeBookFinal = new HashMap<>();
+		gradeBookAutomatic = new HashMap<>();
     }
 
     public void addStudent(Student student) {
@@ -114,6 +116,18 @@ public class Course implements Comparable<Course> {
         return false;
     }
 
+	public ArrayList<Assignment.Submission> getSpecificStudentSubmissions(String studentID) {
+		ArrayList<Assignment.Submission> studentSubs = new ArrayList<>();
+		for (Assignment ass : getAssignments()) {
+			for (Assignment.Submission sub : ass.getStudentSubmissions()) {
+				if (sub.getUsername().equals(studentID)) {
+					studentSubs.add(sub);
+				}
+			}
+		}
+		return studentSubs;
+	}
+
     public ArrayList<Announcement> getAnnouncements() {
         return announcements;
     }
@@ -126,38 +140,50 @@ public class Course implements Comparable<Course> {
         return announcements.add(announcement);
     }
 
-    public void addGrade(String studentID, float gpa) {
-        gradeBook.put(studentID, gpa);
+    public void setFinalGrade(String studentID, float gpa) {
+        gradeBookFinal.put(studentID, gpa);
     }
+
+    public void updateAutomaticGrade(String studentID) {
+    	float GPA = 0.0f;
+		for (Assignment.Submission s : getSpecificStudentSubmissions(studentID)) {
+			GPA += s.getGrade();
+		}
+		gradeBookAutomatic.put(studentID, GPA/(getAssignments().size() * 100));
+	}
 
     public void removeGrade(String studentID) {
-        gradeBook.remove(studentID);
+        gradeBookFinal.remove(studentID);
     }
 
-    public float getStudentGrade(String studentID) {
-        return gradeBook.get(studentID);
+	public float getStudentAutomaticGrade(String studentID) {
+		return gradeBookAutomatic.getOrDefault(studentID, -1.0f);
+	}
+
+    public float getStudentFinalGrade(String studentID) {
+		return gradeBookFinal.getOrDefault(studentID, -1.0f);
     }
 
-    public Map<String, Float> getGradeBook() {
-        return gradeBook;
+    public Map<String, Float> getGradeBookFinal() {
+        return gradeBookFinal;
     }
 
     public float getClassAverage() {
-        return (float) gradeBook.values().stream().mapToDouble(Float::doubleValue).average().orElse(0.0f);
+        return (float) gradeBookFinal.values().stream().mapToDouble(Float::doubleValue).average().orElse(0.0f);
     }
 
     public float getClassMedian() {
-        int size = gradeBook.size();
-        return (float) gradeBook.values().stream().mapToDouble(Float::doubleValue).sorted()
+        int size = gradeBookFinal.size();
+        return (float) gradeBookFinal.values().stream().mapToDouble(Float::doubleValue).sorted()
                 .skip((size - 1) / 2).min().orElse(0.0f);
     }
 
     public float getClassMaxGrade() {
-        return gradeBook.values().stream().max(Comparator.naturalOrder()).get();
+        return gradeBookFinal.values().stream().max(Comparator.naturalOrder()).get();
     }
 
     public float getClassMinGrade() {
-        return gradeBook.values().stream().min(Comparator.naturalOrder()).get();
+        return gradeBookFinal.values().stream().min(Comparator.naturalOrder()).get();
     }
 
     /**

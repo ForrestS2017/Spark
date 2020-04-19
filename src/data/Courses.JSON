@@ -11,7 +11,18 @@
       "mi15"
     ],
     "professor": "fcs34",
-    "grades": {},
+    "gradeBookAutomatic": {
+      "mi15": 95.0,
+      "lc96": 93.5,
+      "benja": 0.0,
+      "bk69": 17.5
+    },
+    "gradeBookFinal": {
+      "mi15": 94.5,
+      "lc96": 93.5,
+      "benja": 0.0,
+      "bk69": 30.0
+    },
     "assignments": [
       {
         "title": "Sonic Test",
@@ -82,6 +93,11 @@
         "title": "Assignment 1 Released",
         "description": "Assignment 1 has been released \"Sonic Test\"",
         "publishDate": 1587250417
+      },
+      {
+        "title": "Assignment 2 Released!!",
+        "description": "\"Tails Test\" has been released as Assignment 2 ",
+        "publishDate": 1587259421
       }
     ]
   },

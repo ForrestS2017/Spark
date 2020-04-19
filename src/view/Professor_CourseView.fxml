@@ -229,6 +229,12 @@
                               <Font name="System Italic" size="16.0" />
                            </font>
                         </Label>
+                        <Label fx:id="LL_FinalGradeTitle" layoutX="1266.0" layoutY="168.0" text="Final Grade">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="LL_FinalGrade" layoutX="1266.0" layoutY="188.0" prefHeight="17.0" prefWidth="128.0" text="&lt;Final Grade&gt;" />
                      </children>
                   </AnchorPane>
                </content>

@@ -127,6 +127,10 @@ public class ProfessorCourseViewController extends BasicWindow {
     @FXML
     Label LL_CalculatedGradeBody;
     @FXML
+    Label LL_FinalGradeTitle;
+    @FXML
+    Label LL_FinalGrade;
+    @FXML
     Label LL_AnalyticsAverageBody;
     @FXML
     Label LL_AnalyticsRangeBody;
@@ -419,8 +423,7 @@ public class ProfessorCourseViewController extends BasicWindow {
             if (t1 == null) return;
             AN_StudentSubmissions.getPanes().clear();
             LL_FullNameBody.setText(t1.getFullName());
-            ArrayList<Assignment.Submission> submissions = getStudentSubmissions(t1);
-            float GPA = 0.0f;
+            ArrayList<Assignment.Submission> submissions = course.getSpecificStudentSubmissions(t1.getUsername());
             int totalAss = course.getAssignments().size();
             if (submissions.isEmpty() == false) {
                 AN_StudentSubmissions.setVisible(true);
@@ -428,15 +431,17 @@ public class ProfessorCourseViewController extends BasicWindow {
                 for (Assignment.Submission s : submissions) {
                     SubmissionPane pane = new SubmissionPane(s, new TextArea(s.getSubmissionText()));
                     AN_StudentSubmissions.getPanes().add(pane);
-                    GPA += s.getGrade();
                 }
-                // Calculate GPA and stuff
-                int compAss = submissions.size();
 
                 LL_AssignmentsCompletedBody.setTextFill(Color.BLACK);
                 LL_CalculatedGradeBody.setTextFill(Color.BLACK);
-                LL_AssignmentsCompletedBody.setText(compAss + "/" + totalAss);
-                LL_CalculatedGradeBody.setText(String.format("%.2f", GPA / totalAss));
+                LL_AssignmentsCompletedBody.setText(
+                        course.getSpecificStudentSubmissions(t1.getUsername()).size() + "/" + totalAss);
+                LL_CalculatedGradeBody.setText(String.format("%.2f", course.getStudentAutomaticGrade(t1.getUsername())));
+                float finalGPA = course.getStudentFinalGrade(t1.getUsername());
+                String gpaString = finalGPA >= 0.0f ? String.format("%.2f", finalGPA) : "--";
+                LL_FinalGrade.setText(gpaString);
+                LL_FinalGrade.setTextFill(Color.BLACK);
             } else {
                 LL_FullNameBody.setTextFill(Color.RED);
                 AN_StudentSubmissions.getPanes().clear();
@@ -446,11 +451,14 @@ public class ProfessorCourseViewController extends BasicWindow {
                 LL_AssignmentsCompletedBody.setTextFill(Color.RED);
                 LL_CalculatedGradeBody.setText("0.0");
                 LL_CalculatedGradeBody.setTextFill(Color.RED);
+                LL_FinalGrade.setText("0.0");
+                LL_FinalGrade.setTextFill(Color.RED);
             }
 
 
         }));
         LV_StudentList.getSelectionModel().selectFirst();
+        RefreshClassAnalytics();
 
 
         // Calculate & Init Stats
@@ -462,15 +470,22 @@ public class ProfessorCourseViewController extends BasicWindow {
         String input = TF_AdjustedGrade.getText();
         float finalGPA = 0.0f;
         if (input.isBlank() == false) {
-            finalGPA = Float.parseFloat(input);
+            try {
+                finalGPA = Float.parseFloat(input);
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Grade must be a number");
+                alert.setHeaderText("Invalid Adjusted Grade");
+                alert.showAndWait();
+                TF_AdjustedGrade.clear();
+            }
         } else {
             finalGPA = Float.parseFloat(LL_CalculatedGradeBody.getText());
         }
         Student student = LV_StudentList.getSelectionModel().getSelectedItem();
-        course.addGrade(student.getUsername(), finalGPA);
-        LL_AnalyticsAverageBody.setText(Float.toString(course.getClassAverage()));
-        LL_AnalyticsMedianBody.setText(Float.toString(course.getClassMedian()));
-        LL_AnalyticsRangeBody.setText(String.format("{%.2f,%.2f}", course.getClassMinGrade(), course.getClassMaxGrade()));
+        course.setFinalGrade(student.getUsername(), finalGPA);
+        LL_FinalGrade.setText(String.format("%.2f", finalGPA));
+        RefreshClassAnalytics();
         DataController.saveCourse(course);
         LV_StudentList.refresh();
     }
@@ -489,16 +504,10 @@ public class ProfessorCourseViewController extends BasicWindow {
         controller.start(course.getProfessorUsername());
     }
 
-    private ArrayList<Assignment.Submission> getStudentSubmissions(Student student) {
-        ArrayList<Assignment.Submission> studentSubs = new ArrayList<>();
-        for (Assignment ass : course.getAssignments()) {
-            for (Assignment.Submission sub : ass.getStudentSubmissions()) {
-                if (sub.getUsername().equals(student.getUsername())) {
-                    studentSubs.add(sub);
-                }
-            }
-        }
-        return studentSubs;
+    protected void RefreshClassAnalytics() {
+        LL_AnalyticsAverageBody.setText(Float.toString(course.getClassAverage()));
+        LL_AnalyticsMedianBody.setText(Float.toString(course.getClassMedian()));
+        LL_AnalyticsRangeBody.setText(String.format("{%.2f,%.2f}", course.getClassMinGrade(), course.getClassMaxGrade()));
     }
 
     private class SubmissionPane extends TitledPane {
