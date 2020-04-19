@@ -132,13 +132,14 @@ public class Course implements Comparable<Course> {
         return announcements;
     }
 
-    public boolean addAnnouncement(String title, String description) {
-        return announcements.add(new Announcement(title, description));
-    }
-
     public boolean addAnnouncement(Announcement announcement) {
+    	if (announcements.contains(announcement)) return false;
         return announcements.add(announcement);
     }
+
+	public boolean removeAnnouncement(Announcement announcement) {
+		return announcements.remove(announcement);
+	}
 
     public void setFinalGrade(String studentID, float gpa) {
         gradeBookFinal.put(studentID, gpa);
@@ -146,13 +147,18 @@ public class Course implements Comparable<Course> {
 
     public void updateAutomaticGrade(String studentID) {
     	float GPA = 0.0f;
+    	int completedAss = getAssignments().size();
 		for (Assignment.Submission s : getSpecificStudentSubmissions(studentID)) {
-			GPA += s.getGrade();
+			if (s.getGrade()>= 0f) {
+				GPA += s.getGrade();
+			} else {
+				completedAss--;
+			}
 		}
-		gradeBookAutomatic.put(studentID, GPA/(getAssignments().size() * 100));
+		gradeBookAutomatic.put(studentID, 100*GPA/(completedAss * 100));
 	}
 
-    public void removeGrade(String studentID) {
+    public void removeFinalGrade(String studentID) {
         gradeBookFinal.remove(studentID);
     }
 

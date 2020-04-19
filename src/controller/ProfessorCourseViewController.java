@@ -84,7 +84,9 @@ public class ProfessorCourseViewController extends BasicWindow {
 
     ////// Action-Based //////
     @FXML
-    Button BN_SubmitFeedback;
+    Button BN_FeedbackSubmit;
+    @FXML
+    Button BN_FeedbackDelete;
 
     /*************************
      * Announcements Widgets *
@@ -141,7 +143,9 @@ public class ProfessorCourseViewController extends BasicWindow {
 
     ////// Action-Based //////
     @FXML
-    Button BN_SubmitFinalGrade;
+    Button BN_FinalGradeSubmit;
+    @FXML
+    Button BN_FinalGradeDelete;
 
 
     /***********************************************
@@ -202,16 +206,6 @@ public class ProfessorCourseViewController extends BasicWindow {
                 DP_AssignmentDueDate.setValue(t1.getDueDate().toLocalDate());
             }
         });
-
-        //TODO: Refactor below into a method to call for the selection model!
-
-        // Display selected assignment
-        LV_AssignmentListAssignments.getSelectionModel().selectFirst();
-        Assignment currAss = LV_AssignmentListAssignments.getSelectionModel().getSelectedItem();
-        TA_AssignmentDescription.setText(currAss.getDescription());
-        TF_AssignmentTitle.setText(currAss.getTitle());
-        DP_AssignmentDueDate.setValue(currAss.getDueDate().toLocalDate());
-
     }
 
     @FXML
@@ -246,10 +240,38 @@ public class ProfessorCourseViewController extends BasicWindow {
 
     @FXML
     public void EditPublishAssignment() {
+        if (TF_AssignmentTitle.getText().isBlank()
+                || TA_AssignmentDescription.getText().isBlank()
+                || DP_AssignmentDueDate.getValue() == null) return;
+
+        Assignment newAssignment = new Assignment(
+                TF_AssignmentTitle.getText(),
+                TA_AssignmentDescription.getText(),
+                DP_AssignmentDueDate.getValue().atTime(11, 55)
+        );
+        if (course.addAssignment(newAssignment) == false) {
+            course.removeAssignment(newAssignment);
+            course.addAssignment(newAssignment);
+            return;
+        }
+        assignmentList = FXCollections.observableArrayList(course.getAssignments());
+        LV_AssignmentListAssignments.setItems(assignmentList);
+        System.out.println("Published: " + TF_AssignmentTitle.getText());
+        DataController.saveCourse(course);
     }
 
     @FXML
     public void DeleteAssignment() {
+        Assignment assignment = LV_AssignmentListAssignments.getSelectionModel().getSelectedItem();
+        if (assignment == null) return;
+        course.removeAssignment(assignment);
+        assignmentList = FXCollections.observableArrayList(course.getAssignments());
+        LV_AssignmentListAssignments.setItems(assignmentList);
+        DataController.saveCourse(course);
+        LV_AssignmentListAssignments.getSelectionModel().clearSelection();
+        TA_AssignmentDescription.clear();
+        TF_AssignmentTitle.clear();
+        DP_AssignmentDueDate.setValue(null);
     }
 
 
@@ -270,6 +292,7 @@ public class ProfessorCourseViewController extends BasicWindow {
 
         assignmentList = FXCollections.observableArrayList(course.getAssignments());
         LV_AssignmentListSubmissions.setItems(assignmentList);
+        AN_AssignmentSubmissions.setVisible(false);
 
         /**
          * List Listener
@@ -295,7 +318,6 @@ public class ProfessorCourseViewController extends BasicWindow {
                 LL_NoSubmissionsSubmissions.setVisible(true);
             }
         });
-        LV_AssignmentListSubmissions.getSelectionModel().selectFirst();
 
         /**
          * Accordian Listener
@@ -310,24 +332,38 @@ public class ProfessorCourseViewController extends BasicWindow {
                 TF_FeedbackGrade.setText(Long.toString(s.getGrade()));
             }
         });
-
-
-        //TODO: Refactor below into a method to call for the selection model!
-
-
     }
 
     @FXML
     public void SubmitFeedback() {
+        if (AN_AssignmentSubmissions.getExpandedPane() == null) {
+            return;
+        }
         String feedback = TA_FeedbackDescription.getText();
         long grade = Long.parseLong(TF_FeedbackGrade.getText());
         SubmissionPane pane = (SubmissionPane) AN_AssignmentSubmissions.getExpandedPane();
         Assignment.Submission submission = pane.getSubmission();
         submission.assignFeedback(feedback);
         submission.assignGrade(grade);
+        course.updateAutomaticGrade(submission.getUsername());
         Assignment selectedItem = LV_AssignmentListSubmissions.getSelectionModel().getSelectedItem();
         LV_AssignmentListSubmissions.getSelectionModel().clearSelection();
         LV_AssignmentListSubmissions.getSelectionModel().select(selectedItem);
+        DataController.saveCourse(course);
+    }
+
+    @FXML
+    public void DeleteFeedback() {
+        if (AN_AssignmentSubmissions.getExpandedPane() == null) {
+            return;
+        }
+        SubmissionPane pane = (SubmissionPane) AN_AssignmentSubmissions.getExpandedPane();
+        Assignment.Submission submission = pane.getSubmission();
+        submission.removeFeedback();
+        Assignment selectedItem = LV_AssignmentListSubmissions.getSelectionModel().getSelectedItem();
+        LV_AssignmentListSubmissions.getSelectionModel().clearSelection();
+        LV_AssignmentListSubmissions.getSelectionModel().select(selectedItem);
+        course.updateAutomaticGrade(submission.getUsername());
         DataController.saveCourse(course);
     }
 
@@ -355,9 +391,6 @@ public class ProfessorCourseViewController extends BasicWindow {
                 TF_AnnouncementTitle.setText(t1.getTitle());
             }
         });
-
-        // Display selected assignment
-        LV_AnnouncementList.getSelectionModel().selectFirst();
     }
 
     @FXML
@@ -377,7 +410,10 @@ public class ProfessorCourseViewController extends BasicWindow {
         );
 
         if (course.addAnnouncement(newAnnouncement) == false) {
-            System.out.println("Failed to publish");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Another announcement already has this title!");
+            alert.setHeaderText("Failed to add announcement");
+            alert.showAndWait();
             return;
         }
         announcementList = FXCollections.observableArrayList(course.getAnnouncements());
@@ -388,11 +424,34 @@ public class ProfessorCourseViewController extends BasicWindow {
 
     @FXML
     public void EditPublishAnnouncement() {
+        if (TF_AnnouncementTitle.getText().isBlank() || TA_AnnouncementDescription.getText().isBlank()) return;
+
+        Course.Announcement newAnnouncement = new Course.Announcement(
+                TF_AnnouncementTitle.getText(),
+                TA_AnnouncementDescription.getText()
+        );
+
+        if (course.addAnnouncement(newAnnouncement) == false) {
+            course.removeAnnouncement(newAnnouncement);
+            course.addAnnouncement(newAnnouncement);
+        }
+        announcementList = FXCollections.observableArrayList(course.getAnnouncements());
+        LV_AnnouncementList.setItems(announcementList);
+        System.out.println("Published: " + TF_AssignmentTitle.getText());
+        DataController.saveCourse(course);
     }
 
     @FXML
     public void DeleteAnnouncement() {
-
+        Course.Announcement announcement = LV_AnnouncementList.getSelectionModel().getSelectedItem();
+        if (announcement == null) return;
+        course.removeAnnouncement(announcement);
+        announcementList = FXCollections.observableArrayList(course.getAnnouncements());
+        LV_AnnouncementList.setItems(announcementList);
+        LV_AnnouncementList.refresh();
+        DataController.saveCourse(course);
+        TA_AnnouncementDescription.clear();
+        TF_AnnouncementTitle.clear();
     }
 
 
@@ -451,11 +510,15 @@ public class ProfessorCourseViewController extends BasicWindow {
                 LL_AssignmentsCompletedBody.setTextFill(Color.RED);
                 LL_CalculatedGradeBody.setText("0.0");
                 LL_CalculatedGradeBody.setTextFill(Color.RED);
-                LL_FinalGrade.setText("0.0");
-                LL_FinalGrade.setTextFill(Color.RED);
+                float potentialFinalGrade = course.getStudentFinalGrade(t1.getUsername());
+                if (course.getStudentFinalGrade(t1.getUsername()) >= 0.0) {
+                    LL_FinalGrade.setText(String.format("%.2f", potentialFinalGrade));
+                    LL_FinalGrade.setTextFill(Color.ORANGE);
+                } else {
+                    LL_FinalGrade.setText("0.0");
+                    LL_FinalGrade.setTextFill(Color.RED);
+                }
             }
-
-
         }));
         LV_StudentList.getSelectionModel().selectFirst();
         RefreshClassAnalytics();
@@ -482,11 +545,41 @@ public class ProfessorCourseViewController extends BasicWindow {
         } else {
             finalGPA = Float.parseFloat(LL_CalculatedGradeBody.getText());
         }
-        Student student = LV_StudentList.getSelectionModel().getSelectedItem();
-        course.setFinalGrade(student.getUsername(), finalGPA);
+        String studentID = LV_StudentList.getSelectionModel().getSelectedItem().getUsername();
+        course.setFinalGrade(studentID, finalGPA);
+        if (course.getSpecificStudentSubmissions(studentID).size() < 1) {
+            LL_FinalGrade.setTextFill(Color.ORANGE);
+        } else {
+            LL_FinalGrade.setTextFill(Color.BLACK);
+        }
         LL_FinalGrade.setText(String.format("%.2f", finalGPA));
+        DataController.saveCourse(course);
+        RefreshClassAnalytics();
+        TF_AdjustedGrade.clear();
+        LV_StudentList.refresh();
+    }
+
+    @FXML
+    public void DeleteFinalGrade() {
+        String studentID = LV_StudentList.getSelectionModel().getSelectedItem().getUsername();
+        if (course.getStudentFinalGrade(studentID) < 0f) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Cannot remove non-existent final grade");
+            alert.setHeaderText("Grade Removal");
+            alert.showAndWait();
+            return;
+        }
+        course.removeFinalGrade(studentID);
+        if (course.getSpecificStudentSubmissions(studentID).size() < 1) {
+            LL_FinalGrade.setText("0.0");
+            LL_FinalGrade.setTextFill(Color.RED);
+        } else {
+            LL_FinalGrade.setText("--");
+            LL_FinalGrade.setTextFill(Color.BLACK);
+        }
         RefreshClassAnalytics();
         DataController.saveCourse(course);
+        TF_AdjustedGrade.clear();
         LV_StudentList.refresh();
     }
 

@@ -151,6 +151,11 @@ public class Assignment implements Comparable<Assignment> {
 			this.feedbackText = feedback;
 		}
 
+		public void removeFeedback() {
+			this.feedbackText = null;
+			this.grade = -1;
+		}
+
 		public String getFeedbackText() {
 			return feedbackText;
 		}

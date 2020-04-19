@@ -3,7 +3,6 @@
     "id": "TT101",
     "title": "Test Class 01",
     "registeredStudents": [
-      "jo99",
       "benja",
       "lc96",
       "bk69",
@@ -12,16 +11,15 @@
     ],
     "professor": "fcs34",
     "gradeBookAutomatic": {
-      "mi15": 95.0,
+      "mi15": 95.5,
       "lc96": 93.5,
       "benja": 0.0,
-      "bk69": 17.5
+      "bk69": 19.0
     },
     "gradeBookFinal": {
       "mi15": 94.5,
       "lc96": 93.5,
-      "benja": 0.0,
-      "bk69": 30.0
+      "bk69": 31.69
     },
     "assignments": [
       {
@@ -42,14 +40,14 @@
             "submissionText": "I will work diligently, just like Sonic!",
             "feedbackText": "Cool, glad to hear.",
             "submissionDate": 1587233438,
-            "grade": 95
+            "grade": 96
           },
           {
             "username": "bk69",
             "submissionText": "I don\u0027t care!! I HATE THIS CLASS",
-            "feedbackText": "Bro shutup you smell",
+            "feedbackText": "u smell lol",
             "submissionDate": 1587533438,
-            "grade": 2
+            "grade": 5
           }
         ]
       },

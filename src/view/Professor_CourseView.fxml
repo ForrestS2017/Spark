@@ -96,7 +96,7 @@
                            </font>
                         </Label>
                         <TextArea fx:id="TA_FeedbackDescription" layoutX="1104.0" layoutY="103.0" prefHeight="243.0" prefWidth="450.0" promptText="Provide a detailed response justifying the submission grade, and any other relevant comments" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="975.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="60.0" />
-                        <Button fx:id="BN_SubmitFeedback" layoutX="969.0" layoutY="394.0" mnemonicParsing="false" onAction="#SubmitFeedback" text="Submit Feedback" AnchorPane.leftAnchor="975.0" />
+                        <Button fx:id="BN_FeedbackSubmit" layoutX="969.0" layoutY="394.0" mnemonicParsing="false" onAction="#SubmitFeedback" text="Submit Feedback" AnchorPane.leftAnchor="975.0" />
                         <TextField fx:id="TF_FeedbackGrade" layoutX="969.0" layoutY="336.0" prefHeight="25.0" prefWidth="180.0" promptText="Submission Grade" AnchorPane.leftAnchor="975.0" />
                         <Label fx:id="LL_FeedbackResponse" layoutX="969.0" layoutY="303.0" text="Detailed Response" AnchorPane.leftAnchor="975.0" />
                         <Label fx:id="LL_FeedbackGrade" layoutX="969.0" layoutY="361.0" text="Grade" AnchorPane.leftAnchor="975.0" />
@@ -105,6 +105,7 @@
                               <Font name="System Italic" size="16.0" />
                            </font>
                         </Label>
+                        <Button fx:id="BN_FeedbackDelete" layoutX="975.0" layoutY="435.0" mnemonicParsing="false" onAction="#DeleteFeedback" text="Remove Feedback" />
                      </children>
                   </AnchorPane>
             </content>
@@ -175,7 +176,7 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Button fx:id="BN_SubmitFinalGrade" layoutX="1266.0" layoutY="225.0" mnemonicParsing="false" onAction="#SubmitFinalGrade" prefHeight="25.0" text="Submit Final Grade" AnchorPane.leftAnchor="1266.0" AnchorPane.topAnchor="225.0" />
+                        <Button fx:id="BN_FinalGradeSubmit" layoutX="1266.0" layoutY="225.0" mnemonicParsing="false" onAction="#SubmitFinalGrade" prefHeight="25.0" text="Submit Final Grade" AnchorPane.leftAnchor="1266.0" AnchorPane.topAnchor="225.0" />
                         <TextField fx:id="TF_AdjustedGrade" layoutX="969.0" layoutY="224.0" prefHeight="25.0" prefWidth="180.0" promptText="Adjusted Grade" AnchorPane.leftAnchor="975.0" AnchorPane.topAnchor="225.0" />
                         <Label fx:id="LL_AssignmentsCompletedTitle" layoutX="971.0" layoutY="111.0" text="Assignments Completed" AnchorPane.leftAnchor="975.0" AnchorPane.topAnchor="120.0">
                            <font>
@@ -195,7 +196,7 @@
                            </font>
                         </Label>
                         <Label fx:id="LL_FullNameBody" layoutX="1048.0" layoutY="80.0" prefHeight="17.0" prefWidth="295.0" text="&lt;First Name&gt; &lt;Last Name&gt;" AnchorPane.leftAnchor="975.0" AnchorPane.topAnchor="80.0" />
-                        <Label fx:id="LL_AdjustedGradeTitle" layoutX="975.0" layoutY="250.0" prefHeight="17.0" prefWidth="179.0" text="Optional Adjusted Grade" AnchorPane.leftAnchor="975.0" />
+                        <Label fx:id="LL_AdjustedGradeTitle" layoutX="975.0" layoutY="256.0" prefHeight="17.0" prefWidth="179.0" text="Optional Adjusted Grade" AnchorPane.leftAnchor="975.0" />
                         <Label fx:id="LL_AnalyticsTitle" layoutX="1140.0" layoutY="353.0" text="Class Analytics" AnchorPane.rightAnchor="184.0" AnchorPane.topAnchor="350.0">
                            <font>
                               <Font name="System Bold" size="16.0" />
@@ -219,7 +220,7 @@
                            </font>
                         </Label>
                         <Label fx:id="LL_AnalyticsMedianBody" layoutX="975.0" layoutY="517.0" prefHeight="17.0" prefWidth="128.0" text="&lt;Class Median&gt;" AnchorPane.leftAnchor="975.0" AnchorPane.topAnchor="500.0" />
-                        <Label fx:id="LL_AdjustedGradeSubtitle" layoutX="975.0" layoutY="267.0" prefHeight="17.0" prefWidth="195.0" text="Leave blank to use calculated grade" textFill="#9a9a9a" AnchorPane.leftAnchor="975.0">
+                        <Label fx:id="LL_AdjustedGradeSubtitle" layoutX="975.0" layoutY="272.0" prefHeight="17.0" prefWidth="195.0" text="Leave blank to use calculated grade" textFill="#9a9a9a" AnchorPane.leftAnchor="975.0">
                            <font>
                               <Font name="System Italic" size="12.0" />
                            </font>
@@ -235,6 +236,7 @@
                            </font>
                         </Label>
                         <Label fx:id="LL_FinalGrade" layoutX="1266.0" layoutY="188.0" prefHeight="17.0" prefWidth="128.0" text="&lt;Final Grade&gt;" />
+                        <Button fx:id="BN_FinalGradeDelete" layoutX="1266.0" layoutY="263.0" mnemonicParsing="false" onAction="#DeleteFinalGrade" prefHeight="25.0" text="Remove Final Grade" />
                      </children>
                   </AnchorPane>
                </content>
