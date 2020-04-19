@@ -2,12 +2,16 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.Course;
 import util.DataController;
@@ -16,9 +20,6 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class ProfessorDashboardController extends BasicWindow {
-
-    private Stage mainStage;
-    private FXMLLoader loader;
 
     private String username;
 
@@ -48,11 +49,6 @@ public class ProfessorDashboardController extends BasicWindow {
      ****** Widget Methods & Events Listeners ******
      ***********************************************/
 
-    @FXML
-    public void initialize() {
-
-    }
-
     public void start(String inputUsername) {
         this.username = inputUsername;
         this.username = "fcs34";                //TODO: FOR TESTING PURPOSES. REMOVE IN PROD
@@ -78,12 +74,12 @@ public class ProfessorDashboardController extends BasicWindow {
         });
         LV_CourseList.getSelectionModel().select(0);
 
-
-    }
-
-    public void start(Stage mainStage, FXMLLoader loader) {
-        this.mainStage = mainStage;
-        this.loader = loader;
+        LV_CourseList.setOnKeyPressed(new EventHandler<javafx.scene.input.KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER)) EnterCourse();
+            }
+        });
     }
 
     /**
@@ -91,6 +87,7 @@ public class ProfessorDashboardController extends BasicWindow {
      */
     @FXML
     private void EnterCourse(){
+        System.out.println("Enter Course");
         Course selection = LV_CourseList.getSelectionModel().getSelectedItem();
         if (selection == null) return;
         FXMLLoader loader = new FXMLLoader();
@@ -99,8 +96,6 @@ public class ProfessorDashboardController extends BasicWindow {
         ProfessorCourseViewController controller = (ProfessorCourseViewController) loader.getController();
         controller.start(selection.getTitle());
     }
-
-
 
     private void ShowWarningNoCourses(String s) {
         System.out.println(s);
