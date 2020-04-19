@@ -1,8 +1,10 @@
+/**
+ * @author Forrest Smith
+ */
 package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,52 +14,56 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 import model.Course;
 import util.DataController;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
+/**
+ * This is the controller for the Dashboard for the Professor
+ */
 public class ProfessorDashboardController extends BasicWindow {
 
-    private String username;
+    // Text-Based
+    @FXML
+    Label LL_Subtitle;
+    @FXML
+    Label LL_NoCourses;
+    // Action-Based
+    @FXML
+    ListView<Course> LV_CourseList;
 
+    // __Shared Widgets__
+    @FXML
+    Button BN_EnterCourse;
+    // __Shared Data__
+    private String username;
     private ArrayList<Course> courseList;
     private ObservableList<Course> obsList;
 
-    /***********************************************
-     ************** Widget References **************
-     ***********************************************/
 
+    // __Action Methods__
 
-    /*******************************
-     **** Non-Responsive Widgets ***
-     *******************************/
-    @FXML Label LL_Subtitle;
-    @FXML Label LL_NoCourses;
-
-
-    /*******************************
-     ****** Responsive Widgets *****
-     *******************************/
-    @FXML ListView<Course> LV_CourseList;
-    @FXML Button BN_EnterCourse;
-
-
-    /***********************************************
-     ****** Widget Methods & Events Listeners ******
-     ***********************************************/
-
+    /**
+     * Initialize the Dashboard view with list of taught courses
+     *
+     * @param inputUsername the professor to load data for
+     */
     public void start(String inputUsername) {
         this.username = inputUsername;
-        this.username = "fcs34";                //TODO: FOR TESTING PURPOSES. REMOVE IN PROD
         obsList = FXCollections.observableArrayList();
         courseList = DataController.readCourses();
-        if (courseList == null || courseList.size() < 1) { ShowWarningNoCourses("No Courses in System!"); return;}
+        if (courseList == null || courseList.size() < 1) {
+            ShowWarningNoCourses("No Courses in System!");
+            return;
+        }
         courseList.forEach(course -> {
-            if (course.getProfessorUsername().equals(username)) obsList.add(course); });
-        if (obsList == null || obsList.size() < 1) { ShowWarningNoCourses("Prof has no Courses!"); return;}
+            if (course.getProfessorUsername().equals(username)) obsList.add(course);
+        });
+        if (obsList == null || obsList.size() < 1) {
+            ShowWarningNoCourses("Prof has no Courses!");
+            return;
+        }
         // Init listview
         LV_CourseList.setItems(obsList);
         LV_CourseList.setCellFactory(list -> {
@@ -86,7 +92,7 @@ public class ProfessorDashboardController extends BasicWindow {
      * Enter the course view for the selected course
      */
     @FXML
-    private void EnterCourse(){
+    private void EnterCourse() {
         System.out.println("Enter Course");
         Course selection = LV_CourseList.getSelectionModel().getSelectedItem();
         if (selection == null) return;
@@ -97,6 +103,11 @@ public class ProfessorDashboardController extends BasicWindow {
         controller.start(selection.getTitle());
     }
 
+    /**
+     * Display a warning if no courses or if the institution doesn't have any courses
+     *
+     * @param s Warning message
+     */
     private void ShowWarningNoCourses(String s) {
         System.out.println(s);
         LV_CourseList.setVisible(false);

@@ -1,3 +1,7 @@
+/**
+ * @author: Luis Guzman
+ * @author: Forrest Smith
+ */
 package application;
 
 import java.io.IOException;
@@ -9,6 +13,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/**
+ * Main class to run Spark
+ */
 public class Main extends Application {
 
     @Override

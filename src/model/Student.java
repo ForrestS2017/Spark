@@ -1,20 +1,25 @@
+/**
+ * @author Luis Guzman
+ * @author Forrest Smith
+ */
 package model;
 
-import java.util.ArrayList;
+/**
+ * Class to represent a student
+ */
+public class Student extends User {
+    private float gpa;
 
-public class Student extends User{
-	private float gpa;
-	
-	public Student(String firstName, String lastName, String username, String password) {
-		super(firstName, lastName, username, password, TYPE_PROFESSOR);
-		gpa = 0.0f;
-	}
+    public Student(String firstName, String lastName, String username, String password) {
+        super(firstName, lastName, username, password, TYPE_PROFESSOR);
+        gpa = 0.0f;
+    }
 
-	public float getGPA() {
-		return gpa;
-	}
+    public float getGPA() {
+        return gpa;
+    }
 
-	public void setGPA(float gpa) {
-		this.gpa = gpa;
-	}
+    public void setGPA(float gpa) {
+        this.gpa = gpa;
+    }
 }
