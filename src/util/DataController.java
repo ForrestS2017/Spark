@@ -1,3 +1,6 @@
+/**
+ * @author Forrest Smith
+ */
 package util;
 
 import com.google.gson.Gson;
@@ -16,13 +19,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Contains functionality for data storage
+ */
 public class DataController {
+    // Save File Paths
     private static String PATH_COURSES = "src/data/Courses.JSON";
     private static String PATH_USERS = "src/data/Users.JSON";
     private static String PATH_STUDENTS = "src/data/Students.JSON";
 
     /**
-     * Update course in save data
+     * Update course data in storage
      */
     public static boolean saveCourse(Course newCourse) {
         boolean added = false;
@@ -59,7 +66,7 @@ public class DataController {
     }
 
     /**
-     * Save Student data
+     * Update and save a student's data in storage
      */
     public static boolean saveUser(Student newUser) {
         boolean added = false;
@@ -93,7 +100,7 @@ public class DataController {
     }
 
     /**
-     * Save Professor data
+     * Update and save a professor's data in storage
      */
     public static boolean saveUser(Professor newUser) {
         boolean added = false;
@@ -126,7 +133,7 @@ public class DataController {
     }
 
     /**
-     * TODO: Update for Duplicates and Polymorphism, if we ever use this
+     * Update and save a set of students data in storage
      */
     public static boolean saveUsers(ArrayList<User> newUsers) {
         ArrayList<User> users = readUsers();
@@ -154,7 +161,7 @@ public class DataController {
     }
 
     /**
-     * Load User saved data
+     * Load all saved user data
      */
     public static ArrayList<User> readUsers() {
         ArrayList<User> users = new ArrayList<User>();
@@ -182,7 +189,7 @@ public class DataController {
     }
     
     /**
-     * Load Student saved data
+     * Load saved data for students only
      */
     public static ArrayList<Student> readStudents() {
         ArrayList<Student> students = new ArrayList<Student>();
@@ -201,7 +208,7 @@ public class DataController {
     }
 
     /**
-     * Load Course saved data
+     * Load saved course data
      */
     public static ArrayList<Course>  readCourses() {
         ArrayList<Course> courses = new ArrayList<Course>();
@@ -220,7 +227,7 @@ public class DataController {
     }
 
     /**
-     * Helper Function
+     * Returns customized Gson instance with registered User types
      */
     private static Gson getUserTypedGson() {
         RuntimeTypeAdapterFactory<User> adapter = RuntimeTypeAdapterFactory
