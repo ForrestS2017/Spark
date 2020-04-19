@@ -400,59 +400,75 @@ public class ProfessorCourseViewController extends BasicWindow {
     public void initStudents() {
         // Init Student List
         studentList.clear();
-        if (course.getStudents() == null || course.getStudents().size() < 1) return;
-        course.getStudents().forEach(s -> studentList.add(s));
-
-        LV_StudentList.setItems(studentList);
-        LV_StudentList.setCellFactory(list -> {
-            return new ListCell<Student>() {
-                protected void updateItem(Student item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item != null && !empty) {
-                        this.setText(item.toString());
-                    } else {
-                        this.setText((String) null);
-                    }
-                }
-            };
-        });
-        LV_StudentList.getSelectionModel().select(0);
-
-        //TODO: Refactor below into a method to call for the selection model!
-
-        // Init Submission List
-        Student currStudent = LV_StudentList.getSelectionModel().getSelectedItem();
-        ArrayList<Assignment.Submission> studentSubs = new ArrayList<Assignment.Submission>();
-        for (Assignment a : assignmentList) {
-            for (Assignment.Submission s : a.getStudentSubmissions()) {
-                if (s.getUsername().equals(currStudent.getUsername())) {
-                    studentSubs.add(s);
-                }
-            }
-        }
-        if (studentSubs.isEmpty()) {
+        if (course.getStudents() == null || course.getStudents().size() < 1) {
             AN_StudentSubmissions.getPanes().clear();
             AN_StudentSubmissions.setVisible(false);
             LL_NoSubmissionsStudents.setVisible(true);
-        } else {
-            //Make a TitledPane per Submission
+            return;
         }
 
-        // Init Student Stats
-        int totalAss = course.getAssignments().size();
-        LL_FullNameBody.setText(currStudent.getFirstName() + " " + currStudent.getLastName());
-        if (studentSubs.isEmpty()) {
-            LL_AssignmentsCompletedBody.setText("0/" + totalAss);
-            LL_AssignmentsCompletedBody.setTextFill(Color.RED);
-            LL_CalculatedGradeBody.setText("0.0");
-            LL_CalculatedGradeBody.setTextFill(Color.RED);
-        }
+        studentList = FXCollections.observableArrayList(course.getStudents());
+        LV_StudentList.setItems(studentList);
+
+        //TODO: Refactor below into a method to call for the selection model!
+
+        /**
+         * List listener
+         */
+        LV_StudentList.getSelectionModel().selectedItemProperty().addListener(((observableValue, student, t1) ->  {
+            if (t1 == null) return;
+            AN_StudentSubmissions.getPanes().clear();
+            LL_FullNameBody.setText(t1.getFullName());
+            ArrayList<Assignment.Submission> submissions = getStudentSubmissions(t1);
+            float GPA = 0.0f;
+            int totalAss = course.getAssignments().size();
+            if (submissions.isEmpty() == false) {
+                AN_StudentSubmissions.setVisible(true);
+                LL_NoSubmissionsStudents.setVisible(false);
+                for (Assignment.Submission s : submissions) {
+                    SubmissionPane pane = new SubmissionPane(s, new TextArea(s.getSubmissionText()));
+                    AN_StudentSubmissions.getPanes().add(pane);
+                    GPA += s.getGrade();
+                }
+                // Calculate GPA and stuff
+                int compAss = submissions.size();
+
+                LL_AssignmentsCompletedBody.setTextFill(Color.BLACK);
+                LL_CalculatedGradeBody.setTextFill(Color.BLACK);
+                LL_AssignmentsCompletedBody.setText(compAss + "/" + totalAss);
+                LL_CalculatedGradeBody.setText(String.format("%.2f",GPA/totalAss));
+            } else {
+                AN_StudentSubmissions.getPanes().clear();
+                AN_StudentSubmissions.setVisible(false);
+                LL_NoSubmissionsStudents.setVisible(true);
+                LL_AssignmentsCompletedBody.setText("0/" + totalAss);
+                LL_AssignmentsCompletedBody.setTextFill(Color.RED);
+                LL_CalculatedGradeBody.setText("0.0");
+                LL_CalculatedGradeBody.setTextFill(Color.RED);
+            }
+
+
+        }));
+        LV_StudentList.getSelectionModel().selectFirst();
+
 
         // Calculate & Init Stats
     }
 
+
     @FXML
     public void SubmitFinalGrade() {
+        String input = TF_AdjustedGrade.getText();
+        float finalGPA = 0.0f;
+        if (input.isBlank() == false) {
+            finalGPA = Float.parseFloat(input);
+        } else {
+            finalGPA = Float.parseFloat(LL_CalculatedGradeBody.getText());
+        }
+        Student student = LV_StudentList.getSelectionModel().getSelectedItem();
+        student.setGPA(finalGPA);
+        DataController.saveUser(student);
+        LV_StudentList.refresh();
     }
 
 
@@ -475,8 +491,21 @@ public class ProfessorCourseViewController extends BasicWindow {
             super(submission.toString(), node);
             this.submission = submission;
         }
-        public Assignment.Submission getSubmission() { return submission;}
+        public Assignment.Submission getSubmission() {
+            return submission;
+        }
+    }
 
+    private ArrayList<Assignment.Submission> getStudentSubmissions(Student student) {
+        ArrayList<Assignment.Submission> studentSubs = new ArrayList<>();
+        for (Assignment ass : course.getAssignments()) {
+            for (Assignment.Submission sub : ass.getStudentSubmissions()) {
+                if (sub.getUsername().equals(student.getUsername())) {
+                    studentSubs.add(sub);
+                }
+            }
+        }
+        return studentSubs;
     }
 
 }

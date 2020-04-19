@@ -36,6 +36,10 @@ public class User implements Comparable<User>{
         return lastName;
     }
 
+   public String getFullName() {
+        return firstName + " " + lastName;
+   }
+
     public String getUsername() {
         return username;
     }

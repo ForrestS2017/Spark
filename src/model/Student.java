@@ -13,4 +13,8 @@ public class Student extends User{
 	public float getGPA() {
 		return gpa;
 	}
+
+	public void setGPA(float gpa) {
+		this.gpa = gpa;
+	}
 }
