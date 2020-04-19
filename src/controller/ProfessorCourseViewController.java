@@ -287,6 +287,7 @@ public class ProfessorCourseViewController extends BasicWindow {
             AN_AssignmentSubmissions.getPanes().clear();
             AN_AssignmentSubmissions.setVisible(false);
             LL_NoSubmissionsSubmissions.setVisible(true);
+            LL_NoSubmissionsSubmissions.setText("No Assignments");
             return;
         }
 
@@ -467,6 +468,7 @@ public class ProfessorCourseViewController extends BasicWindow {
             AN_StudentSubmissions.getPanes().clear();
             AN_StudentSubmissions.setVisible(false);
             LL_NoSubmissionsStudents.setVisible(true);
+            LL_NoSubmissionsStudents.setText("No Students");
             return;
         }
 
