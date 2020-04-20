@@ -11,7 +11,6 @@ import java.util.Comparator;
 /**
  * Base class to represent any user of Spark
  */
-
 public class User implements Comparable<User> {
     //Constants for serialization
     public static String TYPE_PROFESSOR = "PROFESSOR";

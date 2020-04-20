@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Class to represent a course
+ */
 public class Course implements Comparable<Course> {
     public static Comparator<Course> BY_COURSE_TITLE = new Comparator<Course>() {
         @Override
@@ -191,7 +194,8 @@ public class Course implements Comparable<Course> {
             if (s.getGrade() >= 0f) {
                 GPA += s.getGrade();
             } else {
-                completedAss--;
+                gradeBookAutomatic.put(studentID, -1f);
+                return;
             }
         }
         gradeBookAutomatic.put(studentID, 100 * GPA / (completedAss * 100));
@@ -281,7 +285,7 @@ public class Course implements Comparable<Course> {
     }
 
     /**
-     * Class for announcement
+     * Class to represent an announcement for a course
      */
     public static class Announcement implements Comparable<Announcement> {
         private String title, description;

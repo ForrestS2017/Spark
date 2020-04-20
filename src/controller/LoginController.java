@@ -1,3 +1,7 @@
+/**
+ * @author Luis Guzman
+ * @author Forrest Smith
+ */
 package controller;
 
 import javafx.application.Platform;
@@ -11,6 +15,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Organization;
 
+import java.io.File;
+import java.nio.file.Paths;
+import java.util.Optional;
+
+/**
+ * Controller for Login
+ */
 public class LoginController extends BasicWindow{
 	@FXML TextField TF_Username;
 	@FXML TextField TF_Password;
@@ -48,7 +59,7 @@ public class LoginController extends BasicWindow{
 			} else if (TF_Username.getText().equals("admin")) {
 				// Display admin scene
 				warning = "Admin user requested!";
-			} else if (TF_Username.getText().contains("prof")) {
+			} else if (TF_Username.getText().contains("prof") || TF_Username.getText().contains("fcs34")) {
 				// Display professor scene
 				warning = "Professor user requested!";
 				FXMLLoader loader = new FXMLLoader();

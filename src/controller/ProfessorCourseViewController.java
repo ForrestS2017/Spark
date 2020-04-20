@@ -20,7 +20,7 @@ import util.DataController;
 import java.util.ArrayList;
 
 /**
- * This is the controller for the Course View for the Professor
+ * Controller for the Course View for the Professor
  */
 public class ProfessorCourseViewController extends BasicWindow {
 
@@ -189,9 +189,7 @@ public class ProfessorCourseViewController extends BasicWindow {
 
         // Init list
         LV_AssignmentListAssignments.getSelectionModel().selectedItemProperty().addListener((observableValue, assignment, t1) -> {
-            //System.out.println("ass: " + assignment.getTitle());
             if (t1 != null) {
-                System.out.println("T1: " + t1.getTitle());
                 TA_AssignmentDescription.setText(t1.getDescription());
                 TF_AssignmentTitle.setText(t1.getTitle());
                 DP_AssignmentDueDate.setValue(t1.getDueDate().toLocalDate());
@@ -514,12 +512,14 @@ public class ProfessorCourseViewController extends BasicWindow {
                     SubmissionPane pane = new SubmissionPane(s, new TextArea(s.getSubmissionText()));
                     AN_StudentSubmissions.getPanes().add(pane);
                 }
-
+                LL_FullNameBody.setTextFill(Color.BLACK);
                 LL_AssignmentsCompletedBody.setTextFill(Color.BLACK);
                 LL_CalculatedGradeBody.setTextFill(Color.BLACK);
                 LL_AssignmentsCompletedBody.setText(
                         course.getSpecificStudentSubmissions(t1.getUsername()).size() + "/" + totalAss);
-                LL_CalculatedGradeBody.setText(String.format("%.2f", course.getStudentAutomaticGrade(t1.getUsername())));
+                float finalGradeVal = course.getStudentAutomaticGrade(t1.getUsername());
+                String finalGrade = finalGradeVal > -1f ? String.format("%.2f", finalGradeVal) : "Ungraded submissions!";
+                LL_CalculatedGradeBody.setText(finalGrade);
                 float finalGPA = course.getStudentFinalGrade(t1.getUsername());
                 String gpaString = finalGPA >= 0.0f ? String.format("%.2f", finalGPA) : "--";
                 LL_FinalGrade.setText(gpaString);
@@ -559,11 +559,19 @@ public class ProfessorCourseViewController extends BasicWindow {
             try {
                 finalGPA = Float.parseFloat(input);
             } catch (Exception ex) {
-                ShowError("Grade must be a number", "Invalid Adjusted Grade");
+                ShowError("Cannot assign final grade", "Invalid Adjusted Grade");
                 TF_AdjustedGrade.clear();
+                return;
             }
         } else {
-            finalGPA = Float.parseFloat(LL_CalculatedGradeBody.getText());
+            try {
+                finalGPA = Float.parseFloat(LL_CalculatedGradeBody.getText());
+            } catch (Exception ex) {
+                ShowError("Cannot assign final grade", "Student has ungraded submissions!");
+                TF_AdjustedGrade.clear();
+                return;
+            }
+
         }
         String studentID = LV_StudentList.getSelectionModel().getSelectedItem().getUsername();
         course.setFinalGrade(studentID, finalGPA);

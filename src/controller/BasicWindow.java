@@ -12,6 +12,9 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+/**
+ * Helper controller class for navigating between views
+ */
 public class BasicWindow {
     // Paths
     public final String LAYOUT_PATH_LOGIN_SCREEN = "/View/LoginView.fxml";

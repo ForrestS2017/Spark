@@ -14,13 +14,14 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 import model.Course;
 import util.DataController;
 
 import java.util.ArrayList;
 
 /**
- * This is the controller for the Dashboard for the Professor
+ * Controller for the Dashboard for the Professor
  */
 public class ProfessorDashboardController extends BasicWindow {
 
@@ -29,18 +30,17 @@ public class ProfessorDashboardController extends BasicWindow {
     Label LL_Subtitle;
     @FXML
     Label LL_NoCourses;
-    // Action-Based
     @FXML
     ListView<Course> LV_CourseList;
 
     // __Shared Widgets__
     @FXML
     Button BN_EnterCourse;
+
     // __Shared Data__
     private String username;
     private ArrayList<Course> courseList;
     private ObservableList<Course> obsList;
-
 
     // __Action Methods__
 
@@ -98,7 +98,7 @@ public class ProfessorDashboardController extends BasicWindow {
         if (selection == null) return;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(this.getClass().getResource(LAYOUT_PROFESSOR_COURSE_VIEW));
-        LoadNewScene(loader, (Stage)BN_EnterCourse.getScene().getWindow());
+        LoadNewScene(loader, (Stage) BN_EnterCourse.getScene().getWindow());
         ProfessorCourseViewController controller = (ProfessorCourseViewController) loader.getController();
         controller.start(selection.getTitle());
     }

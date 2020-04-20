@@ -11,6 +11,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * Class to represent an assignment
+ */
 public class Assignment implements Comparable<Assignment> {
     /**
      * Formatter for assignment dates
@@ -74,7 +77,12 @@ public class Assignment implements Comparable<Assignment> {
     public ArrayList<Submission> getStudentSubmissions() {
         return studentSubmissions;
 	}
-	
+
+    /**
+     * Get a specific student's submission for this assignment
+     * @param username Student's ID
+     * @return Student's submission if it exists
+     */
 	public Submission searchStudentSubmission(String username) {
 		for(Submission s : studentSubmissions) {
 			if(s.getUsername().equals(username))
@@ -113,10 +121,9 @@ public class Assignment implements Comparable<Assignment> {
         return title;
     }
 
-    /********************
-     * SUBMISSION CLASS *
-     ********************/
-
+    /**
+     * Class to represent an assignment submission
+     */
     public static class Submission implements Comparable<Submission> {
         private String username, submissionText, feedbackText;
         private long submissionDate;

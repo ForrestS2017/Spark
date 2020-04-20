@@ -6,20 +6,22 @@
       "benja",
       "lc96",
       "bk69",
-      "jj01",
-      "mi15"
+      "mi15",
+      "jj01"
     ],
     "professor": "fcs34",
     "gradeBookAutomatic": {
       "mi15": 95.5,
       "lc96": 93.5,
       "benja": 0.0,
-      "bk69": 19.0
+      "bk69": 19.0,
+      "jj01": -1.0
     },
     "gradeBookFinal": {
-      "mi15": 94.5,
       "lc96": 93.5,
-      "bk69": 31.69
+      "bk69": 31.69,
+      "mi15": 95.5,
+      "jj01": 33.0
     },
     "assignments": [
       {
@@ -48,6 +50,12 @@
             "feedbackText": "u smell lol",
             "submissionDate": 1587533438,
             "grade": 5
+          },
+          {
+            "username": "jj01",
+            "submissionText": "SONIC IS COOL :DDDD",
+            "submissionDate": 1587343076,
+            "grade": -1
           }
         ]
       },
@@ -77,6 +85,13 @@
             "feedbackText": "Yes you will :).",
             "submissionDate": 1587237779,
             "grade": 95
+          },
+          {
+            "username": "jj01",
+            "submissionText": "Did this go through?",
+            "feedbackText": "Yea it did.",
+            "submissionDate": 1587277779,
+            "grade": 5
           }
         ]
       }

@@ -1,8 +1,14 @@
+/**
+ * @author Luis Guzman
+ */
 package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Class to represent an organization
+ */
 public class Organization implements Serializable {
 	private String organizationName;
 	//private Admin admin;		//TODO: Create Admin class

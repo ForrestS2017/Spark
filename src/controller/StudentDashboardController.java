@@ -1,3 +1,7 @@
+/**
+ * @author Luis Guzman
+ * @author
+ */
 package controller;
 
 import java.util.ArrayList;
@@ -16,42 +20,37 @@ import model.Student;
 import model.User;
 import util.DataController;
 
+/**
+ * Controller for the Dashboard for Student's View
+ */
 public class StudentDashboardController extends BasicWindow {
-    /***********************************************
-     ************** Widget References **************
-     ***********************************************/
 
-    /*******************************
-     **** Non-Responsive Widgets ***
-     *******************************/
+    // Text-Based
 	@FXML Label LL_Header; 
 	@FXML Label LL_Subtitle;
-	@FXML Label LL_NoCourses;
+	@FXML Label LL_NoCourses;@FXML ListView<Course> LV_CourseList;
 
+    // Action-Based
 
-    /*******************************
-     ****** Responsive Widgets *****
-     *******************************/
-    @FXML ListView<Course> LV_CourseList;
     @FXML Button BN_EnterCourse, BT_Logout;
 
 
-    /***********************************************
-     ****** Widget Methods & Events Listeners ******
-     ***********************************************/
-    
+    // __Shared Data__
     private String username;
     private Student studentObj;
     private ArrayList<Course> courseList;
     private ObservableList<Course> obsList;
-    
+
+    /**
+     * Initialize the Dashboard view for student's courses
+     */
     @FXML
     public void initialize() {
     	// Only run once user name is initialized
 		if(username == null)
 			return;
 		
-		username = "lc96";		// TEMP
+		username = "jj01";		// TEMP
 		
 		//LL_Header.setText(org.getOrganizationName());
     	LL_Subtitle.setText(username + "'s Dashboard");
