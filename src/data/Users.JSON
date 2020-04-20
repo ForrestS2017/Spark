@@ -65,5 +65,13 @@
       "TT101"
     ],
     "password": "password"
+  },
+  {
+    "type": "ADMINISTRATOR",
+    "firstName": "Carol",
+    "lastName": "Baskin",
+    "username": "cbaskin",
+    "courses": [],
+    "password": "rawr"
   }
 ]
