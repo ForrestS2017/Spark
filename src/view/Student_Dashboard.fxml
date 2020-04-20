@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="620.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentDashboardController">
+<AnchorPane prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentDashboardController">
    <children>
-      <Label fx:id="LL_Subtitle" alignment="CENTER" layoutX="423.0" layoutY="124.0" maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="355.0" text="Username: &lt;student_username&gt;" textAlignment="CENTER" textFill="#9a9a9a" AnchorPane.leftAnchor="423.0" AnchorPane.rightAnchor="432.0">
+      <Label fx:id="LL_Subtitle" alignment="CENTER" layoutX="425.0" layoutY="130.0" maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="355.0" text="Username: &lt;student_username&gt;" textAlignment="CENTER" textFill="#9a9a9a" AnchorPane.leftAnchor="425.0" AnchorPane.rightAnchor="430.0">
          <font>
             <Font name="System Italic" size="15.0" />
          </font>
@@ -18,9 +18,9 @@
             <Font name="System Italic" size="15.0" />
          </font>
       </Label>
-      <ListView fx:id="LV_CourseList" layoutX="361.0" layoutY="248.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="350.0" />
-      <Button fx:id="BN_EnterCourse" layoutX="540.0" layoutY="501.0" mnemonicParsing="false" onAction="#EnterCourse" prefHeight="25.0" prefWidth="128.0" text="Enter Course" AnchorPane.leftAnchor="541.0" AnchorPane.rightAnchor="541.0" />
-      <Label fx:id="LL_Header" alignment="CENTER" layoutX="162.0" layoutY="66.0" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="885.0" text="Course Dashboard" AnchorPane.leftAnchor="162.0" AnchorPane.rightAnchor="163.0">
+      <ListView fx:id="LV_CourseList" layoutX="329.0" layoutY="258.0" prefHeight="269.0" prefWidth="787.0" AnchorPane.leftAnchor="329.0" AnchorPane.rightAnchor="325.0" />
+      <Button fx:id="BN_EnterCourse" layoutX="543.0" layoutY="561.0" mnemonicParsing="false" onAction="#EnterCourse" prefHeight="25.0" prefWidth="128.0" text="Enter Course" AnchorPane.leftAnchor="543.0" AnchorPane.rightAnchor="539.0" />
+      <Label fx:id="LL_Header" alignment="CENTER" layoutX="164.0" layoutY="72.0" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="885.0" text="Course Dashboard" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="161.0">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>

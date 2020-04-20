@@ -373,7 +373,7 @@ public class StudentCourseViewController extends BasicWindow {
     	tblAssignmentSubmissions.sort();
 
     	// Load Course Grade
-    	LL_CourseGrade.setText(course.getStudentFinalGrade(student.getUsername()) + "");
+    	LL_CourseGrade.setText(course.getStudentAutomaticGrade(student.getUsername()) + "");
     	String completed = course.getSpecificStudentSubmissions(student.getUsername()).size() + " / " + course.getAssignments().size();
     	LL_AssignmentsCompleted.setText(completed);
     	
