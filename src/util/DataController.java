@@ -26,7 +26,6 @@ public class DataController {
     // Save File Paths
     private static String PATH_COURSES = "src/data/Courses.JSON";
     private static String PATH_USERS = "src/data/Users.JSON";
-    private static String PATH_STUDENTS = "src/data/Students.JSON";
 
     /**
      * Update course data in storage
@@ -186,25 +185,6 @@ public class DataController {
             return null;
         }
         return users;
-    }
-    
-    /**
-     * Load saved data for students only
-     */
-    public static ArrayList<Student> readStudents() {
-        ArrayList<Student> students = new ArrayList<Student>();
-        try
-        {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonReader reader = new JsonReader(new FileReader(PATH_STUDENTS));
-            students = gson.fromJson(reader, new TypeToken<ArrayList<Student>>(){}.getType());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-        return students;
     }
 
     /**

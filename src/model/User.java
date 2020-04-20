@@ -16,6 +16,7 @@ public class User implements Comparable<User> {
     public static String TYPE_PROFESSOR = "PROFESSOR";
     public static String TYPE_STUDENT = "STUDENT";
     public static String TYPE_ADMINISTRATOR = "ADMINISTRATOR";
+    
     public static Comparator<User> BY_USERNAME = new Comparator<User>() {
         @Override
         public int compare(User o1, User o2) {
@@ -73,6 +74,10 @@ public class User implements Comparable<User> {
 
     public void setType(String newType) {
         this.type = newType;
+    }
+    
+    public String getType() {
+        return this.type;
     }
 
     /**

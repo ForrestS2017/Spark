@@ -1,3 +1,6 @@
+/**
+ * @author Luis Guzman
+ */
 package controller;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -70,17 +73,15 @@ public class StudentCourseViewController extends BasicWindow {
     			LL_AnalyticsAverageBody, LL_AnalyticsRangeBody, LL_AnalyticsMedianBody;
     
 
+    /**
+     * Initialize controller with course and student information
+     * @param course selected course to view
+     * @param student selected student accessing course
+     */
     public void start(Course course, Student student) {
         this.course = course;
         this.student = student;
 
-    	//TESTING
-    	//course.publishAnnouncement("Test Announcement #1", "Hello World!");
-    	//course.publishAnnouncement("Test Announcement #2", "Hello Universe!");
-    	//course.addStudent(new Student("", "", "lg625", ""));
-    	//course.publishAssignment("Assignment #1", "Instructions on how to complete this assignment.", LocalDateTime.now());
-    	//course.publishAssignment("Assignment #2", "Instructions on how to complete this assignment.", LocalDateTime.now());
-    	        
         LL_Title.setText(course.getTitle());
         LL_Subtitle.setText("Professor " + course.getProfessor().getLastName());
         
@@ -92,6 +93,10 @@ public class StudentCourseViewController extends BasicWindow {
     /*************************
      ** Home Page Actions **
      *************************/
+    
+    /**
+     * Initializes Home Tab with appropriate information for each residing element
+     */
     public void initHomePage() {
     	if(course == null)
     		return;
@@ -148,6 +153,9 @@ public class StudentCourseViewController extends BasicWindow {
     	
     }
     
+    /**
+     * Action taken for when "View Assignment Details" button is clicked on the Home Tab
+     */
     @FXML
     public void ViewAssignmentDetails() {
     	// Read selected index from ListView
@@ -165,6 +173,10 @@ public class StudentCourseViewController extends BasicWindow {
     /*************************
      ** Assignment Page Actions **
      *************************/
+    
+    /**
+     * Initializes Assignments Tab with appropriate information for each residing element
+     */
     public void initAssignments() {
     	// Load table with assignments
     	TableColumn<Assignment, String> tblCol_AssignmentTitle = new TableColumn<>("Assignment Title");
@@ -207,7 +219,7 @@ public class StudentCourseViewController extends BasicWindow {
     }
     
     /**
-     * Call by TableView Row Select Listener
+     * Called by TableView Row Select Listener
      * Displays selected Assignment details on the side bar
      * @param assignment Selected assignment to display details of
      */
@@ -234,6 +246,10 @@ public class StudentCourseViewController extends BasicWindow {
     	}
     }
     
+    /**
+     * Retrieves Student Submission and writes to Course Assignment
+     * Executes on "Publish" submission click 
+     */
     @FXML
     public void PublishAssignment() {
     	if(TA_AssignmentSubmission.getText().length() == 0) {
@@ -270,6 +286,10 @@ public class StudentCourseViewController extends BasicWindow {
     /*************************
      ** Student Grades Page Actions **
      *************************/
+    
+    /**
+     * Initializes Grades Tab with appropriate information for each residing element
+     */
     public void initGrades() {
     	if(course == null || student == null)
     		return;
@@ -366,6 +386,10 @@ public class StudentCourseViewController extends BasicWindow {
     /****************
      * Util Methods *
      ****************/
+    
+    /**
+     * Return to Student Dashboard
+     */
     @FXML
     public void GoBack() {
         FXMLLoader loader = new FXMLLoader();
@@ -374,9 +398,13 @@ public class StudentCourseViewController extends BasicWindow {
         stage.setTitle("Student Course Overview Dashboard");
         LoadNewScene(loader, stage);
         StudentDashboardController controller = (StudentDashboardController) loader.getController();
-        controller.start(student.getUsername());
+        controller.start(student);
     }
     
+    /**
+     * Log current user out of their account
+     * Helper function retrieves current Stage and passes to logout function call
+     */
     @FXML
     public void LogoutHelper() {
     	Stage stage = (Stage)LL_Title.getScene().getWindow();

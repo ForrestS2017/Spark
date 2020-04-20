@@ -1,6 +1,5 @@
 /**
  * @author Luis Guzman
- * @author
  */
 package controller;
 
@@ -15,10 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import model.Course;
-import model.Organization;
 import model.Student;
-import model.User;
-import util.DataController;
 
 /**
  * Controller for the Dashboard for Student's View
@@ -28,7 +24,8 @@ public class StudentDashboardController extends BasicWindow {
     // Text-Based
 	@FXML Label LL_Header; 
 	@FXML Label LL_Subtitle;
-	@FXML Label LL_NoCourses;@FXML ListView<Course> LV_CourseList;
+	@FXML Label LL_NoCourses;
+	@FXML ListView<Course> LV_CourseList;
 
     // Action-Based
 
@@ -36,7 +33,6 @@ public class StudentDashboardController extends BasicWindow {
 
 
     // __Shared Data__
-    private String username;
     private Student studentObj;
     private ArrayList<Course> courseList;
     private ObservableList<Course> obsList;
@@ -46,29 +42,18 @@ public class StudentDashboardController extends BasicWindow {
      */
     @FXML
     public void initialize() {
-    	// Only run once user name is initialized
-		if(username == null)
+    	// Only run once studentObj is initialized
+		if(studentObj == null)
 			return;
 		
-		username = "jj01";		// TEMP
-		
 		//LL_Header.setText(org.getOrganizationName());
-    	LL_Subtitle.setText(username + "'s Dashboard");
+    	LL_Subtitle.setText(studentObj.getUsername() + "'s Dashboard");
     	
-    	// 1. Retrieve Student object
-    	ArrayList<User> allStudents = DataController.readUsers();
-    	for(User s : allStudents) {
-    		if(s.getUsername().equals(username)) {
-    			studentObj = (Student)s;
-    			break;
-    		}
-    	}
-    	
-    	// 2. Retrieve courses current student is enrolled in
+    	// 1. Retrieve courses current student is enrolled in
     	courseList = studentObj.getCourses();
     	if (courseList == null || courseList.size() < 1) { System.out.println("TESTING: No Courses in System!"); return; }
     	    	
-    	// 3. Fill ListView with Courses
+    	// 2. Fill ListView with Courses
     	obsList = FXCollections.observableArrayList();
     	obsList.setAll(courseList);
     	LV_CourseList.setItems(obsList);
@@ -83,11 +68,8 @@ public class StudentDashboardController extends BasicWindow {
     	// Read selected index from ListView
     	ObservableList<Integer> selectedIndex = LV_CourseList.getSelectionModel().getSelectedIndices();
     	
-        if(selectedIndex.size() > 1) {
-        	// TODO: Display pop up warning
-        	System.out.println("TESTING: Please select only one course!");
+        if(selectedIndex.size() > 1)
         	return;
-        }
         
         // Retrieve appropriate course object
         Course selectedCourse = courseList.get(selectedIndex.get(0));
@@ -107,11 +89,15 @@ public class StudentDashboardController extends BasicWindow {
      * Used to pass necessary information from login controller to current controller
      * @param username
      */    
-    public void start(String username) {
-    	this.username = username;
+    public void start(Student student) {
+    	this.studentObj = student;
     	initialize();
     }
     
+    /**
+     * Log current user out of their account
+     * Helper function retrieves current Stage and passes to logout function call
+     */
     @FXML
     public void LogoutHelper() {
     	Stage stage = (Stage)LL_Header.getScene().getWindow();

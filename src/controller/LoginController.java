@@ -14,9 +14,13 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Organization;
+import model.Student;
+import model.User;
+import util.DataController;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Optional;
 
 /**
@@ -36,7 +40,7 @@ public class LoginController extends BasicWindow{
 	
 	@FXML
 	public void initialize() {
-		String organizationName = promptForOrganization();
+		//String organizationName = promptForOrganization();
 
 		TF_Username.setText("");
 	}
@@ -52,22 +56,44 @@ public class LoginController extends BasicWindow{
 	 * @param e ActionEvent
 	 */
 	public void onLoginClick(ActionEvent e) {
+		if(TF_Username.getText().isEmpty() || TF_Password.getText().isEmpty()) {
+			Alert a = new Alert(AlertType.ERROR); 
+			a.setContentText("Invalid input, please fill all fields");
+            a.show(); 
+			return;
+		}
+		
+		String username = TF_Username.getText(), password = TF_Password.getText();
+		User user = passwordCheck(username, password);
+		
+		if(user == null) {
+			// TODO: Display warning
+			Alert a = new Alert(AlertType.ERROR); 
+			a.setContentText("Username and password do not match!");
+            a.show();
+			return;
+		}
+		
+		System.out.println("Username and password do match!");
+		System.out.println("User obj = " + user);
+		
 		String warning = "";
 		try {
-			if (TF_Username.getText().isEmpty()) {
-				warning = "Please enter username!";
-			} else if (TF_Username.getText().equals("admin")) {
+			if (user.getType().equalsIgnoreCase("admin")) {
 				// Display admin scene
 				warning = "Admin user requested!";
-			} else if (TF_Username.getText().contains("prof") || TF_Username.getText().contains("fcs34")) {
+			} 
+			else if (user.getType().equalsIgnoreCase("professor")) {
 				// Display professor scene
 				warning = "Professor user requested!";
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(this.getClass().getResource(LAYOUT_PROFESSOR_DASHBOARD_VIEW));
 				LoadNewScene(loader, (Stage)BN_Login.getScene().getWindow());
 				ProfessorDashboardController controller = (ProfessorDashboardController) loader.getController();
-				controller.start(TF_Username.getText());
-			} else if (TF_Username.getText().equals("student")) {
+				controller.start(user.getUsername());
+			} 
+			else if (user.getType().equalsIgnoreCase("student")) {
+				System.out.println("Got student user type!");
 				// Display student scene
 				warning = "Student user requested!";
 				
@@ -78,16 +104,31 @@ public class LoginController extends BasicWindow{
 				LoadNewScene(loader, stage);
 				
 				StudentDashboardController controller = (StudentDashboardController) loader.getController();
-				controller.start(TF_Username.getText().trim());		// pass data current controller to new controller				
-			} else {
-				// Incorrect username
-				warning = "Invalid username, please try again!";
+				controller.start((Student)user);		// pass data current controller to new controller	
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
 		System.out.println("WARNING: " + warning);
+	}
+	
+	/**
+	 * Checks whether if user name and password match
+	 * @param username username string input
+	 * @param password password string input
+	 * @return Returns User object if fields match, returns null otherwise if no match
+	 */
+	private User passwordCheck(String username, String password) {
+		ArrayList<User> allUsers = DataController.readUsers();
+		
+		if(allUsers.contains(new User("", "", username, "", ""))) {
+			User u = allUsers.get(allUsers.indexOf(new User("", "", username, "", "")));
+			if(u.verifyPassword(password)) 
+				return u;
+		}
+		
+		return null;
 	}
 	
 	/**
