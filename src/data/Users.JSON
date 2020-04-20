@@ -1,38 +1,39 @@
 [
   {
+    "type": "PROFESSOR",
     "firstName": "Forrest",
     "lastName": "Smith",
     "username": "fcs34",
     "courses": [
-        "TT101"
+      "TT101"
     ],
-    "password": "password",
-    "type": "PROFESSOR"
+    "password": "password"
   },
   {
     "gpa": -1.0,
+    "type": "STUDENT",
     "firstName": "Joseph",
     "lastName": "Joestar",
     "username": "jj01",
     "courses": [
-        "TT101"
+      "TT101"
     ],
-    "password": "password",
-    "type": "STUDENT"
+    "password": "password"
   },
   {
     "gpa": -1.0,
+    "type": "STUDENT",
     "firstName": "Lara",
     "lastName": "Croft",
     "username": "lc96",
     "courses": [
       "TT101"
     ],
-    "password": "password",
-    "type": "STUDENT"
+    "password": "password"
   },
   {
     "gpa": -1.0,
+    "type": "STUDENT",
     "firstName": "Mizuku",
     "lastName": "Idoriya",
     "username": "mi15",
@@ -40,11 +41,11 @@
       "TT101",
       "TT102"
     ],
-    "password": "password",
-    "type": "STUDENT"
+    "password": "password"
   },
   {
     "gpa": -1.0,
+    "type": "STUDENT",
     "firstName": "Ben",
     "lastName": "Ja",
     "username": "benja",
@@ -52,18 +53,17 @@
       "TT101",
       "TT102"
     ],
-    "password": "testing123!",
-    "type": "STUDENT"
+    "password": "testing123!"
   },
   {
     "gpa": -1.0,
+    "type": "STUDENT",
     "firstName": "Bakguo",
     "lastName": "Katsuki",
     "username": "bk69",
     "courses": [
       "TT101"
     ],
-    "password": "password",
-    "type": "STUDENT"
+    "password": "password"
   }
 ]

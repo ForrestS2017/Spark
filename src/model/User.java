@@ -43,12 +43,12 @@ public class User implements Comparable<User> {
     private String password;
 
     public User(String firstName, String lastName, String username, String password, String type) {
+        this.type = type;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.courses = new ArrayList<String>();
-        this.password = "password";                 //TODO: Implement passwords and then replace this!!!
-        this.type = type;
+        this.password = password;
     }
 
     public String getFirstName() {

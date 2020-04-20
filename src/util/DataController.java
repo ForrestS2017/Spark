@@ -62,75 +62,9 @@ public class DataController {
     }
 
     /**
-     * Update and save a student's data in storage
-     */
-    public static boolean saveUser(Student newUser) {
-        boolean added = false;
-        List<User> users = readUsers();
-        // Null check list
-        if (users == null || users.size() == 0){
-            users = new ArrayList<User>();
-        }
-        // Duplicate check
-        if (users.contains(newUser)){
-            users.set(users.indexOf(newUser), newUser);
-        } else{
-            added = users.add(newUser);
-        }
-        boolean saved = false;
-        try {
-            Gson gson = getUserTypedGson();
-            String jsonString = gson.toJson(users);
-            FileWriter fw = new FileWriter(PATH_USERS);
-            fw.write(jsonString);
-            fw.close();
-            saved = true;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            saved = false;
-        }
-        return added && saved;
-    }
-
-    /**
-     * Update and save a professor's data in storage
-     */
-    public static boolean saveUser(Professor newUser) {
-        boolean added = false;
-        List<User> users = readUsers();
-        // Null check list
-        if (users == null || users.size() == 0){
-            users = new ArrayList<User>();
-        }
-        // Duplicate check
-        if (users.contains(newUser)){
-            users.set(users.indexOf(newUser), newUser);
-        } else{
-            added = users.add(newUser);
-        }
-        boolean saved = false;
-        try {
-            Gson gson = getUserTypedGson();
-            String jsonString = gson.toJson(users);
-            FileWriter fw = new FileWriter(PATH_USERS);
-            fw.write(jsonString);
-            fw.close();
-            saved = true;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            saved = false;
-        }
-        return added && saved;
-    }
-
-    /**
      * Update and save an administrator's data in storage
      */
-    public static boolean saveUser(Administrator newUser) {
+    public static boolean saveUser(User newUser) {
         boolean added = false;
         List<User> users = readUsers();
         // Null check list
