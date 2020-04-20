@@ -8,10 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
-import model.Course;
-import model.Professor;
-import model.Student;
-import model.User;
+import model.*;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -94,7 +91,6 @@ public class DataController {
             e.printStackTrace();
             saved = false;
         }
-
         return added && saved;
     }
 
@@ -130,6 +126,41 @@ public class DataController {
         }
         return added && saved;
     }
+
+    /**
+     * Update and save an administrator's data in storage
+     */
+    public static boolean saveUser(Administrator newUser) {
+        boolean added = false;
+        List<User> users = readUsers();
+        // Null check list
+        if (users == null || users.size() == 0){
+            users = new ArrayList<User>();
+        }
+        // Duplicate check
+        if (users.contains(newUser)){
+            users.set(users.indexOf(newUser), newUser);
+        } else{
+            added = users.add(newUser);
+        }
+        boolean saved = false;
+        try {
+            Gson gson = getUserTypedGson();
+            String jsonString = gson.toJson(users);
+            FileWriter fw = new FileWriter(PATH_USERS);
+            fw.write(jsonString);
+            fw.close();
+            saved = true;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            saved = false;
+        }
+        return added && saved;
+    }
+
+
 
     /**
      * Update and save a set of students data in storage
@@ -172,9 +203,11 @@ public class DataController {
             if(users != null){
                 for(int i = 0; i < users.size(); i++) {
                     if(users.get(i).getClass().equals(Student.class)) {
-                        users.get(i).setType("student");
-                    } else {
-                        users.get(i).setType("professor");
+                        users.get(i).setType(User.TYPE_STUDENT);
+                    } else if(users.get(i).getClass().equals(Professor.class)) {
+                        users.get(i).setType(User.TYPE_PROFESSOR);
+                    } else if(users.get(i).getClass().equals(Administrator.class)) {
+                        users.get(i).setType(User.TYPE_ADMINISTRATOR);
                     }
                 }
             }
@@ -213,7 +246,8 @@ public class DataController {
         RuntimeTypeAdapterFactory<User> adapter = RuntimeTypeAdapterFactory
                 .of(User.class, "type")
                 .registerSubtype(Student.class, User.TYPE_STUDENT)
-                .registerSubtype(Professor.class, User.TYPE_PROFESSOR);
+                .registerSubtype(Professor.class, User.TYPE_PROFESSOR)
+                .registerSubtype(Administrator.class, User.TYPE_ADMINISTRATOR);
         return new GsonBuilder()
                 .enableComplexMapKeySerialization()
                 .setPrettyPrinting()

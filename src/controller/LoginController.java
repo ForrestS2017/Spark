@@ -60,29 +60,29 @@ public class LoginController extends BasicWindow{
 	 */
 	public void onLoginClick(ActionEvent e) {
 		if(TF_Username.getText().isEmpty() || TF_Password.getText().isEmpty()) {
-			Alert a = new Alert(AlertType.ERROR); 
+			Alert a = new Alert(AlertType.ERROR);
 			a.setContentText("Invalid input, please fill all fields");
-            a.show(); 
+            a.show();
 			return;
 		}
-		
+
 		String username = TF_Username.getText(), password = TF_Password.getText();
 		User user = passwordCheck(username, password);
-		
+
 		if(user == null) {
 			// TODO: Display warning
-			Alert a = new Alert(AlertType.ERROR); 
+			Alert a = new Alert(AlertType.ERROR);
 			a.setContentText("Username and password do not match!");
             a.show();
 			return;
 		}
-		
+
 		System.out.println("Username and password do match!");
 		System.out.println("User obj = " + user);
-		
+
 		String warning = "";
 		try {
-			if (user.getType().equalsIgnoreCase("admin")) {
+			if (user.getType().equalsIgnoreCase(User.TYPE_ADMINISTRATOR)) {
 				// Display admin scene
 				warning = "Admin user requested!";
 				FXMLLoader loader = new FXMLLoader();
@@ -91,7 +91,7 @@ public class LoginController extends BasicWindow{
 				AdminDashboardController controller = (AdminDashboardController) loader.getController();
 				controller.start(user.getUsername());
 			} 
-			else if (user.getType().equalsIgnoreCase("professor")) {
+			else if (user.getType().equalsIgnoreCase(User.TYPE_PROFESSOR)) {
 				// Display professor scene
 				warning = "Professor user requested!";
 				FXMLLoader loader = new FXMLLoader();
@@ -100,7 +100,7 @@ public class LoginController extends BasicWindow{
 				ProfessorDashboardController controller = (ProfessorDashboardController) loader.getController();
 				controller.start(user.getUsername());
 			} 
-			else if (user.getType().equalsIgnoreCase("student")) {
+			else if (user.getType().equalsIgnoreCase(User.TYPE_STUDENT)) {
 				System.out.println("Got student user type!");
 				// Display student scene
 				warning = "Student user requested!";

@@ -15,10 +15,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.Professor;
-import model.Student;
-import model.User;
-import model.UserIO;
+import model.*;
 import util.DataController;
 
 public class NewUserDialogController extends BasicWindow{
@@ -89,16 +86,15 @@ public class NewUserDialogController extends BasicWindow{
     	
     	//Add user 
     	if(usernameExists == false) {
-	    	if(type.equals("Professor")) {
+	    	if(type.equals(User.TYPE_PROFESSOR)) {
 	    		DataController.saveUser(new Professor(firstName, lastName, username, password));
 	    	}
-	    	else if(type.equals("Student")) {
+	    	else if(type.equals(User.TYPE_STUDENT)) {
 	    		//DataController.saveUser(new Student(firstName, lastName, username, password));
-	    		newUser.add(new Student(firstName, lastName, username, password));
+				DataController.saveUser(new Student(firstName, lastName, username, password));
 	    	}
 	    	else { //Admin
-	    		users.add(new User(firstName, lastName, username, password, "ADMINISTRATOR"));
-	    		DataController.saveUsers(users);
+				DataController.saveUser(new Administrator(firstName, lastName, username, password));
 	    	}
 	    	BN_AddUser.getScene().getWindow().hide();
     	}
