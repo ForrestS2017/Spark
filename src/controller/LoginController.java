@@ -8,6 +8,8 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -19,6 +21,7 @@ import model.User;
 import util.DataController;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -82,6 +85,11 @@ public class LoginController extends BasicWindow{
 			if (user.getType().equalsIgnoreCase("admin")) {
 				// Display admin scene
 				warning = "Admin user requested!";
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(this.getClass().getResource(LAYOUT_ADMIN_DASHBOARD_VIEW));
+				LoadNewScene(loader);
+				AdminDashboardController controller = (AdminDashboardController) loader.getController();
+				controller.start(user.getUsername());
 			} 
 			else if (user.getType().equalsIgnoreCase("professor")) {
 				// Display professor scene
@@ -179,10 +187,28 @@ public class LoginController extends BasicWindow{
 
 	/**
 	 * Add user if the account doesn't exist. Prompt box for if it is a Student, Professor, Admin
+	 * @throws IOException 
 	 */
 	@FXML
-	public void AddUser() {
-
+	public void AddUser() throws IOException {
+		try {
+			//Open Dialog asking for new user information.
+		        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/NewUser_Dialog.fxml"));
+		        Parent root = (Parent) loader.load();
+		        Stage stage = new Stage();
+		        NewUserDialogController controller = loader.<NewUserDialogController>getController();
+		        controller.start();
+		        stage.setScene(new Scene(root));  
+		        stage.show();
+		    
+	 } catch(Exception ex) {
+		 	Alert a = new Alert(AlertType.ERROR); 
+			a.setContentText("There was an unexpected error!");
+			a.show(); 
+			System.out.println("AddUser error: " +ex);
+	 }
+		
+		
 	}
 
 	/**

@@ -10,19 +10,14 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminCourseViewController">
    <children>
-      <Label fx:id="LL_Title" alignment="CENTER" layoutX="600.0" layoutY="52.0" text="&lt;CourseName&gt;" textAlignment="CENTER" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="350.0">
+      <Label fx:id="LL_Title" alignment="CENTER" layoutX="600.0" layoutY="52.0" text="&lt;ProfessorName&gt;" textAlignment="CENTER" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="350.0">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
       </Label>
-      <Label fx:id="LL_Subtitle" alignment="CENTER" layoutX="631.0" layoutY="119.0" text="&lt;CurrentTab&gt;" textAlignment="CENTER" textFill="#9a9a9a" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0">
-         <font>
-            <Font name="System Italic" size="15.0" />
-         </font>
-      </Label>
       <Button fx:id="BT_Back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#GoBack" text="Back" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
       <Button fx:id="BT_Logout" layoutX="15.0" layoutY="52.0" mnemonicParsing="false" onAction="#Logout" text="Logout" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="55.0" />
-      <ListView fx:id="LV_CourseList" layoutX="42.0" layoutY="207.0" prefHeight="314.0" prefWidth="608.0" />
+      <ListView fx:id="LV_CourseList" layoutX="42.0" layoutY="207.0" onMouseClicked="#handleMouseClickCourse" prefHeight="314.0" prefWidth="608.0" />
       <Label fx:id="LL_CoursesTitle" layoutX="42.0" layoutY="170.0" text="Courses">
          <font>
             <Font name="System Bold" size="16.0" />
@@ -47,9 +42,9 @@
       <Label fx:id="LL_AverageGradeSubtitle" layoutX="910.0" layoutY="570.0" prefHeight="17.0" prefWidth="128.0" text="&lt;Overall Average&gt;" />
       <TableView fx:id="TV_Students" layoutX="888.0" layoutY="233.0" prefHeight="287.0" prefWidth="518.0">
         <columns>
-          <TableColumn prefWidth="276.79998779296875" text="Student Name" />
-          <TableColumn prefWidth="106.4000244140625" text="Student ID" />
-            <TableColumn minWidth="0.0" prefWidth="135.199951171875" text="Grade" />
+          <TableColumn fx:id="name" prefWidth="276.79998779296875" text="Student Name" />
+          <TableColumn fx:id="id" prefWidth="106.4000244140625" text="Student ID" />
+            <TableColumn fx:id="grade" minWidth="0.0" prefWidth="135.199951171875" text="Grade" />
         </columns>
       </TableView>
    </children>

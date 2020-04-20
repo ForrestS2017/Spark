@@ -42,7 +42,7 @@
             <Font name="System Italic" size="15.0" />
          </font>
       </Label>
-      <ListView fx:id="LV_ProfessorList" layoutX="42.0" layoutY="463.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="658.0" />
+      <ListView fx:id="LV_ProfessorList" onMouseClicked="#handleMouseClick" layoutX="42.0" layoutY="463.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="658.0" />
       <Button fx:id="BN_ViewProfessor" layoutX="292.0" layoutY="672.0" mnemonicParsing="false" onAction="#ViewProfessor" text="View Professor" AnchorPane.leftAnchor="292.0" AnchorPane.rightAnchor="908.0" />
       <Button fx:id="BT_Logout" mnemonicParsing="false" onAction="#Logout" text="Logout" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
       <Button fx:id="BN_CreateCourse" layoutX="292.0" layoutY="225.0" mnemonicParsing="false" onAction="#CreateCourse" prefHeight="26.0" prefWidth="240.0" text="New Course" />
@@ -76,7 +76,7 @@
       </Label>
       <Button fx:id="BN_CreateUser" layoutX="292.0" layoutY="260.0" mnemonicParsing="false" onAction="#CreateUser" prefHeight="26.0" prefWidth="240.0" text="New User" />
       <Button fx:id="BN_ConfigureUI" layoutX="292.0" layoutY="294.0" mnemonicParsing="false" onAction="#ConfigureUI" prefHeight="26.0" prefWidth="240.0" text="Configure UI" />
-      <TextField fx:id="TF_StudentName" layoutX="292.0" layoutY="344.0" onAction="#StudentNameID" prefHeight="26.0" prefWidth="240.0" promptText="Student name/ ID" />
+      <TextField fx:id="TF_StudentName" layoutX="292.0" layoutY="344.0" prefHeight="26.0" prefWidth="240.0" promptText="Student name/ ID" />
       <Button fx:id="BN_SearchStudent" layoutX="292.0" layoutY="378.0" mnemonicParsing="false" onAction="#SearchStudent" prefHeight="26.0" prefWidth="240.0" text="Search Student" />
       <Label fx:id="LL_ProfessorsTitle" layoutX="42.0" layoutY="430.0" text="Professors">
          <font>

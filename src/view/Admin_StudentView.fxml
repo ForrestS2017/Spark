@@ -13,14 +13,9 @@
             <Font name="System Bold" size="40.0" />
          </font>
       </Label>
-      <Label fx:id="LL_Subtitle" alignment="CENTER" layoutX="631.0" layoutY="119.0" text="&lt;CurrentTab&gt;" textAlignment="CENTER" textFill="#9a9a9a" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0">
-         <font>
-            <Font name="System Italic" size="15.0" />
-         </font>
-      </Label>
       <Button fx:id="BT_Back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#GoBack" text="Back" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
       <Button fx:id="BT_Logout" layoutX="15.0" layoutY="52.0" mnemonicParsing="false" onAction="#Logout" text="Logout" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="55.0" />
-      <ListView fx:id="LV_CourseList" layoutX="42.0" layoutY="207.0" prefHeight="314.0" prefWidth="608.0" />
+      <ListView fx:id="LV_StudentList" layoutX="42.0" layoutY="207.0" prefHeight="314.0" prefWidth="608.0" />
       <Label fx:id="LL_StudentsTitle" layoutX="42.0" layoutY="170.0" text="Students">
          <font>
             <Font name="System Bold" size="16.0" />

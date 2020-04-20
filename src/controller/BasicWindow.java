@@ -22,6 +22,10 @@ public class BasicWindow {
     public final String LAYOUT_PROFESSOR_DASHBOARD_VIEW = "/view/Professor_DashboardView.fxml";
     public final String LAYOUT_STUDENT_DASHBOARD_VIEW = "/view/Student_Dashboard.fxml";
     public final String LAYOUT_STUDENT_COURSE_VIEW = "/view/Student_CourseView.fxml";
+    public final String LAYOUT_ADMIN_DASHBOARD_VIEW = "/view/Admin_Dashboard.fxml";
+    public final String LAYOUT_ADMIN_COURSE_VIEW = "/view/Admin_CourseView.fxml";
+    public final String LAYOUT_ADMIN_STUDENT_VIEW = "/view/Admin_StudentView.fxml";
+
 
     /**
      * Return to login screen
