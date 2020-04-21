@@ -7,11 +7,14 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.Course;
 import model.Student;
@@ -58,6 +61,13 @@ public class StudentDashboardController extends BasicWindow {
     	obsList.setAll(courseList);
     	LV_CourseList.setItems(obsList);
     	LV_CourseList.getSelectionModel().select(0);		// Selects first item by default
+
+        LV_CourseList.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER)) EnterCourse();
+            }
+        });
     }
 
     /**
@@ -87,7 +97,7 @@ public class StudentDashboardController extends BasicWindow {
     
     /**
      * Used to pass necessary information from login controller to current controller
-     * @param username
+     * @param student Student's username
      */    
     public void start(Student student) {
     	this.studentObj = student;
