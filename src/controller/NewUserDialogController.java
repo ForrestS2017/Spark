@@ -1,3 +1,6 @@
+/**
+ * @author Anita Kotowska
+ */
 package controller;
 
 import java.io.IOException;
@@ -18,6 +21,9 @@ import javafx.stage.Stage;
 import model.*;
 import util.DataController;
 
+/**
+ * Controller for the New User Dialog View for the Administrator
+ */
 public class NewUserDialogController extends BasicWindow{
 
     @FXML
@@ -49,6 +55,9 @@ public class NewUserDialogController extends BasicWindow{
     private String password;
     private String type;
     
+    /**
+     * Populate choice box with types of Users
+     */
     public void start() {
     	CB_UserType.getItems().add("Professor");
     	CB_UserType.getItems().add("Student");
@@ -56,6 +65,9 @@ public class NewUserDialogController extends BasicWindow{
     	
     }
     
+    /**
+     * Adds a new User on button push
+     */
     @FXML
     void AddUser() {
     	//Get input
@@ -86,11 +98,10 @@ public class NewUserDialogController extends BasicWindow{
     	
     	//Add user 
     	if(usernameExists == false) {
-	    	if(type.equals(User.TYPE_PROFESSOR)) {
+	    	if(type.equalsIgnoreCase(User.TYPE_PROFESSOR)) {
 	    		DataController.saveUser(new Professor(firstName, lastName, username, password));
 	    	}
-	    	else if(type.equals(User.TYPE_STUDENT)) {
-	    		//DataController.saveUser(new Student(firstName, lastName, username, password));
+	    	else if(type.equalsIgnoreCase(User.TYPE_STUDENT)) {
 				DataController.saveUser(new Student(firstName, lastName, username, password));
 	    	}
 	    	else { //Admin
@@ -100,13 +111,6 @@ public class NewUserDialogController extends BasicWindow{
     	}
     	
     }
-
-    public void show() {
-    	stage.showAndWait();
-    }
     
-    public void close() {
-    	stage.close();
-    }
 }
 

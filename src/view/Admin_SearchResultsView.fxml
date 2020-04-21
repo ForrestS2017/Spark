@@ -3,18 +3,21 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminStudentViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="810.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminSearchResultsController">
    <children>
-      <Label fx:id="LL_Title" alignment="CENTER" layoutX="600.0" layoutY="52.0" text="&lt;CourseName&gt;" textAlignment="CENTER" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="350.0">
+      <Label fx:id="LL_Title" alignment="CENTER" layoutX="600.0" layoutY="52.0" text="&lt;SearchInput&gt;" textAlignment="CENTER" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="350.0">
          <font>
             <Font name="System Bold" size="40.0" />
          </font>
       </Label>
       <Button fx:id="BT_Back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#GoBack" text="Back" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
       <Button fx:id="BT_Logout" layoutX="15.0" layoutY="52.0" mnemonicParsing="false" onAction="#Logout" text="Logout" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="55.0" />
+      <ListView fx:id="LV_SearchResults" layoutX="42.0" layoutY="207.0" onMouseClicked="#handleMouseClickStudents" prefHeight="314.0" prefWidth="608.0" />
       <Label fx:id="LL_StudentsTitle" layoutX="42.0" layoutY="170.0" text="Students">
          <font>
             <Font name="System Bold" size="16.0" />
@@ -25,12 +28,12 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label fx:id="LL_NameTitle" layoutX="893.0" layoutY="206.0" text="Name">
+      <Label layoutX="893.0" layoutY="206.0" text="Name">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="LL_IdTitle" layoutX="893.0" layoutY="271.0" text="ID">
+      <Label layoutX="893.0" layoutY="271.0" text="ID">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
@@ -42,19 +45,16 @@
       </Label>
       <Label fx:id="LL_NameSubtitle" layoutX="913.0" layoutY="227.0" prefHeight="17.0" prefWidth="128.0" text="&lt;Student Name&gt;" />
       <Label fx:id="LL_IdSubtitle" layoutX="913.0" layoutY="291.0" prefHeight="17.0" prefWidth="128.0" text="&lt;Student ID&gt;" />
-      <Label fx:id="LL_GradeTItle" layoutX="888.0" layoutY="335.0" text="Grade">
+      <Label layoutX="887.0" layoutY="327.0" text="Courses &amp; Grades">
          <font>
             <Font name="System Bold Italic" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="LL_GradeSubtitle" layoutX="913.0" layoutY="355.0" prefHeight="17.0" prefWidth="128.0" text="&lt;Student Grade&gt;" />
-      <ListView fx:id="LV_Courses" layoutX="888.0" layoutY="433.0" prefHeight="276.0" prefWidth="499.0" />
-      <Label fx:id="LL_CoursesTItle" layoutX="887.0" layoutY="405.0" text="Courses">
-         <font>
-            <Font name="System Bold Italic" size="14.0" />
-         </font>
-      </Label>
-      <Button fx:id="BN_RegisterStudent" layoutX="352.0" layoutY="169.0" mnemonicParsing="false" onAction="#RegisterStudent" prefHeight="26.0" prefWidth="297.0" text="Register a Student" />
-      <ListView fx:id="LV_StudentList" layoutX="35.0" layoutY="209.0" prefHeight="406.0" prefWidth="614.0" onMouseClicked="#handleMouseClickStudents"/>
+      <TableView fx:id="TV_CoursesList" layoutX="887.0" layoutY="355.0" prefHeight="281.0" prefWidth="498.0">
+        <columns>
+          <TableColumn prefWidth="340.800048828125" text="Course" />
+          <TableColumn minWidth="0.0" prefWidth="157.60003662109375" text="Grade" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

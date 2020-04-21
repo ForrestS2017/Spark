@@ -1,3 +1,6 @@
+/**
+ * @author Anita Kotowska
+ */
 package controller;
 
 import java.util.ArrayList;
@@ -7,19 +10,27 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import model.Course;
 import model.Professor;
 import model.Student;
 import model.User;
 import util.DataController;
 
+/**
+ * Controller for the Dashboard for the Administrator
+ */
 public class AdminDashboardController extends BasicWindow{
 
     @FXML
@@ -91,14 +102,20 @@ public class AdminDashboardController extends BasicWindow{
     private ObservableList<Course> courseObsList;
     private ArrayList<Student> studentsArrList;
     private ObservableList<Student> studentsObsList;
+    private String username;
     
     public void start(String username) {
+    	this.username = username;
 		// Fill professor list view
     	professorList = FXCollections.observableArrayList();
     	userList = DataController.readUsers();
     	userList.forEach(user -> {
-            if (user.getType().equals("professor")) professorList.add(user); });
+            if (user.getType().equalsIgnoreCase(User.TYPE_PROFESSOR)) {
+            	professorList.add(user); 
+    		}
+    	});
         LV_ProfessorList.setItems(professorList);
+        
     }
     
     @FXML
@@ -106,26 +123,94 @@ public class AdminDashboardController extends BasicWindow{
 
     }
 
+    /**
+     * Creating a new course handled by NewCourseDialogController
+     * @param event
+     */
     @FXML
     void CreateCourse(ActionEvent event) {
-
+    	try {
+			//Open Dialog asking for new user information.
+		        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/NewCourse_Dialog.fxml"));
+		        Parent root = (Parent) loader.load();
+		        Stage stage = new Stage();
+		        NewCourseDialogController controller = loader.<NewCourseDialogController>getController();
+		        controller.start();
+		        stage.setScene(new Scene(root));  
+		        stage.show();
+		    
+	 } catch(Exception ex) {
+		 	Alert a = new Alert(AlertType.ERROR); 
+			a.setContentText("There was an unexpected error!");
+			a.show(); 
+			System.out.println("CreateCourse error: " +ex);
+	 }
     }
 
+    /**
+     * Creating a new user handled by NewUserDialogController
+     * @param event
+     */
     @FXML
     void CreateUser(ActionEvent event) {
-
+    	try {
+			//Open Dialog asking for new user information.
+		        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/NewUser_Dialog.fxml"));
+		        Parent root = (Parent) loader.load();
+		        Stage stage = new Stage();
+		        NewUserDialogController controller = loader.<NewUserDialogController>getController();
+		        controller.start();
+		        stage.setScene(new Scene(root));  
+		        stage.show();
+		    
+	 } catch(Exception ex) {
+		 	Alert a = new Alert(AlertType.ERROR); 
+			a.setContentText("There was an unexpected error!");
+			a.show(); 
+			System.out.println("AddUser error: " +ex);
+	 }
     }
 
+    /**
+     * Logs admin out of system and opens login page
+     * @param event
+     */
     @FXML
     void Logout(ActionEvent event) {
     	Logout();
     }
 
+    /**
+     * Search for student containing input
+     * Handled by AdminSearchResultsController
+     * @param event
+     */
     @FXML
     void SearchStudent(ActionEvent event) {
-
+    	String searchInput = TF_StudentName.getText();
+    	
+    	if (searchInput.equals("")) {
+    		Alert alert = new Alert(AlertType.INFORMATION);
+    		alert.setTitle("Error");
+    		alert.setHeaderText("Please enter student name or ID to search.");
+    		alert.setContentText("Please try again.");
+    		alert.showAndWait();
+    	}
+    	//Search Student
+    	else {
+    		FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(this.getClass().getResource("/view/Admin_SearchResultsView.fxml"));
+            LoadNewScene(loader);
+            AdminSearchResultsController controller = (AdminSearchResultsController) loader.getController();
+            controller.start(searchInput, username);
+    	}
+    	
     }
 
+    /**
+     * Go into course view for selected professor
+     * @param event
+     */
     @FXML
     void ViewProfessor(ActionEvent event) {
     	 User selection = LV_ProfessorList.getSelectionModel().getSelectedItem();
@@ -137,7 +222,11 @@ public class AdminDashboardController extends BasicWindow{
          controller.start(selection);
      }
     
-    @FXML public void handleMouseClick(MouseEvent arg0) {
+    /**
+     * Handler for admin clicking on a professor from list of professors
+     * Updates courses taught list, students taught list, and overall average student grade
+     */
+    @FXML public void handleMouseClick() {
         User selection = LV_ProfessorList.getSelectionModel().getSelectedItem();
     	courseObsList = FXCollections.observableArrayList();
     	studentsObsList = FXCollections.observableArrayList();
@@ -153,7 +242,28 @@ public class AdminDashboardController extends BasicWindow{
         LV_CoursesTaught.setItems(courseObsList);
         LV_StudentsTaught.setItems(studentsObsList);
         
+        //Update average grade
+        courseArrList = DataController.readCourses();
+        //Get courses taught by selected professor
+        ArrayList<Course> coursesTaught = new ArrayList<>();
+        for(Course c : courseArrList) {
+        	if(c.getProfessor().equals(selection)) {
+        		coursesTaught.add(c);
+        	}
+        }
         
+        float avg=0;
+	    if(!coursesTaught.isEmpty()) {
+        	int size = coursesTaught.size();
+	        for(int i=0; i<size;i++) {
+	        	if(!(coursesTaught.get(i).getStudents().isEmpty())) {
+	        		avg = avg + coursesTaught.get(i).getClassAverage();
+	        	}
+	        	
+	        }
+	        avg = avg/size;
+	    }
+        LL_AverageGradeSubtitle.setText(Float.toString(avg));
     }
 
 

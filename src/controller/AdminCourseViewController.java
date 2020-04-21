@@ -1,3 +1,6 @@
+/**
+ * @author Anita Kotowska
+ */
 package controller;
 
 import java.util.ArrayList;
@@ -21,6 +24,9 @@ import model.Student;
 import model.User;
 import util.DataController;
 
+/**
+ * Controller for the CourseView for the Administrator
+ */
 public class AdminCourseViewController extends BasicWindow{
 
     @FXML
@@ -73,7 +79,13 @@ public class AdminCourseViewController extends BasicWindow{
     private ObservableList<Course> coursesObsList;
     private ObservableList<Student> studentsInCourse;
     private ArrayList<User> students;
+    private ArrayList<Course> courses;
     
+    /**
+     * Populates list view with courses taught by previously selected professor
+     * Updates title label
+     * @param professorSelected
+     */
     public void start(User professorSelected) {
     	// Fill courses list view
     	this.professorViewing = professorSelected;
@@ -87,6 +99,10 @@ public class AdminCourseViewController extends BasicWindow{
         
     }
     
+    /**
+     * Return to previous view
+     * @param event
+     */
     @FXML
     void GoBack(ActionEvent event) {
    	 	FXMLLoader loader = new FXMLLoader();
@@ -96,11 +112,19 @@ public class AdminCourseViewController extends BasicWindow{
         controller.start(username);
     }
 
+    /**
+     * Logs admin out of system and opens login page
+     * @param event
+     */
     @FXML
     void Logout(ActionEvent event) {
     	Logout();
     }
-
+    
+    /**
+     * Goes to the student view of selected course
+     * @param event
+     */
     @FXML
     void ViewCourse(ActionEvent event) {
     	Course selection = LV_CourseList.getSelectionModel().getSelectedItem();
@@ -112,16 +136,27 @@ public class AdminCourseViewController extends BasicWindow{
         controller.start(selection, professorViewing);
     }
     
+    /**
+     * Populate TableView with courses selected student is taking and the students grade in that course
+     * @param arg0
+     */
     @FXML public void handleMouseClickCourse (MouseEvent arg0) {
     	
     	Course selection = LV_CourseList.getSelectionModel().getSelectedItem();
-    	studentsInCourse = FXCollections.observableArrayList(selection.getStudents());
+    	/*studentsInCourse = FXCollections.observableArrayList(selection.getStudents());
   
     	name.setCellValueFactory(new PropertyValueFactory<Student, String>("studentName"));
 		grade.setCellValueFactory(new PropertyValueFactory<Student, Integer>("studentGrade"));
 		
     	TV_Students.setItems(studentsInCourse);
+    	*/
     	
+    	if(!selection.getStudents().isEmpty()) {
+    		LL_AverageGradeSubtitle.setText(Float.toString(selection.getClassAverage()));
+    	}
+    	else {
+    		LL_AverageGradeSubtitle.setText("0.0");
+    	}
     	
     }
 }

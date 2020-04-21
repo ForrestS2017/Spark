@@ -1,3 +1,6 @@
+/**
+ * @author Anita Kotowska
+ */
 package controller;
 
 import java.util.ArrayList;
@@ -18,6 +21,9 @@ import model.Student;
 import model.User;
 import util.DataController;
 
+/**
+ * Controller for the Student View for the Administrator
+ */
 public class AdminStudentViewController extends BasicWindow{
 
     @FXML
@@ -63,7 +69,7 @@ public class AdminStudentViewController extends BasicWindow{
     private Label LL_GradeSubtitle;
 
     @FXML
-    private ListView<?> LV_Courses;
+    private ListView<Course> LV_Courses;
 
     @FXML
     private Label LL_CoursesTItle;
@@ -74,19 +80,28 @@ public class AdminStudentViewController extends BasicWindow{
     String username;
     Course courseDisplayed;
     User professorPreviouslyDisplayed;
-    private ArrayList<Student> studentArryList;
+    private ArrayList<Student> studentArrList;
     private ObservableList<Student> studentObsList;
+    private ArrayList<Course> coursesArrList;
+    private ObservableList<Course> coursesObsList;
     
+    /**
+     * Updates title with course name
+     * Updates listView with students in course
+     * @param course
+     * @param professor
+     */
     public void start(Course course, User professor) {
 		this.courseDisplayed = course;
 		this.professorPreviouslyDisplayed = professor;
 		LL_Title.setText(course.getTitle());
-		//Fill Student List
-		studentObsList = FXCollections.observableArrayList();
-		studentArryList = course.getStudents();
-		
+		updateStudentListView();
     }
     
+    /**
+     * Return to previous view
+     * @param event
+     */
     @FXML
     void GoBack(ActionEvent event) {
     	FXMLLoader loader = new FXMLLoader();
@@ -96,17 +111,27 @@ public class AdminStudentViewController extends BasicWindow{
         controller.start(professorPreviouslyDisplayed);
     }
 
+    /**
+     * Logs admin out of system and opens login page
+     * @param event
+     */
     @FXML
     void Logout(ActionEvent event) {
     	Logout();
     }
 
+    /**
+     * Button clicked to register a student to class that is currently being viewed
+     * @param event
+     */
     @FXML
     void RegisterStudent(ActionEvent event) {
     	ArrayList<User> users = new ArrayList<>(DataController.readUsers());
     	ArrayList<Student> choices = new ArrayList<>();
     	for(User u : users) {
-    		if(u.getType().equals("STUDENT")) {
+    		//Add student only if not already in the class
+    		if(u.getType().equals("STUDENT") &&
+    				!u.getCourses().contains(courseDisplayed)) {
     			choices.add((Student)u);
     		}
     	}
@@ -116,9 +141,62 @@ public class AdminStudentViewController extends BasicWindow{
     	dialog.setHeaderText("Register a Student.");
     	dialog.setContentText("Choose a Student to register to this course:");
     	Optional<Student> result = dialog.showAndWait();
-    	result.ifPresent(student -> courseDisplayed.registerStudent(student));
-    	DataController.saveCourse(courseDisplayed);
+    	result.ifPresent(student -> registerAndUpdate(student));
     	
+    }
+    
+    /**
+     * Helper method to register a student to a course and updates the list view
+     * @param student
+     */
+    private void registerAndUpdate(Student student) {
+    	courseDisplayed.registerStudent(student);
+    	DataController.saveCourse(courseDisplayed);
+    	//Update ListView
+    	updateStudentListView();
+		return;
+    }
+    
+    /**
+     * Helper method to update the list view with newly registered students
+     */
+    private void updateStudentListView() {
+    	studentObsList = FXCollections.observableArrayList();
+		studentArrList = courseDisplayed.getStudents();
+		studentArrList.forEach(stud -> {studentObsList.add(stud);} );
+		LV_StudentList.setItems(studentObsList);
+		return;
+    }
+    
+    /**
+     * Mouse click handler for list of students
+     * Changes labels and tableView list of courses to match currently selected student
+     * @param arg0
+     */
+    @FXML public void handleMouseClickStudents (MouseEvent arg0) {
+    	Student studentSelection = LV_StudentList.getSelectionModel().getSelectedItem();
+    	//setCourseList(studentSelection);
+    	LL_NameSubtitle.setText(studentSelection.getFullName());
+    	LL_IdSubtitle.setText(studentSelection.getUsername());
+    	if(!(courseDisplayed.getSpecificStudentSubmissions(studentSelection.getUsername()).isEmpty())) {
+    		LL_GradeSubtitle.setText(Float.toString(courseDisplayed.getStudentFinalGrade(studentSelection.getUsername())));
+    	}
+    	else {
+    		LL_GradeSubtitle.setText("0.0");
+    	}
+    }
+    
+    /**
+     * Helper method updates tableView list of courses for a selected student
+     * @param student
+     */
+    private void setCourseList(Student student) {
+     	coursesObsList = FXCollections.observableArrayList();
+     	coursesArrList = student.getCourses();
+     	coursesArrList.forEach(course -> {
+             coursesObsList.add(course);
+         });
+         LV_Courses.setItems(coursesObsList);
     }
     
     
