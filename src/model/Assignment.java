@@ -166,7 +166,8 @@ public class Assignment implements Comparable<Assignment> {
         }
 
         public String getFeedbackText() {
-            return feedbackText;
+
+            return feedbackText != null ? feedbackText : "";
         }
 
         /**

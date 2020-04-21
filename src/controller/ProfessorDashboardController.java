@@ -86,6 +86,7 @@ public class ProfessorDashboardController extends BasicWindow {
                 if (keyEvent.getCode().equals(KeyCode.ENTER)) EnterCourse();
             }
         });
+        getMainStage().setTitle("Spark - Professor Dashboard: " + username);
     }
 
     /**

@@ -168,6 +168,9 @@ public class ProfessorCourseViewController extends BasicWindow {
         course.getAnnouncements().forEach(a -> announcementList.add(a));
         course.getStudents().forEach(a -> studentList.add(a));
 
+
+        getMainStage().setTitle("Spark - Professor Course View: " + course.getTitle());
+
         initAssignments();
     }
 
@@ -220,7 +223,6 @@ public class ProfessorCourseViewController extends BasicWindow {
             ShowError("Please fill out all fields", "Incomplete Assignment");
             return;
         }
-        ;
 
         Assignment newAssignment = new Assignment(
                 TF_AssignmentTitle.getText(),
@@ -244,7 +246,10 @@ public class ProfessorCourseViewController extends BasicWindow {
     public void EditPublishAssignment() {
         if (TF_AssignmentTitle.getText().isBlank()
                 || TA_AssignmentDescription.getText().isBlank()
-                || DP_AssignmentDueDate.getValue() == null) return;
+                || DP_AssignmentDueDate.getValue() == null) {
+            ShowError("Incomplete Assignment", "Please fill out all fields");
+            return;
+        }
 
         Assignment newAssignment = new Assignment(
                 TF_AssignmentTitle.getText(),
@@ -295,6 +300,7 @@ public class ProfessorCourseViewController extends BasicWindow {
             AN_AssignmentSubmissions.setVisible(false);
             LL_NoSubmissionsSubmissions.setVisible(true);
             LL_NoSubmissionsSubmissions.setText("No Assignments");
+            TF_FeedbackGrade.clear();
             return;
         }
 
@@ -332,8 +338,11 @@ public class ProfessorCourseViewController extends BasicWindow {
                 if (t1 == null) return;
                 SubmissionPane sPane = (SubmissionPane) t1;
                 Assignment.Submission s = sPane.getSubmission();
+                TF_FeedbackGrade.clear();
                 TA_FeedbackDescription.setText(s.getFeedbackText());
-                TF_FeedbackGrade.setText(Long.toString(s.getGrade()));
+                float grade = s.getGrade();
+                String feedbackGrade = grade > -1f ? Long.toString(s.getGrade()) : "";
+                TF_FeedbackGrade.setText(feedbackGrade);
             }
         });
     }
@@ -344,6 +353,10 @@ public class ProfessorCourseViewController extends BasicWindow {
     @FXML
     public void SubmitFeedback() {
         if (AN_AssignmentSubmissions.getExpandedPane() == null) {
+            return;
+        }
+        if (TA_FeedbackDescription.getText().isBlank() || TF_FeedbackGrade.getText().isBlank()) {
+            ShowError("Incomplete Feedback", "Please fill out all fields");
             return;
         }
         String feedback = TA_FeedbackDescription.getText();
@@ -420,7 +433,10 @@ public class ProfessorCourseViewController extends BasicWindow {
      */
     @FXML
     public void PublishAnnouncement() {
-        if (TF_AnnouncementTitle.getText().isBlank() || TA_AnnouncementDescription.getText().isBlank()) return;
+        if (TF_AnnouncementTitle.getText().isBlank() || TA_AnnouncementDescription.getText().isBlank()){
+            ShowError("Incomplete announcement", "Please fill out all fields");
+            return;
+        }
 
         Course.Announcement newAnnouncement = new Course.Announcement(
                 TF_AnnouncementTitle.getText(),
@@ -442,7 +458,10 @@ public class ProfessorCourseViewController extends BasicWindow {
      */
     @FXML
     public void EditPublishAnnouncement() {
-        if (TF_AnnouncementTitle.getText().isBlank() || TA_AnnouncementDescription.getText().isBlank()) return;
+        if (TF_AnnouncementTitle.getText().isBlank() || TA_AnnouncementDescription.getText().isBlank()){
+            ShowError("Incomplete announcement", "Please fill out all fields");
+            return;
+        }
 
         Course.Announcement newAnnouncement = new Course.Announcement(
                 TF_AnnouncementTitle.getText(),

@@ -44,7 +44,6 @@ public class LoginController extends BasicWindow{
 	@FXML
 	public void initialize() {
 		//String organizationName = promptForOrganization();
-
 		TF_Username.setText("");
 	}
 
@@ -52,6 +51,7 @@ public class LoginController extends BasicWindow{
 	public void start(Stage mainStage, FXMLLoader loader) {
 		this.mainStage = mainStage;
 		this.loader = loader;
+		this.mainStage.setTitle("Spark - Login");
 	}
 
 	/**
