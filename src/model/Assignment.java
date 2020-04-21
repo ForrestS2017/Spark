@@ -62,8 +62,16 @@ public class Assignment implements Comparable<Assignment> {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getPublishDate() {
@@ -72,6 +80,10 @@ public class Assignment implements Comparable<Assignment> {
 
     public LocalDateTime getDueDate() {
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(dueDate), ZoneId.systemDefault());
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate.atZone(ZoneId.systemDefault()).toEpochSecond();
     }
 
     public ArrayList<Submission> getStudentSubmissions() {

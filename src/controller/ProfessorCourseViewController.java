@@ -230,7 +230,7 @@ public class ProfessorCourseViewController extends BasicWindow {
                 DP_AssignmentDueDate.getValue().atTime(11, 55)
         );
         if (course.publishAssignment(newAssignment) == false) {
-            System.out.println("Failed to publish");
+            ShowError("Failed to add assignment", "Another assignment already has this title");
             return;
         }
         assignmentList = FXCollections.observableArrayList(course.getAssignments());
@@ -251,18 +251,28 @@ public class ProfessorCourseViewController extends BasicWindow {
             return;
         }
 
+        Assignment oldAssignment = LV_AssignmentListAssignments.getSelectionModel().getSelectedItem();
+        course.getAssignments().remove(oldAssignment);
         Assignment newAssignment = new Assignment(
                 TF_AssignmentTitle.getText(),
                 TA_AssignmentDescription.getText(),
                 DP_AssignmentDueDate.getValue().atTime(11, 55)
         );
-        if (course.publishAssignment(newAssignment) == false) {
-            course.removeAssignment(newAssignment);
-            course.publishAssignment(newAssignment);
+
+        if (course.getAssignments().contains(newAssignment)) {
+            ShowError("Failed to add announcement", "Another announcement already has this title");
+            course.publishAssignment(oldAssignment);
+            assignmentList = FXCollections.observableArrayList(course.getAssignments());
+            LV_AssignmentListAssignments.setItems(assignmentList);
+            LV_AssignmentListAssignments.refresh();
             return;
         }
+
+        course.publishAssignment(newAssignment);
+
         assignmentList = FXCollections.observableArrayList(course.getAssignments());
         LV_AssignmentListAssignments.setItems(assignmentList);
+        LV_AssignmentListAssignments.refresh();
         System.out.println("Published: " + TF_AssignmentTitle.getText());
         DataController.saveCourse(course);
     }
@@ -443,8 +453,8 @@ public class ProfessorCourseViewController extends BasicWindow {
                 TA_AnnouncementDescription.getText()
         );
 
-        if (course.addAnnouncement(newAnnouncement) == false) {
-            ShowError("Another announcement already has this title!", "Failed to add announcement");
+        if (course.publishAnnouncement(newAnnouncement) == false) {
+            ShowError("Failed to add announcement", "Another announcement already has this title");
             return;
         }
         announcementList = FXCollections.observableArrayList(course.getAnnouncements());
@@ -463,18 +473,28 @@ public class ProfessorCourseViewController extends BasicWindow {
             return;
         }
 
+        Course.Announcement oldAnnouncement = LV_AnnouncementList.getSelectionModel().getSelectedItem();
+        course.getAnnouncements().remove(oldAnnouncement);
         Course.Announcement newAnnouncement = new Course.Announcement(
                 TF_AnnouncementTitle.getText(),
                 TA_AnnouncementDescription.getText()
         );
 
-        if (course.addAnnouncement(newAnnouncement) == false) {
-            course.removeAnnouncement(newAnnouncement);
-            course.addAnnouncement(newAnnouncement);
+        if (course.getAnnouncements().contains(newAnnouncement)) {
+            ShowError("Failed to add announcement", "Another announcement already has this title");
+            course.publishAnnouncement(oldAnnouncement);
+            announcementList = FXCollections.observableArrayList(course.getAnnouncements());
+            LV_AnnouncementList.setItems(announcementList);
+            LV_AnnouncementList.refresh();
+            return;
         }
+
+        course.publishAnnouncement(newAnnouncement);
+
         announcementList = FXCollections.observableArrayList(course.getAnnouncements());
         LV_AnnouncementList.setItems(announcementList);
         System.out.println("Published: " + TF_AssignmentTitle.getText());
+        LV_AnnouncementList.refresh();
         DataController.saveCourse(course);
     }
 

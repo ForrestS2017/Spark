@@ -62,38 +62,9 @@
       {
         "title": "Tails Test",
         "description": "Tails Desc",
-        "publishDate": 1587237279,
+        "publishDate": 1587488022,
         "dueDate": 1587570900,
-        "studentSubmissions": [
-          {
-            "username": "lc96",
-            "submissionText": "I love Tails - he\u0027s a sharpshooter like myself.",
-            "feedbackText": "Lol you\u0027re right!",
-            "submissionDate": 1587247279,
-            "grade": 99
-          },
-          {
-            "username": "bk69",
-            "submissionText": "Tails\u0027 has cool fur color",
-            "feedbackText": "Thanks for actually doing hw",
-            "submissionDate": 1587540900,
-            "grade": 33
-          },
-          {
-            "username": "mi15",
-            "submissionText": "I will work diligently, just like Tails!",
-            "feedbackText": "Yes you will :).",
-            "submissionDate": 1587237779,
-            "grade": 95
-          },
-          {
-            "username": "jj01",
-            "submissionText": "Did this go through?",
-            "feedbackText": "Yea it did.",
-            "submissionDate": 1587277779,
-            "grade": 5
-          }
-        ]
+        "studentSubmissions": []
       }
     ],
     "announcements": [
@@ -111,6 +82,21 @@
         "title": "Assignment 2 Released!!",
         "description": "\"Tails Test\" has been released as Assignment 2 ",
         "publishDate": 1587259421
+      },
+      {
+        "title": "Assignment 2ddd Released!!",
+        "description": "\"Tails Test\" has been released as Assignment 2 ",
+        "publishDate": 1587488317
+      },
+      {
+        "title": "Assignment 3 Released!!",
+        "description": "\"Tails Test\" has been released as Assignment 2 ",
+        "publishDate": 1587488413
+      },
+      {
+        "title": "Assignment 4 Released!!",
+        "description": "ddddd",
+        "publishDate": 1587488853
       }
     ]
   },

@@ -163,7 +163,7 @@ public class Course implements Comparable<Course> {
         return announcements;
     }
 
-    public boolean addAnnouncement(Announcement announcement) {
+    public boolean publishAnnouncement(Announcement announcement) {
         if (announcements.contains(announcement)) return false;
         return announcements.add(announcement);
     }
@@ -307,6 +307,10 @@ public class Course implements Comparable<Course> {
 
         public String getDescription() {
             return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
 
         public LocalDateTime getPublishDate() {
