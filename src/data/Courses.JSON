@@ -61,30 +61,9 @@
       {
         "title": "Tails Test",
         "description": "Tails Desc",
-        "publishDate": 1587488022,
+        "publishDate": 1587506352,
         "dueDate": 1587570900,
-        "studentSubmissions": [
-          {
-            "username": "lc96",
-            "submissionText": "I like Tails - he\u0027s a sharpshooter like myself.",
-            "feedbackText": "Edgy, but I\u0027ll accept it.",
-            "submissionDate": 1587245438,
-            "grade": 99
-          },
-          {
-            "username": "mi15",
-            "submissionText": "I enjoy learning, just like Tails!",
-            "submissionDate": 1587233438,
-            "grade": -1
-          },
-          {
-            "username": "bk69",
-            "submissionText": "Urgh! I HATE THIS CLASS",
-            "feedbackText": "I hate you too!",
-            "submissionDate": 1587533438,
-            "grade": 50
-          }
-        ]
+        "studentSubmissions": []
       }
     ],
     "announcements": [
