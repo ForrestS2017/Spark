@@ -16,6 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.Course;
+import model.User;
 import util.DataController;
 
 import java.util.ArrayList;
@@ -87,6 +88,14 @@ public class ProfessorDashboardController extends BasicWindow {
             }
         });
         getMainStage().setTitle("Spark - Professor Dashboard: " + username);
+        ArrayList<User> allUsers = DataController.readUsers();
+        String profName = "";
+        User tempUser = new User("", "", username, "", "");
+        if(allUsers.contains(tempUser)) {
+            User u = allUsers.get(allUsers.indexOf(tempUser));
+            profName = u.getFullName();
+        }
+        LL_Subtitle.setText("Professor " + profName + "'s Dashboard");
     }
 
     /**
