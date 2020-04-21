@@ -20,7 +20,9 @@ import model.Course.Announcement;
 import model.Student;
 import util.DataController;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -60,7 +62,7 @@ public class StudentCourseViewController extends BasicWindow {
      ** Assignment Page Widgets **
      *************************/
     @FXML TableView<Assignment> tblAllAssignments;
-    @FXML Label LL_AssignmentTitle, LL_AssignmentDateDue, LL_AssignmentStatus, LL_AssignmentInstructions;
+    @FXML Label LL_AssignmentTitle, LL_AssignmentDateDue, LL_AssignmentSubmissionDate, LL_AssignmentStatus, LL_AssignmentInstructions;
     @FXML TextArea TA_AssignmentSubmission;
     @FXML Button BN_AssignmentPublish;
     
@@ -84,6 +86,8 @@ public class StudentCourseViewController extends BasicWindow {
 
         LL_Title.setText(course.getTitle());
         LL_Subtitle.setText("Professor " + course.getProfessor().getLastName());
+        
+        course.publishAssignment(new Assignment("Assignment Test #2", "Desc. of assignment test", LocalDateTime.of(LocalDate.of(2020, 04, 21), LocalTime.of(13, 40))));
         
         initHomePage();
         initAssignments();
@@ -122,7 +126,7 @@ public class StudentCourseViewController extends BasicWindow {
     	// Load ListView with Classmates
     	ObservableList<String> obsListClassmates = FXCollections.observableArrayList();
     	ArrayList<String> classmateUsernames = course.getRegisteredStudents();
-    	classmateUsernames.remove(student.getUsername());	// remove current student user name
+    	//classmateUsernames.remove(student.getUsername());	// remove current student user name
     	obsListClassmates.setAll(classmateUsernames);
     	LV_Classmates.setItems(obsListClassmates);
     	LV_Classmates.setMouseTransparent(true);			// disables highlighting
@@ -190,11 +194,17 @@ public class StudentCourseViewController extends BasicWindow {
     	
     	TableColumn<Assignment, String> tblCol_AssignmentStatus = new TableColumn<>("Status");
     	tblCol_AssignmentStatus.setCellValueFactory(a -> {
-    		String assignmentStatus = (LocalDateTime.now().isAfter(a.getValue().getDueDate()) && a.getValue().searchStudentSubmission(student.getUsername()) == null) ? "Late" : 
-				(a.getValue().searchStudentSubmission(student.getUsername()) == null) ? "Incomplete" : "Submitted";
-    		if(assignmentStatus == "Submitted" && LocalDateTime.now().isAfter(a.getValue().getDueDate()))
-    			assignmentStatus += " (Late)";
-    		return new SimpleStringProperty(assignmentStatus);
+    		Submission studentSubmission = a.getValue().searchStudentSubmission(student.getUsername());
+    		if(studentSubmission == null)
+    			if(LocalDateTime.now().isBefore(a.getValue().getDueDate()))
+    				return new SimpleStringProperty("Incomplete");
+    			else
+    				return new SimpleStringProperty("Late");
+    		else
+    			if(studentSubmission.getSubmissionDate().isBefore(a.getValue().getDueDate()))
+    				return new SimpleStringProperty("Submitted");
+    			else
+    				return new SimpleStringProperty("Submitted (Late)");
     	});
     	tblCol_AssignmentStatus.setPrefWidth(100);
     	
@@ -225,10 +235,22 @@ public class StudentCourseViewController extends BasicWindow {
      */
     public void displayAssignmentDetails(Assignment assignment) {
     	LL_AssignmentTitle.setText("Title: " + assignment.getTitle());
-    	String assignmentStatus = (LocalDateTime.now().isAfter(assignment.getDueDate()) && assignment.searchStudentSubmission(student.getUsername()) == null) ? "Late" : 
-    									(assignment.searchStudentSubmission(student.getUsername()) == null) ? "Incomplete" : "Submitted";
-    	if(assignmentStatus == "Submitted" && LocalDateTime.now().isAfter(assignment.getDueDate()))
-			assignmentStatus += " (Late)";
+    	String assignmentStatus;
+		Submission studentSubmission = assignment.searchStudentSubmission(student.getUsername());
+		if(studentSubmission == null) {
+			LL_AssignmentSubmissionDate.setText("Submission Date: N/A");
+			if(LocalDateTime.now().isBefore(assignment.getDueDate()))
+				assignmentStatus = "Incomplete";
+			else
+				assignmentStatus = "Late";
+		}
+		else {
+			LL_AssignmentSubmissionDate.setText("Submission Date: " + studentSubmission.getSubmissionDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a")));
+			if(studentSubmission.getSubmissionDate().isBefore(assignment.getDueDate()))
+				assignmentStatus = "Submitted";
+			else
+				assignmentStatus = "Submitted (Late)";
+		}
     	
     	LL_AssignmentStatus.setText("Status: " + assignmentStatus);
     	LL_AssignmentDateDue.setText("Due Date: " + assignment.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a")));
@@ -269,7 +291,10 @@ public class StudentCourseViewController extends BasicWindow {
     			course.getAssignments().get(i).addSubmission(student.getUsername(), TA_AssignmentSubmission.getText());
     			new Alert(AlertType.NONE, "Submission Accepted!", ButtonType.APPLY).show();
     			
+    			System.out.println("Before Saving: list of registered students in course = " + course.getRegisteredStudents());
+    			
     			// Save data into file
+    			//course.getRegisteredStudents().add(student.getUsername());
     			DataController.saveCourse(course);
     			
     			// Refresh TableView

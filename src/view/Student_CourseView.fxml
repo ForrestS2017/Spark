@@ -90,12 +90,12 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="54.0" layoutY="92.0" text="Instructions:">
+                              <Label layoutX="54.0" layoutY="96.0" text="Instructions:">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="LL_AssignmentInstructions" alignment="TOP_LEFT" layoutX="54.0" layoutY="119.0" prefHeight="107.0" prefWidth="686.0" text="&lt;Instructions&gt;">
+                              <Label fx:id="LL_AssignmentInstructions" alignment="TOP_LEFT" layoutX="54.0" layoutY="123.0" prefHeight="107.0" prefWidth="686.0" text="&lt;Instructions&gt;">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -109,6 +109,11 @@
                               <Label fx:id="LL_AssignmentStatus" alignment="CENTER_RIGHT" layoutX="529.0" layoutY="23.0" prefHeight="25.0" prefWidth="211.0" text="Status: &lt;Assignment Status&gt;">
                                  <font>
                                     <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="LL_AssignmentSubmissionDate" layoutX="54.0" layoutY="69.0" prefHeight="20.0" prefWidth="288.0" text="Submission Date: &lt;Date&gt;">
+                                 <font>
+                                    <Font size="14.0" />
                                  </font>
                               </Label>
                            </children>
