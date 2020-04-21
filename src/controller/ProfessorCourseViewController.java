@@ -236,6 +236,7 @@ public class ProfessorCourseViewController extends BasicWindow {
         assignmentList = FXCollections.observableArrayList(course.getAssignments());
         LV_AssignmentListAssignments.setItems(assignmentList);
         System.out.println("Published: " + TF_AssignmentTitle.getText());
+        course.updateAllAutomaticGrades();
         DataController.saveCourse(course);
     }
 
@@ -292,6 +293,8 @@ public class ProfessorCourseViewController extends BasicWindow {
         TA_AssignmentDescription.clear();
         TF_AssignmentTitle.clear();
         DP_AssignmentDueDate.setValue(null);
+        course.updateAllAutomaticGrades();
+        DataController.saveCourse(course);
     }
 
 
@@ -459,6 +462,7 @@ public class ProfessorCourseViewController extends BasicWindow {
         }
         announcementList = FXCollections.observableArrayList(course.getAnnouncements());
         LV_AnnouncementList.setItems(announcementList);
+        LV_AnnouncementList.refresh();
         System.out.println("Published: " + TF_AssignmentTitle.getText());
         DataController.saveCourse(course);
     }
@@ -671,9 +675,15 @@ public class ProfessorCourseViewController extends BasicWindow {
      * Recalculate and re-display class analytics
      */
     protected void RefreshClassAnalytics() {
-        LL_AnalyticsAverageBody.setText(Float.toString(course.getClassAverage()));
-        LL_AnalyticsMedianBody.setText(Float.toString(course.getClassMedian()));
-        LL_AnalyticsRangeBody.setText(String.format("{%.2f,%.2f}", course.getClassMinGrade(), course.getClassMaxGrade()));
+        if (course.getGradeBookFinal().isEmpty()) {
+            LL_AnalyticsAverageBody.setText("--");
+            LL_AnalyticsMedianBody.setText("--");
+            LL_AnalyticsRangeBody.setText("--");
+        } else {
+            LL_AnalyticsAverageBody.setText(Float.toString(course.getClassAverage()));
+            LL_AnalyticsMedianBody.setText(Float.toString(course.getClassMedian()));
+            LL_AnalyticsRangeBody.setText(String.format("{%.2f,%.2f}", course.getClassMinGrade(), course.getClassMaxGrade()));
+        }
     }
 
     /**

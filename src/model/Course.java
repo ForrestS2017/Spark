@@ -201,6 +201,18 @@ public class Course implements Comparable<Course> {
         gradeBookAutomatic.put(studentID, 100 * GPA / (completedAss * 100));
     }
 
+
+
+    /**
+     * Automatically calculate all students unadjusted grade based on submission grades
+     *
+     */
+    public void updateAllAutomaticGrades() {
+        for(String s: registeredStudents) {
+            updateAutomaticGrade(s);
+        }
+    }
+
     public void removeFinalGrade(String studentID) {
         gradeBookFinal.remove(studentID);
     }
@@ -215,6 +227,10 @@ public class Course implements Comparable<Course> {
 
     public Map<String, Float> getGradeBookFinal() {
         return gradeBookFinal;
+    }
+
+    public Map<String, Float> getGradeBookAutomatic() {
+        return gradeBookAutomatic;
     }
 
     /**

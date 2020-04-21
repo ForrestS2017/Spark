@@ -11,17 +11,16 @@
     ],
     "professor": "fcs34",
     "gradeBookAutomatic": {
-      "mi15": 95.5,
+      "mi15": -1.0,
       "lc96": 93.5,
       "benja": 0.0,
-      "bk69": 19.0,
+      "bk69": 27.5,
       "jj01": -1.0
     },
     "gradeBookFinal": {
-      "lc96": 93.5,
-      "bk69": 31.69,
-      "mi15": 95.5,
-      "jj01": 33.0
+      "lc96": 100.0,
+      "bk69": 27.5,
+      "mi15": 50.0
     },
     "assignments": [
       {
@@ -33,7 +32,7 @@
           {
             "username": "lc96",
             "submissionText": "I prefer Shadow - he\u0027s a sharpshooter like myself.",
-            "feedbackText": "Edgy, but I\u0027ll accept it.",
+            "feedbackText": "Thank you!",
             "submissionDate": 1587245438,
             "grade": 88
           },
@@ -47,7 +46,7 @@
           {
             "username": "bk69",
             "submissionText": "I don\u0027t care!! I HATE THIS CLASS",
-            "feedbackText": "u smell lol",
+            "feedbackText": "You smell lol",
             "submissionDate": 1587533438,
             "grade": 5
           },
@@ -64,7 +63,28 @@
         "description": "Tails Desc",
         "publishDate": 1587488022,
         "dueDate": 1587570900,
-        "studentSubmissions": []
+        "studentSubmissions": [
+          {
+            "username": "lc96",
+            "submissionText": "I like Tails - he\u0027s a sharpshooter like myself.",
+            "feedbackText": "Edgy, but I\u0027ll accept it.",
+            "submissionDate": 1587245438,
+            "grade": 99
+          },
+          {
+            "username": "mi15",
+            "submissionText": "I enjoy learning, just like Tails!",
+            "submissionDate": 1587233438,
+            "grade": -1
+          },
+          {
+            "username": "bk69",
+            "submissionText": "Urgh! I HATE THIS CLASS",
+            "feedbackText": "I hate you too!",
+            "submissionDate": 1587533438,
+            "grade": 50
+          }
+        ]
       }
     ],
     "announcements": [
@@ -79,24 +99,9 @@
         "publishDate": 1587250417
       },
       {
-        "title": "Assignment 2 Released!!",
-        "description": "\"Tails Test\" has been released as Assignment 2 ",
-        "publishDate": 1587259421
-      },
-      {
-        "title": "Assignment 2ddd Released!!",
-        "description": "\"Tails Test\" has been released as Assignment 2 ",
-        "publishDate": 1587488317
-      },
-      {
-        "title": "Assignment 3 Released!!",
-        "description": "\"Tails Test\" has been released as Assignment 2 ",
-        "publishDate": 1587488413
-      },
-      {
-        "title": "Assignment 4 Released!!",
-        "description": "ddddd",
-        "publishDate": 1587488853
+        "title": "Assignment 2 Released",
+        "description": "\"Tails Test\" has been released as Assignment 2. Please complete.",
+        "publishDate": 1587490021
       }
     ]
   },
