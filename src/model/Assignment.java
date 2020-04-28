@@ -44,21 +44,29 @@ public class Assignment implements Comparable<Assignment> {
     };
     private String title, description;
     private long publishDate, dueDate;
-    private boolean canResubmit;
+    private boolean canResubmit, canSubmitAfterDeadline;
     private ArrayList<Submission> studentSubmissions;
 
-    public Assignment(String title, String description, LocalDateTime dueDate, boolean canResubmit) {
+    public Assignment(String title, String description, LocalDateTime dueDate, boolean canResubmit, boolean canSubmitAfterDeadline) {
         this.title = title;
         this.description = description;
         this.publishDate = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
         this.dueDate = dueDate.atZone(ZoneId.systemDefault()).toEpochSecond();
         this.canResubmit = canResubmit;
+        this.canSubmitAfterDeadline = canSubmitAfterDeadline;
         studentSubmissions = new ArrayList<Submission>();
     }
 
     public void addSubmission(String studentName, String submissionText, File attachment) {
         Submission s = new Submission(studentName, submissionText, attachment);
-        studentSubmissions.add(s);
+        
+    	// Check if submission with studentName already exists, replace contents
+    	if(studentSubmissions.contains(s)) {
+    		studentSubmissions.remove(s);
+    		studentSubmissions.add(s);
+    	}
+    	else
+    		studentSubmissions.add(s);
     }
 
     public String getTitle() {
@@ -83,6 +91,10 @@ public class Assignment implements Comparable<Assignment> {
 
     public boolean getCanResubmit() {
         return canResubmit;
+    }
+    
+    public boolean getCanSubmitAfterDeadline() {
+    	return canSubmitAfterDeadline;
     }
 
     public ArrayList<Submission> getStudentSubmissions() {
@@ -160,7 +172,7 @@ public class Assignment implements Comparable<Assignment> {
         public String getSubmissionText() {
             return submissionText;
         }
-
+        
         public LocalDateTime getSubmissionDate() {
             return LocalDateTime.ofInstant(Instant.ofEpochSecond(submissionDate), ZoneId.systemDefault());
         }

@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Assignment;
 import model.Assignment.Submission;
@@ -63,9 +64,10 @@ public class StudentCourseViewController extends BasicWindow {
      ** Assignment Page Widgets **
      *************************/
     @FXML TableView<Assignment> tblAllAssignments;
-    @FXML Label LL_AssignmentTitle, LL_AssignmentDateDue, LL_AssignmentSubmissionDate, LL_AssignmentStatus, LL_AssignmentInstructions;
+    @FXML Label LL_AssignmentTitle, LL_AssignmentDateDue, LL_AssignmentSubmissionDate, LL_AssignmentStatus, LL_AssignmentInstructions, 
+    			LL_AttachmentName, LL_AssignmentResubmissions, LL_SubmitAfterDeadline;
     @FXML TextArea TA_AssignmentSubmission;
-    @FXML Button BN_AssignmentPublish;
+    @FXML Button BN_AssignmentPublish, BN_UploadAttachment;
     
     /*************************
      ** Student Grades Page Widgets **
@@ -178,6 +180,7 @@ public class StudentCourseViewController extends BasicWindow {
     /*************************
      ** Assignment Page Actions **
      *************************/
+    private File uploadedFile = null;
     
     /**
      * Initializes Assignments Tab with appropriate information for each residing element
@@ -223,6 +226,7 @@ public class StudentCourseViewController extends BasicWindow {
     	    if (newSelection != null) {
     	        Assignment selectedAssignment = tblAllAssignments.getSelectionModel().getSelectedItem();
     	        displayAssignmentDetails(selectedAssignment);
+    	        uploadedFile = null;		// update uploaded file to null after each assignment screen change
     	    }
     	});
     	
@@ -240,13 +244,16 @@ public class StudentCourseViewController extends BasicWindow {
 		Submission studentSubmission = assignment.searchStudentSubmission(student.getUsername());
 		if(studentSubmission == null) {
 			LL_AssignmentSubmissionDate.setText("Submission Date: N/A");
+	    	LL_AttachmentName.setText("N/A");
 			if(LocalDateTime.now().isBefore(assignment.getDueDate()))
 				assignmentStatus = "Incomplete";
 			else
 				assignmentStatus = "Late";
 		}
 		else {
+			System.out.println("TESTING: Student Submission = " + studentSubmission);
 			LL_AssignmentSubmissionDate.setText("Submission Date: " + studentSubmission.getSubmissionDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a")));
+	    	LL_AttachmentName.setText((studentSubmission.getAttachment() == null ? "N/A" : studentSubmission.getAttachment().getName()));
 			if(studentSubmission.getSubmissionDate().isBefore(assignment.getDueDate()))
 				assignmentStatus = "Submitted";
 			else
@@ -255,17 +262,63 @@ public class StudentCourseViewController extends BasicWindow {
     	
     	LL_AssignmentStatus.setText("Status: " + assignmentStatus);
     	LL_AssignmentDateDue.setText("Due Date: " + assignment.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a")));
+    	LL_AssignmentResubmissions.setText("Resubmissions: " + (assignment.getCanResubmit() ? "Enabled" : "Disabled"));
+    	LL_SubmitAfterDeadline.setText("Submit After Deadline: " + (assignment.getCanSubmitAfterDeadline() ? "Enabled" : "Disabled"));
     	LL_AssignmentInstructions.setText(assignment.getDescription());
     	
-    	if(assignmentStatus.equals("Submitted") || assignmentStatus.equals("Submitted (Late)")) {
+    	if(assignmentStatus.equals("Submitted")) {
     		TA_AssignmentSubmission.setText(assignment.searchStudentSubmission(student.getUsername()).getSubmissionText());
-    		TA_AssignmentSubmission.setEditable(false);
-    		BN_AssignmentPublish.setDisable(true);
+    		if(assignment.getCanResubmit()) {
+    			TA_AssignmentSubmission.setEditable(true);
+        		BN_AssignmentPublish.setDisable(false);
+        		BN_AssignmentPublish.setText("Resubmit");
+        		BN_UploadAttachment.setDisable(false);
+    		}
+    		else{
+    			TA_AssignmentSubmission.setEditable(false);
+        		BN_AssignmentPublish.setDisable(true);
+        		BN_AssignmentPublish.setText("Submit");
+        		BN_UploadAttachment.setDisable(true);
+    		}
+    	}
+    	else if(assignmentStatus.contentEquals("Submitted (Late)")) {
+    		TA_AssignmentSubmission.setText(assignment.searchStudentSubmission(student.getUsername()).getSubmissionText());
+    		if(assignment.getCanResubmit() && assignment.getCanSubmitAfterDeadline()) {
+    			TA_AssignmentSubmission.setEditable(true);
+        		BN_AssignmentPublish.setDisable(false);
+        		BN_AssignmentPublish.setText("Resubmit");
+        		BN_UploadAttachment.setDisable(false);
+    		}
+    		else {
+    			TA_AssignmentSubmission.setEditable(false);
+				BN_AssignmentPublish.setDisable(true);
+				BN_AssignmentPublish.setText("Submit");
+	    		BN_UploadAttachment.setDisable(true);
+    		}
     	}
     	else {
+    		// No submission
     		TA_AssignmentSubmission.setText("");
-    		TA_AssignmentSubmission.setEditable(true);
-    		BN_AssignmentPublish.setDisable(false);
+    		BN_AssignmentPublish.setText("Submit");
+    		
+    		if(assignmentStatus.equals("Late")) {
+    			if(assignment.getCanSubmitAfterDeadline()) {
+    				TA_AssignmentSubmission.setEditable(true);
+    				BN_AssignmentPublish.setDisable(false);
+    	    		BN_UploadAttachment.setDisable(false);
+    			}
+    			else {
+    				TA_AssignmentSubmission.setEditable(false);
+    				BN_AssignmentPublish.setDisable(true);
+    	    		BN_UploadAttachment.setDisable(true);
+    			}
+    		}
+    		else {
+    			// On time submission
+    			TA_AssignmentSubmission.setEditable(true);
+				BN_AssignmentPublish.setDisable(false);
+	    		BN_UploadAttachment.setDisable(false);
+    		}
     	}
     }
     
@@ -289,14 +342,11 @@ public class StudentCourseViewController extends BasicWindow {
     	for(int i = 0; i < course.getAssignments().size(); i++) {
     		Assignment a = course.getAssignments().get(i);
     		if(a.getTitle().equals(selectedAssignment.getTitle())) {
-    			//TODO: Remove NULL attachment
-    			course.getAssignments().get(i).addSubmission(student.getUsername(), TA_AssignmentSubmission.getText(), null);
+    			System.out.println("TESTING: uploadedFile name = " + (uploadedFile == null ? "null" : uploadedFile.getName()));
+    			course.getAssignments().get(i).addSubmission(student.getUsername(), TA_AssignmentSubmission.getText(), uploadedFile);
     			new Alert(AlertType.NONE, "Submission Accepted!", ButtonType.APPLY).show();
     			
-    			System.out.println("Before Saving: list of registered students in course = " + course.getRegisteredStudents());
-    			
     			// Save data into file
-    			//course.getRegisteredStudents().add(student.getUsername());
     			DataController.saveCourse(course);
     			
     			// Refresh TableView
@@ -309,7 +359,21 @@ public class StudentCourseViewController extends BasicWindow {
     	}
     }
     
-    
+    /**
+     * Executes on "Upload Attachment" button clicked
+     * Prompts user to select file and initializes global uploadFile variable
+     */
+    @FXML
+    public void UploadAttachment() {
+    	FileChooser fc = new FileChooser();
+    	fc.setTitle("Upload Assignment Submission File");
+    	File file = fc.showOpenDialog((Stage)LL_Title.getScene().getWindow());
+        
+        if(file != null) {
+        	LL_AttachmentName.setText(file.getName());
+        	uploadedFile = file;
+        }
+    }
     /*************************
      ** Student Grades Page Actions **
      *************************/

@@ -78,8 +78,8 @@
                         </Label>
                         <AnchorPane layoutX="571.0" layoutY="66.0" prefHeight="447.0" prefWidth="792.0" style="-fx-border-color: #d3d3d3;">
                            <children>
-                              <Button fx:id="BN_AssignmentPublish" layoutX="369.0" layoutY="395.0" mnemonicParsing="false" onAction="#PublishAssignment" text="Publish" />
-                              <TextArea fx:id="TA_AssignmentSubmission" layoutX="63.0" layoutY="289.0" prefHeight="91.0" prefWidth="667.0" promptText="Provide your submission for this assignment." />
+                              <Button fx:id="BN_AssignmentPublish" layoutX="300.0" layoutY="397.0" mnemonicParsing="false" onAction="#PublishAssignment" text="Publish" />
+                              <TextArea fx:id="TA_AssignmentSubmission" layoutX="63.0" layoutY="289.0" prefHeight="64.0" prefWidth="667.0" promptText="Provide your submission for this assignment." />
                               <Label fx:id="LL_AssignmentTitle" layoutX="54.0" layoutY="23.0" prefHeight="25.0" prefWidth="275.0" text="Title: &lt;Assignment_Name&gt;">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
@@ -90,12 +90,12 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="54.0" layoutY="96.0" text="Instructions:">
+                              <Label layoutX="54.0" layoutY="124.0" text="Instructions:">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="LL_AssignmentInstructions" alignment="TOP_LEFT" layoutX="54.0" layoutY="123.0" prefHeight="107.0" prefWidth="686.0" text="&lt;Instructions&gt;">
+                              <Label fx:id="LL_AssignmentInstructions" alignment="TOP_LEFT" layoutX="54.0" layoutY="149.0" prefHeight="81.0" prefWidth="686.0" text="&lt;Instructions&gt;">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -111,9 +111,30 @@
                                     <Font name="System Bold" size="15.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="LL_AssignmentSubmissionDate" layoutX="54.0" layoutY="69.0" prefHeight="20.0" prefWidth="288.0" text="Submission Date: &lt;Date&gt;">
+                              <Label fx:id="LL_AssignmentSubmissionDate" layoutX="54.0" layoutY="70.0" prefHeight="20.0" prefWidth="288.0" text="Submission Date: &lt;Date&gt;">
                                  <font>
                                     <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="BN_UploadAttachment" layoutX="373.0" layoutY="397.0" mnemonicParsing="false" onAction="#UploadAttachment" text="Upload Attachment" />
+                              <Label layoutX="63.0" layoutY="361.0" text="Attachment Name:">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="LL_AttachmentName" layoutX="195.0" layoutY="361.0" prefHeight="20.0" prefWidth="288.0" text="&lt;attachment_name&gt;">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="LL_AssignmentResubmissions" alignment="CENTER_RIGHT" layoutX="452.0" layoutY="48.0" prefHeight="20.0" prefWidth="288.0" text="Resubmissions: &lt;enabled&gt;">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="LL_SubmitAfterDeadline" alignment="CENTER_RIGHT" layoutX="452.0" layoutY="70.0" prefHeight="20.0" prefWidth="288.0" text="Submit After Deadline: &lt;enabled&gt;">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
                                  </font>
                               </Label>
                            </children>
