@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import model.Assignment;
 import model.Course;
 import model.Student;
@@ -434,10 +435,6 @@ public class ProfessorCourseViewController extends BasicWindow {
         }
         SubmissionPane pane = (SubmissionPane) AN_AssignmentSubmissions.getExpandedPane();
         Assignment.Submission submission = pane.getSubmission();
-        DownloadSubmission(submission);
-    }
-
-    protected void DownloadSubmission(Assignment.Submission submission) {
         if (submission == null) {
             return;
         }
@@ -445,15 +442,23 @@ public class ProfessorCourseViewController extends BasicWindow {
         if(attachment == null) {
             ShowError("Can't download attachment", "There is no attachment for ");
         }
-        Path source = Paths.get(attachment.toString());
-        Path target = Paths.get(attachment.toString().replace(Course.ATTACHMENT_UPLOAD_PATH, Course.ATTACHMENT_DOWNLOAD_PATH));
+        String fileExtension = attachment.getName().substring(attachment.getName().indexOf('.'));
+        FileChooser fc = new FileChooser();
+        fc.setInitialFileName(attachment.getName());
+        FileChooser.ExtensionFilter filter =
+                new FileChooser.ExtensionFilter("Current File Type (" + fileExtension + ")", "*"
+                        + fileExtension);
+        fc.getExtensionFilters().add(filter);
+        File file = fc.showSaveDialog(getMainStage());
 
         try {
+            Path source = Paths.get(attachment.toString());
+            Path target = Paths.get(file.getAbsolutePath());
             Files.copy(source, target, REPLACE_EXISTING);
         } catch (Exception ex) {
             System.out.format("I/O error: %s%n", ex);
             ex.printStackTrace();
-            ShowError("Can't download attachment", "File failed to download");
+            ShowError("Can't download attachment", "File failed to download correctly");
         }
         ShowInfo("Successfully Download", "Successfully downloaded file:\n" + attachment.getName());
     }
