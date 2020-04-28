@@ -17,6 +17,12 @@ import model.Course;
 import model.Student;
 import util.DataController;
 
+import java.io.File;
+import static java.nio.file.StandardCopyOption.*;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -51,6 +57,8 @@ public class ProfessorCourseViewController extends BasicWindow {
     TextField TF_AssignmentTitle;
     @FXML
     DatePicker DP_AssignmentDueDate;
+    @FXML
+    CheckBox CB_UnlimitedSubmissions;
 
     // Action-Based
     @FXML
@@ -81,6 +89,8 @@ public class ProfessorCourseViewController extends BasicWindow {
     Button BN_FeedbackSubmit;
     @FXML
     Button BN_FeedbackDelete;
+    @FXML
+    Button BN_SubmissionDownload;
 
     // __Announcements Widgets__
 
@@ -168,7 +178,6 @@ public class ProfessorCourseViewController extends BasicWindow {
         course.getAnnouncements().forEach(a -> announcementList.add(a));
         course.getStudents().forEach(a -> studentList.add(a));
 
-
         getMainStage().setTitle("Spark - Professor Course View: " + course.getTitle());
 
         initAssignments();
@@ -227,7 +236,8 @@ public class ProfessorCourseViewController extends BasicWindow {
         Assignment newAssignment = new Assignment(
                 TF_AssignmentTitle.getText(),
                 TA_AssignmentDescription.getText(),
-                DP_AssignmentDueDate.getValue().atTime(11, 55)
+                DP_AssignmentDueDate.getValue().atTime(11, 55),
+                CB_UnlimitedSubmissions.isSelected()
         );
         if (course.publishAssignment(newAssignment) == false) {
             ShowError("Failed to add assignment", "Another assignment already has this title");
@@ -257,7 +267,8 @@ public class ProfessorCourseViewController extends BasicWindow {
         Assignment newAssignment = new Assignment(
                 TF_AssignmentTitle.getText(),
                 TA_AssignmentDescription.getText(),
-                DP_AssignmentDueDate.getValue().atTime(11, 55)
+                DP_AssignmentDueDate.getValue().atTime(11, 55),
+                CB_UnlimitedSubmissions.isSelected()
         );
 
         if (course.getAssignments().contains(newAssignment)) {
@@ -328,6 +339,8 @@ public class ProfessorCourseViewController extends BasicWindow {
             ArrayList<Assignment.Submission> submissions = t1.getStudentSubmissions();
             TA_FeedbackDescription.clear();
             TF_FeedbackGrade.clear();
+            BN_SubmissionDownload.setDisable(true);
+
             if (submissions.isEmpty() == false) {
                 AN_AssignmentSubmissions.setVisible(true);
                 LL_NoSubmissionsSubmissions.setVisible(false);
@@ -356,6 +369,11 @@ public class ProfessorCourseViewController extends BasicWindow {
                 float grade = s.getGrade();
                 String feedbackGrade = grade > -1f ? Long.toString(s.getGrade()) : "";
                 TF_FeedbackGrade.setText(feedbackGrade);
+                if (s.getAttachment() != null) {
+                    BN_SubmissionDownload.setDisable(false);
+                } else {
+                    BN_SubmissionDownload.setDisable(true);
+                }
             }
         });
     }
@@ -395,12 +413,49 @@ public class ProfessorCourseViewController extends BasicWindow {
         }
         SubmissionPane pane = (SubmissionPane) AN_AssignmentSubmissions.getExpandedPane();
         Assignment.Submission submission = pane.getSubmission();
+        if (submission == null) {
+            return;
+        }
         submission.removeFeedback();
         Assignment selectedItem = LV_AssignmentListSubmissions.getSelectionModel().getSelectedItem();
         LV_AssignmentListSubmissions.getSelectionModel().clearSelection();
         LV_AssignmentListSubmissions.getSelectionModel().select(selectedItem);
         course.updateAutomaticGrade(submission.getUsername());
         DataController.saveCourse(course);
+    }
+
+    /**
+     * Download an attachment, if a student uploaded one, to downloads folder
+     */
+    @FXML
+    public void DownloadSubmissionAttachment() {
+        if (AN_AssignmentSubmissions.getExpandedPane() == null) {
+            return;
+        }
+        SubmissionPane pane = (SubmissionPane) AN_AssignmentSubmissions.getExpandedPane();
+        Assignment.Submission submission = pane.getSubmission();
+        DownloadSubmission(submission);
+    }
+
+    protected void DownloadSubmission(Assignment.Submission submission) {
+        if (submission == null) {
+            return;
+        }
+        File attachment = submission.getAttachment();
+        if(attachment == null) {
+            ShowError("Can't download attachment", "There is no attachment for ");
+        }
+        Path source = Paths.get(attachment.toString());
+        Path target = Paths.get(attachment.toString().replace(Course.ATTACHMENT_UPLOAD_PATH, Course.ATTACHMENT_DOWNLOAD_PATH));
+
+        try {
+            Files.copy(source, target, REPLACE_EXISTING);
+        } catch (Exception ex) {
+            System.out.format("I/O error: %s%n", ex);
+            ex.printStackTrace();
+            ShowError("Can't download attachment", "File failed to download");
+        }
+        ShowInfo("Successfully Download", "Successfully downloaded file:\n" + attachment.getName());
     }
 
 

@@ -20,6 +20,7 @@ import model.Course.Announcement;
 import model.Student;
 import util.DataController;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -87,7 +88,7 @@ public class StudentCourseViewController extends BasicWindow {
         LL_Title.setText(course.getTitle());
         LL_Subtitle.setText("Professor " + course.getProfessor().getLastName());
         
-        course.publishAssignment(new Assignment("Assignment Test #2", "Desc. of assignment test", LocalDateTime.of(LocalDate.of(2020, 04, 21), LocalTime.of(13, 40))));
+        //course.publishAssignment(new Assignment("Assignment Test #2", "Desc. of assignment test", LocalDateTime.of(LocalDate.of(2020, 04, 21), LocalTime.of(13, 40))));
         
         initHomePage();
         initAssignments();
@@ -288,7 +289,8 @@ public class StudentCourseViewController extends BasicWindow {
     	for(int i = 0; i < course.getAssignments().size(); i++) {
     		Assignment a = course.getAssignments().get(i);
     		if(a.getTitle().equals(selectedAssignment.getTitle())) {
-    			course.getAssignments().get(i).addSubmission(student.getUsername(), TA_AssignmentSubmission.getText());
+    			//TODO: Remove NULL attachment
+    			course.getAssignments().get(i).addSubmission(student.getUsername(), TA_AssignmentSubmission.getText(), null);
     			new Alert(AlertType.NONE, "Submission Accepted!", ButtonType.APPLY).show();
     			
     			System.out.println("Before Saving: list of registered students in course = " + course.getRegisteredStudents());

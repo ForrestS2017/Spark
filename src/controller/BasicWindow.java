@@ -106,4 +106,18 @@ public class BasicWindow {
         alert.setHeaderText(body);
         alert.showAndWait();
     }
+
+
+    /**
+     * Display an info box
+     *
+     * @param header Title of info box
+     * @param body   Content of info box
+     */
+    protected void ShowInfo(String header, String body) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(header);
+        alert.setHeaderText(body);
+        alert.showAndWait();
+    }
 }

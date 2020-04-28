@@ -39,6 +39,8 @@ public class Course implements Comparable<Course> {
     private Map<String, Float> gradeBookFinal;
     private ArrayList<Assignment> assignments;
     private ArrayList<Announcement> announcements;
+    public static String ATTACHMENT_UPLOAD_PATH = "src\\attachmentUpload\\";
+    public static String ATTACHMENT_DOWNLOAD_PATH = "src\\attachmentDownload\\";
 
     public Course(String title, String id, Professor professor) {
         this.title = title;
@@ -75,8 +77,8 @@ public class Course implements Comparable<Course> {
      * @param description    Assignment Description
      * @param submissionDate Assignment due date
      */
-    public void publishAssignment(String title, String description, LocalDateTime submissionDate) {
-        assignments.add(new Assignment(title, description, submissionDate));
+    public void publishAssignment(String title, String description, LocalDateTime submissionDate, boolean canResubmit) {
+        assignments.add(new Assignment(title, description, submissionDate, canResubmit));
     }
 
     /**

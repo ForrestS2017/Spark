@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.io.File;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -43,27 +44,25 @@ public class Assignment implements Comparable<Assignment> {
     };
     private String title, description;
     private long publishDate, dueDate;
+    private boolean canResubmit;
     private ArrayList<Submission> studentSubmissions;
 
-    public Assignment(String title, String description, LocalDateTime dueDate) {
+    public Assignment(String title, String description, LocalDateTime dueDate, boolean canResubmit) {
         this.title = title;
         this.description = description;
         this.publishDate = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
         this.dueDate = dueDate.atZone(ZoneId.systemDefault()).toEpochSecond();
+        this.canResubmit = canResubmit;
         studentSubmissions = new ArrayList<Submission>();
     }
 
-    public void addSubmission(String studentName, String submissionText) {
-        Submission s = new Submission(studentName, submissionText);
+    public void addSubmission(String studentName, String submissionText, File attachment) {
+        Submission s = new Submission(studentName, submissionText, attachment);
         studentSubmissions.add(s);
     }
 
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
@@ -82,8 +81,8 @@ public class Assignment implements Comparable<Assignment> {
         return LocalDateTime.ofInstant(Instant.ofEpochSecond(dueDate), ZoneId.systemDefault());
     }
 
-    public void setDueDate(LocalDateTime dueDate) {
-        this.dueDate = dueDate.atZone(ZoneId.systemDefault()).toEpochSecond();
+    public boolean getCanResubmit() {
+        return canResubmit;
     }
 
     public ArrayList<Submission> getStudentSubmissions() {
@@ -140,11 +139,13 @@ public class Assignment implements Comparable<Assignment> {
         private String username, submissionText, feedbackText;
         private long submissionDate;
         private long grade;
+        private File attachment;
 
-        public Submission(String username, String submissionText) {
+        public Submission(String username, String submissionText, File attachment) {
             this.username = username;
             this.submissionText = submissionText;
             this.submissionDate = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
+            this.attachment = attachment;
             grade = -1;
         }
 
@@ -178,8 +179,11 @@ public class Assignment implements Comparable<Assignment> {
         }
 
         public String getFeedbackText() {
-
             return feedbackText != null ? feedbackText : "";
+        }
+
+        public File getAttachment() {
+            return attachment;
         }
 
         /**

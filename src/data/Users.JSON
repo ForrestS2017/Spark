@@ -7,7 +7,7 @@
     "courses": [
       "TT101"
     ],
-    "password": "password"
+    "password": "Sonic"
   },
   {
     "gpa": -1.0,
@@ -41,7 +41,7 @@
       "TT101",
       "TT102"
     ],
-    "password": "password"
+    "password": "a"
   },
   {
     "gpa": -1.0,

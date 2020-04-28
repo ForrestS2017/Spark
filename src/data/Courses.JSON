@@ -28,6 +28,7 @@
         "description": "Sonic Desc",
         "publishDate": 1587233838,
         "dueDate": 1587398100,
+        "canResubmit": true,
         "studentSubmissions": [
           {
             "username": "lc96",
@@ -63,7 +64,24 @@
         "description": "Tails Desc",
         "publishDate": 1587506352,
         "dueDate": 1587570900,
-        "studentSubmissions": []
+        "canResubmit": true,
+        "studentSubmissions": [
+          {
+            "username": "mi15",
+            "submissionText": "hi",
+            "submissionDate": 1588043488,
+            "grade": -1
+          },
+          {
+            "username": "lc96",
+            "submissionText": "yay",
+            "submissionDate": 1588043993,
+            "grade": -1,
+            "attachment": {
+              "path": "src\\attachmentUpload\\TA1.txt"
+            }
+          }
+        ]
       }
     ],
     "announcements": [
