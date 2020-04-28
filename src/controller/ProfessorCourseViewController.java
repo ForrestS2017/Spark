@@ -59,7 +59,9 @@ public class ProfessorCourseViewController extends BasicWindow {
     @FXML
     DatePicker DP_AssignmentDueDate;
     @FXML
-    CheckBox CB_UnlimitedSubmissions;
+    CheckBox CB_CanResubmit;
+    @FXML
+    CheckBox CB_CanSubmitLate;
 
     // Action-Based
     @FXML
@@ -84,6 +86,10 @@ public class ProfessorCourseViewController extends BasicWindow {
     Accordion AN_AssignmentSubmissions;
     @FXML
     Label LL_NoSubmissionsSubmissions;
+    @FXML
+    Label LL_AttachmentTitle;
+    @FXML
+    Label LL_AttachmentName;
 
     // Action-Based
     @FXML
@@ -206,6 +212,8 @@ public class ProfessorCourseViewController extends BasicWindow {
                 TA_AssignmentDescription.setText(t1.getDescription());
                 TF_AssignmentTitle.setText(t1.getTitle());
                 DP_AssignmentDueDate.setValue(t1.getDueDate().toLocalDate());
+                CB_CanResubmit.setSelected(t1.getCanResubmit());
+                CB_CanSubmitLate.setSelected(t1.getCanSubmitAfterDeadline());
             }
         });
     }
@@ -220,6 +228,8 @@ public class ProfessorCourseViewController extends BasicWindow {
         TA_AssignmentDescription.clear();
         TF_AssignmentTitle.clear();
         DP_AssignmentDueDate.setValue(null);
+        CB_CanResubmit.setSelected(false);
+        CB_CanSubmitLate.setSelected(false);
     }
 
     /**
@@ -238,7 +248,8 @@ public class ProfessorCourseViewController extends BasicWindow {
                 TF_AssignmentTitle.getText(),
                 TA_AssignmentDescription.getText(),
                 DP_AssignmentDueDate.getValue().atTime(11, 55),
-                CB_UnlimitedSubmissions.isSelected()
+                CB_CanResubmit.isSelected(),
+                CB_CanSubmitLate.isSelected()
         );
         if (course.publishAssignment(newAssignment) == false) {
             ShowError("Failed to add assignment", "Another assignment already has this title");
@@ -269,7 +280,8 @@ public class ProfessorCourseViewController extends BasicWindow {
                 TF_AssignmentTitle.getText(),
                 TA_AssignmentDescription.getText(),
                 DP_AssignmentDueDate.getValue().atTime(11, 55),
-                CB_UnlimitedSubmissions.isSelected()
+                CB_CanResubmit.isSelected(),
+                CB_CanSubmitLate.isSelected()
         );
 
         if (course.getAssignments().contains(newAssignment)) {
@@ -341,6 +353,7 @@ public class ProfessorCourseViewController extends BasicWindow {
             TA_FeedbackDescription.clear();
             TF_FeedbackGrade.clear();
             BN_SubmissionDownload.setDisable(true);
+            LL_AttachmentName.setText("None");
 
             if (submissions.isEmpty() == false) {
                 AN_AssignmentSubmissions.setVisible(true);
@@ -372,8 +385,10 @@ public class ProfessorCourseViewController extends BasicWindow {
                 TF_FeedbackGrade.setText(feedbackGrade);
                 if (s.getAttachment() != null) {
                     BN_SubmissionDownload.setDisable(false);
+                    LL_AttachmentName.setText(s.getAttachment().getName());
                 } else {
                     BN_SubmissionDownload.setDisable(true);
+                    LL_AttachmentName.setText("None");
                 }
             }
         });

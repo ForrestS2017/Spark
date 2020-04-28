@@ -29,6 +29,7 @@
         "publishDate": 1587233838,
         "dueDate": 1587398100,
         "canResubmit": true,
+        "canSubmitAfterDeadline": true,
         "studentSubmissions": [
           {
             "username": "lc96",
@@ -65,6 +66,7 @@
         "publishDate": 1587506352,
         "dueDate": 1587570900,
         "canResubmit": true,
+        "canSubmitAfterDeadline": false,
         "studentSubmissions": [
           {
             "username": "mi15",

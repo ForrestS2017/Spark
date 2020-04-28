@@ -55,7 +55,8 @@
                                     </font>
                                 </Label>
                                 <Button fx:id="BN_AssignmentDelete" layoutX="413.0" layoutY="544.0" mnemonicParsing="false" onAction="#DeleteAssignment" text="Delete" />
-                        <CheckBox fx:id="CB_UnlimitedSubmissions" layoutX="717.0" layoutY="468.0" mnemonicParsing="false" text="Can resubmit" />
+                        <CheckBox fx:id="CB_CanResubmit" layoutX="717.0" layoutY="441.0" mnemonicParsing="false" text="Can resubmit" />
+                        <CheckBox fx:id="CB_CanSubmitLate" layoutX="717.0" layoutY="411.0" mnemonicParsing="false" text="Can submit late" />
                             </children>
                         </AnchorPane>
                     </content>
@@ -110,7 +111,17 @@
                                     </font>
                                 </Label>
                                 <Button fx:id="BN_FeedbackDelete" layoutX="975.0" layoutY="435.0" mnemonicParsing="false" onAction="#DeleteFeedback" text="Remove Feedback" />
-                        <Button fx:id="BN_SubmissionDownload" disable="true" layoutX="652.0" layoutY="517.0" mnemonicParsing="false" onAction="#DownloadSubmissionAttachment" text="Download Attachment" />
+                        <Button fx:id="BN_SubmissionDownload" disable="true" layoutX="495.0" layoutY="517.0" mnemonicParsing="false" onAction="#DownloadSubmissionAttachment" text="Download Attachment" />
+                        <Label fx:id="LL_AttachmentTitle" layoutX="495.0" layoutY="481.0" text="Attachment:">
+                           <font>
+                              <Font name="System Bold Italic" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="LL_AttachmentName" layoutX="585.0" layoutY="483.0" text="None">
+                           <font>
+                              <Font name="System Italic" size="12.0" />
+                           </font>
+                        </Label>
                             </children>
                         </AnchorPane>
                     </content>

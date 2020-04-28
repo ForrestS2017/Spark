@@ -71,17 +71,6 @@ public class Course implements Comparable<Course> {
     }
 
     /**
-     * Publish an assignment for the class
-     *
-     * @param title          Assignment title
-     * @param description    Assignment Description
-     * @param submissionDate Assignment due date
-     */
-    public void publishAssignment(String title, String description, LocalDateTime submissionDate, boolean canResubmit) {
-        assignments.add(new Assignment(title, description, submissionDate, canResubmit));
-    }
-
-    /**
      * Publish announcement for course
      *
      * @param title       Assignment title
