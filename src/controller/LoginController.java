@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 /**
- * Controller for Login
+ * Controller for the login view
  */
 public class LoginController extends BasicWindow{
 	@FXML TextField TF_Username;

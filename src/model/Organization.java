@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class Organization implements Serializable {
 	private String organizationName;
-	//private Admin admin;		//TODO: Create Admin class
+	//private Admin admin;
 	public ArrayList<Course> courses;
 	public ArrayList<Professor> professors;
 	public ArrayList<Student> students;

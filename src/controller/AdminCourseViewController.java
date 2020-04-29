@@ -5,7 +5,6 @@ package controller;
 
 import java.util.ArrayList;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,10 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.Course;
-import model.Professor;
 import model.Student;
 import model.User;
 import util.DataController;
@@ -75,7 +72,7 @@ public class AdminCourseViewController extends BasicWindow{
     User professorViewing;;
     ArrayList<User> users;
     String username;
-    private ArrayList<Course> coursesArryList;
+    private ArrayList<Course> coursesArrayList;
     private ObservableList<Course> coursesObsList;
     private ObservableList<Student> studentsInCourse;
     private ArrayList<User> students;
@@ -91,8 +88,8 @@ public class AdminCourseViewController extends BasicWindow{
     	this.professorViewing = professorSelected;
     	LL_Title.setText(professorSelected.getFullName());
     	coursesObsList = FXCollections.observableArrayList();
-    	coursesArryList = DataController.readCourses();
-    	coursesArryList.forEach(course -> {
+    	coursesArrayList = DataController.readCourses();
+    	coursesArrayList.forEach(course -> {
             if (course.getProfessor().getUsername().equals(professorViewing.getUsername())) coursesObsList.add(course); });
         LV_CourseList.setItems(coursesObsList);
     	
@@ -144,10 +141,10 @@ public class AdminCourseViewController extends BasicWindow{
     	
     	Course selection = LV_CourseList.getSelectionModel().getSelectedItem();
     	/*studentsInCourse = FXCollections.observableArrayList(selection.getStudents());
-  
+
     	name.setCellValueFactory(new PropertyValueFactory<Student, String>("studentName"));
 		grade.setCellValueFactory(new PropertyValueFactory<Student, Integer>("studentGrade"));
-		
+
     	TV_Students.setItems(studentsInCourse);
     	*/
     	

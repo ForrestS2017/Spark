@@ -30,48 +30,34 @@ import java.util.ArrayList;
 
 public class StudentCourseViewController extends BasicWindow {
 
-    /***********************************************
-     ************** Widget References **************
-     ***********************************************/
-
-    /***************
-     * Shared Data *
-     ***************/
+	// __Shared Data__
     Course course;
     Student student;
     ObservableList<Assignment> Assignments;
     ObservableList<Student> Students;
 
-    /*************************
-     ***** Shared Widgets ****
-     *************************/
+	// __Shared Widgets__
     @FXML Label LL_Title;
     @FXML Label LL_Subtitle;
     @FXML TabPane TP_TabPane;
     @FXML Button BT_Back, BT_Logout;
 
-    /*************************
-     ** Home Page Widgets **
-     *************************/
+	// Home Page Widgets__
     @FXML ListView<Announcement> LV_AnnouncementList, LV_AnnouncementDetail;
     @FXML ListView<String> LV_Classmates;
     @FXML Accordion ACC_Announcements;
     @FXML Label LL_NoAnnouncements;
     @FXML Button BN_ViewAssignmentDetails;
     @FXML TableView<Assignment> tblUpComingAssignments;
-    
-    /*************************
-     ** Assignment Page Widgets **
-     *************************/
+
+	// __Assignment Page Widgets__
     @FXML TableView<Assignment> tblAllAssignments;
     @FXML Label LL_AssignmentTitle, LL_AssignmentDateDue, LL_AssignmentSubmissionDate, LL_AssignmentStatus, LL_AssignmentInstructions, 
     			LL_AttachmentName, LL_AssignmentResubmissions, LL_SubmitAfterDeadline;
     @FXML TextArea TA_AssignmentSubmission;
     @FXML Button BN_AssignmentPublish, BN_UploadAttachment;
-    
-    /*************************
-     ** Student Grades Page Widgets **
-     *************************/
+
+	// __Student Grades Page Widgets__
     @FXML TableView<Assignment> tblAssignmentSubmissions;
     @FXML TextArea TA_Feedback;
     @FXML Label LL_FeedbackStatus, LL_SubmissionGrade, LL_CourseGrade, LL_AssignmentsCompleted,
@@ -474,9 +460,9 @@ public class StudentCourseViewController extends BasicWindow {
     	LL_AnalyticsMedianBody.setText(course.getClassMedian() + "");
     }
 
-    /****************
-     * Util Methods *
-     ****************/
+	//
+	// Util Methods
+	//
     
     /**
      * Return to Student Dashboard

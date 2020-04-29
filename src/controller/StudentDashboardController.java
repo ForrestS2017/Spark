@@ -31,7 +31,6 @@ public class StudentDashboardController extends BasicWindow {
 	@FXML ListView<Course> LV_CourseList;
 
     // Action-Based
-
     @FXML Button BN_EnterCourse, BT_Logout;
 
 

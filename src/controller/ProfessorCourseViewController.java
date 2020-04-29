@@ -730,9 +730,9 @@ public class ProfessorCourseViewController extends BasicWindow {
     }
 
 
-    /****************
-     * Util Methods *
-     ****************/
+    //
+    // Util Methods
+    //
 
     /**
      * Return to Professor Dashboard
@@ -762,7 +762,7 @@ public class ProfessorCourseViewController extends BasicWindow {
     }
 
     /**
-     * Custom Pane sub-class to hold a sutdent's submission.
+     * Custom Pane sub-class to hold a student's submission.
      */
     private class SubmissionPane extends TitledPane {
         Assignment.Submission submission;
