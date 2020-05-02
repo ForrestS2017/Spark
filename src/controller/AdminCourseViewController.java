@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.Course;
 import model.Student;
@@ -61,13 +62,6 @@ public class AdminCourseViewController extends BasicWindow{
 
     @FXML
     private TableView<Student> TV_Students;
-    @FXML
-    public TableColumn<Student, String> name;
-    @FXML
-    public TableColumn<Student, String> id;
-    @FXML
-    public TableColumn<Student, Integer> grade;
-
     
     User professorViewing;;
     ArrayList<User> users;
@@ -138,17 +132,57 @@ public class AdminCourseViewController extends BasicWindow{
      * @param arg0
      */
     @FXML public void handleMouseClickCourse (MouseEvent arg0) {
+    	TV_Students.getColumns().clear();
+    	TV_Students.getItems().clear();
     	
+    	//Populate table view
     	Course selection = LV_CourseList.getSelectionModel().getSelectedItem();
-    	/*studentsInCourse = FXCollections.observableArrayList(selection.getStudents());
-
-    	name.setCellValueFactory(new PropertyValueFactory<Student, String>("studentName"));
-		grade.setCellValueFactory(new PropertyValueFactory<Student, Integer>("studentGrade"));
-
-    	TV_Students.setItems(studentsInCourse);
-    	*/
     	
-    	if(!selection.getStudents().isEmpty()) {
+    	TableColumn<Student, String> firstName_col = new TableColumn<>("First Name");
+    	firstName_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+    	firstName_col.setPrefWidth(158);
+    	
+    	TableColumn<Student, String> lastName_col = new TableColumn<>("Last Name");
+    	lastName_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+    	lastName_col.setPrefWidth(158);
+    	
+    	TableColumn<Student, String> id_col = new TableColumn<>("ID");
+    	id_col.setCellValueFactory(new PropertyValueFactory<>("username"));
+    	id_col.setPrefWidth(100);
+    	
+    	TableColumn<Student, String> grade_col = new TableColumn<>("Grade");
+    	grade_col.setCellValueFactory(new PropertyValueFactory<>("GPA"));
+    	grade_col.setPrefWidth(100);
+    	
+    	TV_Students.getColumns().add(firstName_col);
+    	TV_Students.getColumns().add(lastName_col);
+    	TV_Students.getColumns().add(id_col);
+    	TV_Students.getColumns().add(grade_col);
+    	
+    	ArrayList<Student> studentsInClass = new ArrayList<Student>();
+	    if(!selection.getStudents().isEmpty()) {
+    		ArrayList<Student> studentList = selection.getStudents();
+		    for(int i=0; i<studentList.size();i++) {
+		    	Student currentStudent = studentList.get(i);
+		    	
+		    	String firstName = currentStudent.getFirstName();
+	    		String lastName = currentStudent.getLastName();
+		    	String studentID = currentStudent.getUsername();
+		    	float grade = 0;
+		    	if(!selection.getAssignments().isEmpty())
+		    		grade = selection.getStudentFinalGrade(studentID);
+		    
+		    	Student thisStudent = new Student(firstName, lastName, studentID, "x");
+		    	thisStudent.setGPA(grade);
+		    	studentsInClass.add(thisStudent);
+		    }
+		    
+		    TV_Students.getItems().addAll(studentsInClass);
+	    }
+    	
+    	//Set text for average of class
+    	if(!selection.getStudents().isEmpty() 
+    			&& !selection.getAssignments().isEmpty()) {
     		LL_AverageGradeSubtitle.setText(Float.toString(selection.getClassAverage()));
     	}
     	else {
@@ -156,4 +190,5 @@ public class AdminCourseViewController extends BasicWindow{
     	}
     	
     }
+    
 }
