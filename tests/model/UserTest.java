@@ -7,16 +7,19 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
+    // Student fields
     private String firstName_s = "Johnny";
     private String lastName_s = "Appleseed";
     private String userName_s = "ja00";
     private String password_s = "apples123";
 
+    // Professor fields
     private String firstName_p = "Paul";
     private String lastName_p = "Gilmore";
     private String userName_p = "pg99";
     private String password_p = "HonorsCollege123";
 
+    // Course fields
     private String title = "Expository Writing";
     private String id = "355:101";
 
