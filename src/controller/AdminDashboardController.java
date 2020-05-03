@@ -106,16 +106,7 @@ public class AdminDashboardController extends BasicWindow{
     
     public void start(String username) {
     	this.username = username;
-		// Fill professor list view
-    	professorList = FXCollections.observableArrayList();
-    	userList = DataController.readUsers();
-    	userList.forEach(user -> {
-            if (user.getType().equalsIgnoreCase(User.TYPE_PROFESSOR)) {
-            	professorList.add(user); 
-    		}
-    	});
-        LV_ProfessorList.setItems(professorList);
-        
+		fillProfessorList();
     }
     
     @FXML
@@ -161,7 +152,7 @@ public class AdminDashboardController extends BasicWindow{
 		        NewUserDialogController controller = loader.<NewUserDialogController>getController();
 		        controller.start();
 		        stage.setScene(new Scene(root));  
-		        stage.show();
+		        stage.showAndWait();
 		    
 	 } catch(Exception ex) {
 		 	Alert a = new Alert(AlertType.ERROR); 
@@ -169,6 +160,8 @@ public class AdminDashboardController extends BasicWindow{
 			a.show(); 
 			System.out.println("AddUser error: " +ex);
 	 }
+    	//Refresh Professor List
+    	fillProfessorList();
     }
 
     /**
@@ -235,7 +228,8 @@ public class AdminDashboardController extends BasicWindow{
             if (course.getProfessor().equals(selection)) {
             	courseObsList.add(course);
             	for(int i=0;i<course.getStudents().size(); i++){
-            		studentsObsList.add(course.getStudents().get(i));
+            		if(!studentsObsList.contains(course.getStudents().get(i)))
+            			studentsObsList.add(course.getStudents().get(i));
     			}
             }
         });
@@ -255,15 +249,37 @@ public class AdminDashboardController extends BasicWindow{
         float avg=0;
 	    if(!coursesTaught.isEmpty()) {
         	int size = coursesTaught.size();
+        	int non_empty_class_count = size;
+        	
 	        for(int i=0; i<size;i++) {
-	        	if(!(coursesTaught.get(i).getStudents().isEmpty())) {
+	        	if(!(coursesTaught.get(i).getStudents().isEmpty()) 
+	        			&& !(coursesTaught.get(i).getAssignments().isEmpty())) {
 	        		avg = avg + coursesTaught.get(i).getClassAverage();
 	        	}
-	        	
+	        	else {
+	        		non_empty_class_count-=1;
+	        	}
 	        }
-	        avg = avg/size;
+	        
+	        avg = avg/non_empty_class_count;
 	    }
         LL_AverageGradeSubtitle.setText(Float.toString(avg));
+    }
+    
+    /**
+     * Fills the professor list view with all professors in the system
+     */
+    private void fillProfessorList() {
+    	// Fill professor list view
+    	professorList = FXCollections.observableArrayList();
+    	userList = DataController.readUsers();
+    	userList.forEach(user -> {
+            if (user.getType().equalsIgnoreCase(User.TYPE_PROFESSOR)) {
+            	professorList.add(user); 
+    		}
+    	});
+        LV_ProfessorList.setItems(professorList);
+        
     }
 
 

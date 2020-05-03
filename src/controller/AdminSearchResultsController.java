@@ -20,6 +20,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.Course;
+import model.Professor;
 import model.Student;
 import model.User;
 import util.DataController;
@@ -57,13 +58,8 @@ public class AdminSearchResultsController extends BasicWindow{
     private Label LL_IdSubtitle;
 
     @FXML
-    private TableView<User> TV_CoursesList;
+    private TableView<Student> TV_CoursesList;
     
-    @FXML
-    private TableColumn<User, Course> TC_Course;
-
-    @FXML
-    private TableColumn<User, Float> TC_Grade;
 
     private String username;
     private ArrayList<Course> courses;
@@ -79,7 +75,7 @@ public class AdminSearchResultsController extends BasicWindow{
      */
     public void start(String searchInput, String username) {
     	this.username = username;
-    	LL_Title.setText(searchInput);
+    	LL_Title.setText("Results for \'" + searchInput + "\':");
     	
     	matchingStudentsObsList = FXCollections.observableArrayList();
     	userList = DataController.readUsers();
@@ -136,7 +132,7 @@ public class AdminSearchResultsController extends BasicWindow{
     @FXML
     void handleMouseClickStudents(MouseEvent event) {
     	User studentSelection = LV_SearchResults.getSelectionModel().getSelectedItem();
-    	//setTableView((Student) studentSelection);
+    	setTableView((Student) studentSelection);
     	LL_NameSubtitle.setText(studentSelection.getFullName());
     	LL_IdSubtitle.setText(studentSelection.getUsername());
     }
@@ -146,13 +142,54 @@ public class AdminSearchResultsController extends BasicWindow{
      * @param student
      */
     private void setTableView(Student student) {
-    	courses = student.getCourses();
-    	for(Course c : courses) {
-    		coursesObsList.add(c);
-    		gradesObsList.add(c.getStudentFinalGrade(student.getUsername()));
-    	}
-    	TC_Course.setCellValueFactory(new PropertyValueFactory<>("courses"));
-    	TC_Grade.setCellValueFactory(new PropertyValueFactory<>("registeredStudents"));
+    	TV_CoursesList.getColumns().clear();
+    	TV_CoursesList.getItems().clear();
+    	
+    	//Populate table view
+    	
+    	TableColumn<Student, String> courses_col = new TableColumn<>("Course");
+    	courses_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+    	courses_col.setPrefWidth(175);
+    	
+    	TableColumn<Student, String> id_col = new TableColumn<>("ID");
+    	id_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+    	id_col.setPrefWidth(70);
+    	
+    	TableColumn<Student, String> professor_col = new TableColumn<>("Professor");
+    	professor_col.setCellValueFactory(new PropertyValueFactory<>("username"));
+    	professor_col.setPrefWidth(175);
+    	
+    	TableColumn<Student, String> grade_col = new TableColumn<>("Grade");
+    	grade_col.setCellValueFactory(new PropertyValueFactory<>("GPA"));
+    	grade_col.setPrefWidth(75);
+    	
+    	TV_CoursesList.getColumns().add(courses_col);
+    	TV_CoursesList.getColumns().add(id_col);
+    	TV_CoursesList.getColumns().add(professor_col);
+    	TV_CoursesList.getColumns().add(grade_col);
+    	
+	    if(!student.getCourses().isEmpty()) {
+	    	ArrayList<Course> courses = student.getCourses();
+	    	ArrayList<Student> coursesToDisplay = new ArrayList<Student>();
+	    	
+		    for(int i=0; i<courses.size();i++) {
+		    	Course currentCourse = courses.get(i);
+		    	
+		    	String title = currentCourse.getTitle();
+	    		String id = currentCourse.getId();
+		    	String professor = currentCourse.getProfessor().toString();
+		    	float grade = 0;
+		    	if(!currentCourse.getAssignments().isEmpty())
+		    		grade = currentCourse.getStudentFinalGrade(student.getUsername());
+		    
+		    	Student thisCourse = new Student(title, id, professor,"x");
+		    	thisCourse.setGPA(grade);
+		    	
+		    	coursesToDisplay.add(thisCourse);
+		    }
+		    
+		    TV_CoursesList.getItems().addAll(coursesToDisplay);
+	    }
     	
     }
 

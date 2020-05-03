@@ -15,6 +15,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.Course;
 import model.Student;
@@ -69,8 +72,8 @@ public class AdminStudentViewController extends BasicWindow{
     private Label LL_GradeSubtitle;
 
     @FXML
-    private ListView<Course> LV_Courses;
-
+    private TableView<Student> TV_CoursesList;
+    
     @FXML
     private Label LL_CoursesTItle;
 
@@ -175,7 +178,7 @@ public class AdminStudentViewController extends BasicWindow{
      */
     @FXML public void handleMouseClickStudents (MouseEvent arg0) {
     	Student studentSelection = LV_StudentList.getSelectionModel().getSelectedItem();
-    	//setCourseList(studentSelection);
+    	setCourseList(studentSelection);
     	LL_NameSubtitle.setText(studentSelection.getFullName());
     	LL_IdSubtitle.setText(studentSelection.getUsername());
     	if(!(courseDisplayed.getSpecificStudentSubmissions(studentSelection.getUsername()).isEmpty())) {
@@ -187,16 +190,66 @@ public class AdminStudentViewController extends BasicWindow{
     }
     
     /**
-     * Helper method updates tableView list of courses for a selected student
+     * Updates tableView list of courses for a selected student
      * @param student
      */
     private void setCourseList(Student student) {
-     	coursesObsList = FXCollections.observableArrayList();
+    	TV_CoursesList.getColumns().clear();
+    	TV_CoursesList.getItems().clear();
+    	
+    	//Populate table view
+    	
+    	TableColumn<Student, String> courses_col = new TableColumn<>("Course");
+    	courses_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+    	courses_col.setPrefWidth(175);
+    	
+    	TableColumn<Student, String> id_col = new TableColumn<>("ID");
+    	id_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+    	id_col.setPrefWidth(70);
+    	
+    	TableColumn<Student, String> professor_col = new TableColumn<>("Professor");
+    	professor_col.setCellValueFactory(new PropertyValueFactory<>("username"));
+    	professor_col.setPrefWidth(175);
+    	
+    	TableColumn<Student, String> grade_col = new TableColumn<>("Grade");
+    	grade_col.setCellValueFactory(new PropertyValueFactory<>("GPA"));
+    	grade_col.setPrefWidth(75);
+    	
+    	TV_CoursesList.getColumns().add(courses_col);
+    	TV_CoursesList.getColumns().add(id_col);
+    	TV_CoursesList.getColumns().add(professor_col);
+    	TV_CoursesList.getColumns().add(grade_col);
+    	
+	    if(!student.getCourses().isEmpty()) {
+	    	ArrayList<Course> courses = student.getCourses();
+	    	ArrayList<Student> coursesToDisplay = new ArrayList<Student>();
+	    	
+		    for(int i=0; i<courses.size();i++) {
+		    	Course currentCourse = courses.get(i);
+		    	
+		    	String title = currentCourse.getTitle();
+	    		String id = currentCourse.getId();
+		    	String professor = currentCourse.getProfessor().toString();
+		    	float grade = 0;
+		    	if(!currentCourse.getAssignments().isEmpty())
+		    		grade = currentCourse.getStudentFinalGrade(student.getUsername());
+		    
+		    	Student thisCourse = new Student(title, id, professor,"x");
+		    	thisCourse.setGPA(grade);
+		    	
+		    	coursesToDisplay.add(thisCourse);
+		    }
+		    
+		    TV_CoursesList.getItems().addAll(coursesToDisplay);
+	    }
+    	
+    	
+    	/*coursesObsList = FXCollections.observableArrayList();
      	coursesArrList = student.getCourses();
      	coursesArrList.forEach(course -> {
              coursesObsList.add(course);
          });
-         LV_Courses.setItems(coursesObsList);
+         LV_Courses.setItems(coursesObsList);*/
     }
     
     
