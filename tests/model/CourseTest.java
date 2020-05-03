@@ -48,7 +48,6 @@ class CourseTest {
     private boolean canSubmitAfterDeadline = false;
 
     // Submission fields
-    private String username_ss = userName_s;
     private String submissionText_ss = "This is a my submission";
 
     @Test
