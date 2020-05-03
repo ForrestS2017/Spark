@@ -94,36 +94,6 @@ public class DataController {
         return added && saved;
     }
 
-
-
-    /**
-     * Update and save a set of students data in storage
-     */
-    public static boolean saveUsers(ArrayList<User> newUsers) {
-        ArrayList<User> users = readUsers();
-        if (users == null){
-            users = new ArrayList<User>();
-        }
-        boolean added = users.addAll(newUsers);
-        Collections.sort(users);
-        boolean saved = false;
-        try {
-            Gson gson = getUserTypedGson();
-            String jsonString = gson.toJson(users);
-            FileWriter fw = new FileWriter(PATH_USERS);
-            fw.write(jsonString);
-            fw.close();
-            saved = true;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            saved = false;
-        }
-
-        return added && saved;
-    }
-
     /**
      * Load all saved user data
      */
