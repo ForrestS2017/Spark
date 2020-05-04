@@ -36,3 +36,12 @@ Students are able to:
 We approached and partitioned this project based on sub-problems, utilizing the "vertical slicing" approach. Each team member was responsible for the front-end and back-end portion of a the flow for a particular system user. Anita developed the Administrator flow. Luis developed the Student flow and worked on the models (see documentation). Forrest developed the Professor flow, UI guidelines and templates, and the storage system.
 
 We communicated via GroupMe, and used GitHub for repository management. 
+
+
+## How To Run
+
+Open a terminal in the same folder as Spark.Jar and execute the following command:
+
+```
+java --module-path <PATH_TO_JAVAFX_LIB_FOLDER> --add-modules javafx.controls,javafx.fxml -jar Spark.jar
+```
