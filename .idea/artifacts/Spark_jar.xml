@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Spark:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Spark_jar</output-path>
+    <root id="archive" name="Spark.jar">
+      <element id="module-output" name="Spark" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/gson-2.8.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files/Java/jdk-13/lib/javafx-sdk-13/lib/javafx-swt.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files/Java/jdk-13/lib/javafx-sdk-13/lib/javafx.web.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files/Java/jdk-13/lib/javafx-sdk-13/lib/javafx.base.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files/Java/jdk-13/lib/javafx-sdk-13/lib/javafx.fxml.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files/Java/jdk-13/lib/javafx-sdk-13/lib/javafx.media.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files/Java/jdk-13/lib/javafx-sdk-13/lib/javafx.swing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files/Java/jdk-13/lib/javafx-sdk-13/lib/javafx.controls.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files/Java/jdk-13/lib/javafx-sdk-13/lib/javafx.graphics.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/gson-extras-0.2.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -10,8 +10,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import model.*;
 
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,13 +21,14 @@ import java.util.List;
  */
 public class DataController {
     // Save File Paths
-    private static String PATH_COURSES = "src/data/Courses.JSON";
-    private static String PATH_USERS = "src/data/Users.JSON";
+    private static String PATH_COURSES = "Courses.JSON";
+    private static String PATH_USERS = "Users.JSON";
 
     /**
      * Update course data in storage
      */
     public static boolean saveCourse(Course newCourse) {
+
         boolean added = false;
         ArrayList<Course> courses = readCourses();
         if (courses == null) {
@@ -102,8 +103,10 @@ public class DataController {
         try
         {
             Gson gson = getUserTypedGson();
-            JsonReader reader = new JsonReader(new FileReader(PATH_USERS));
-            users = gson.fromJson(reader, new TypeToken<ArrayList<User>>(){}.getType());
+            InputStream is = DataController.class.getResourceAsStream(PATH_USERS);
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            users = gson.fromJson(br, new TypeToken<ArrayList<User>>(){}.getType());
             if(users != null){
                 for(int i = 0; i < users.size(); i++) {
                     if(users.get(i).getClass().equals(Student.class)) {
@@ -115,6 +118,9 @@ public class DataController {
                     }
                 }
             }
+            br.close();
+            isr.close();
+            is.close();
         }
         catch (Exception e)
         {
@@ -132,8 +138,13 @@ public class DataController {
         try
         {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonReader reader = new JsonReader(new FileReader(PATH_COURSES));
-            courses = gson.fromJson(reader, new TypeToken<ArrayList<Course>>(){}.getType());
+            InputStream is = DataController.class.getResourceAsStream(PATH_COURSES);
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            courses = gson.fromJson(br, new TypeToken<ArrayList<Course>>(){}.getType());
+            br.close();
+            isr.close();
+            is.close();
         }
         catch (Exception e)
         {
@@ -157,6 +168,10 @@ public class DataController {
                 .setPrettyPrinting()
                 .registerTypeAdapterFactory(adapter)
                 .create();
+    }
+
+    private String getPathUsers() {
+        return DataController.class.getResource(PATH_USERS).getPath();
     }
 
 }

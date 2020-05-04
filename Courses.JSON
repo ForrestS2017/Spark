@@ -1,0 +1,120 @@
+[
+  {
+    "id": "TT101",
+    "title": "Test Class 01",
+    "registeredStudents": [
+      "benja",
+      "lc96",
+      "bk69",
+      "mi15",
+      "jj01"
+    ],
+    "professor": "fcs34",
+    "gradeBookAutomatic": {
+      "mi15": -1.0,
+      "lc96": 93.5,
+      "benja": 0.0,
+      "bk69": 27.5,
+      "jj01": -1.0
+    },
+    "gradeBookFinal": {
+      "lc96": 100.0,
+      "bk69": 27.5,
+      "mi15": 50.0
+    },
+    "assignments": [
+      {
+        "title": "Sonic Test",
+        "description": "Sonic Desc",
+        "publishDate": 1587233838,
+        "dueDate": 1587398100,
+        "canResubmit": true,
+        "canSubmitAfterDeadline": true,
+        "studentSubmissions": [
+          {
+            "username": "lc96",
+            "submissionText": "I prefer Shadow - he\u0027s a sharpshooter like myself.",
+            "feedbackText": "Thank you!",
+            "submissionDate": 1587245438,
+            "grade": 88
+          },
+          {
+            "username": "mi15",
+            "submissionText": "I will work diligently, just like Sonic!",
+            "feedbackText": "Cool, glad to hear.",
+            "submissionDate": 1587233438,
+            "grade": 96
+          },
+          {
+            "username": "bk69",
+            "submissionText": "I don\u0027t care!! I HATE THIS CLASS",
+            "feedbackText": "You smell lol",
+            "submissionDate": 1587533438,
+            "grade": 5
+          },
+          {
+            "username": "jj01",
+            "submissionText": "SONIC IS COOL :DDDD",
+            "submissionDate": 1587343076,
+            "grade": -1
+          }
+        ]
+      },
+      {
+        "title": "Tails Test",
+        "description": "Tails Desc",
+        "publishDate": 1587506352,
+        "dueDate": 1587570900,
+        "canResubmit": true,
+        "canSubmitAfterDeadline": false,
+        "studentSubmissions": [
+          {
+            "username": "mi15",
+            "submissionText": "hi",
+            "submissionDate": 1588043488,
+            "grade": -1
+          },
+          {
+            "username": "lc96",
+            "submissionText": "yay",
+            "submissionDate": 1588043993,
+            "grade": -1,
+            "attachment": {
+              "path": "src\\attachmentUpload\\Writeup.pdf"
+            }
+          }
+        ]
+      }
+    ],
+    "announcements": [
+      {
+        "title": "Welcome!",
+        "description": "Hey thanks for signing up :D",
+        "publishDate": 1587250154
+      },
+      {
+        "title": "Assignment 1 Released",
+        "description": "Assignment 1 has been released \"Sonic Test\"",
+        "publishDate": 1587250417
+      },
+      {
+        "title": "Assignment 2 Released",
+        "description": "\"Tails Test\" has been released as Assignment 2. Please complete.",
+        "publishDate": 1587490021
+      },
+      {
+        "title": "1",
+        "description": "hi",
+        "publishDate": 1588564517
+      }
+    ]
+  },
+  {
+    "id": "TT102",
+    "title": "Test Class 02",
+    "registeredStudents": [],
+    "professor": "fcs34",
+    "assignments": [],
+    "announcements": []
+  }
+]
