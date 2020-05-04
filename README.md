@@ -33,7 +33,7 @@ Students are able to:
 **Spark** can easily be used via _Spark.jar_. All data is saved within the runnable jar file. Data is saved to and loaded from this file. Professors can download attachments to a local directory.
 
 ## Collaboration
-We approached and partitioned this project based on sub-problems, utilizing the "vertical slicing" approach. Each team member was responsible for the front-end and back-end portion of a the flow for a particular system user. Anita developed the Administrator flow. Luis developed the Student flow and worked on the models (see documentation). Forrest developed the Professor flow, UI guidelines and templates, and the storage system.
+We approached and partitioned this project based on sub-problems, utilizing the "vertical slicing" approach. Each team member was responsible for the front-end and back-end portion of a the flow for a particular system user. Anita developed the Administrator flow. Luis developed the Student flow and worked on the models (see documentation). Forrest developed the Professor flow, models, UI guidelines and templates, Scene navigation, documentation, and the storage system.
 
 We communicated via GroupMe, and used GitHub for repository management. 
 
